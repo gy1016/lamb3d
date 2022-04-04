@@ -1,1 +1,2 @@
-declare const add: (x: string, y: string) => string;
+export { Matrix4 } from './math/Matrix4';
+export { Vector4 } from './math/Vector4';
