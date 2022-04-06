@@ -28,6 +28,8 @@ export class Program {
       gl.deleteShader(vertexShader);
       return null;
     }
+
+    return program;
   }
 
   static loadShader(gl: IWebGLCtx, type: number, source: string) {

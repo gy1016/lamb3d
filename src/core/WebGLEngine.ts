@@ -2,8 +2,8 @@ export interface IWebGLCtx extends WebGLRenderingContext {
   program?: WebGLProgram;
 }
 
-export class WeblGLEngine {
-  public gl: IWebGLCtx;
+export class WebGLEngine {
+  public webgl: IWebGLCtx;
 
   constructor(canvasId: string) {
     const canvasEl = document.getElementById(canvasId);
@@ -16,6 +16,11 @@ export class WeblGLEngine {
       throw new Error('Initialize webgl context failure!');
     }
 
-    this.gl = (canvasEl as HTMLCanvasElement).getContext('webgl');
+    this.webgl = gl;
+  }
+
+  useProgram(program: WebGLProgram) {
+    this.webgl.useProgram(program);
+    this.webgl.program = program;
   }
 }
