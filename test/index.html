@@ -9,7 +9,7 @@
   <body>
     <canvas id="gy" width="150" height="150"> your browser not support canvas </canvas>
     <script type="module">
-      import { WebGLEngine, Program } from '../dist/index.esm.js';
+      import { WebGLEngine } from '../dist/index.esm.js';
       var VSHADER_SOURCE =
         'attribute vec4 a_Position;\n' +
         'attribute vec4 a_Normal;\n' +
@@ -38,11 +38,11 @@
       console.log(WebGLEngine);
       const engine = new WebGLEngine('gy');
       console.log(engine);
-      debugger;
-      const p1 = new Program(engine.webgl, VSHADER_SOURCE, FSHADER_SOURCE);
-      console.log(p1);
-      engine.useProgram(p1);
-      console.log(engine);
+      // debugger;
+      // const p1 = new Program(engine.webgl, VSHADER_SOURCE, FSHADER_SOURCE);
+      // console.log(p1);
+      // engine.useProgram(p1);
+      // console.log(engine);
     </script>
   </body>
 </html>
