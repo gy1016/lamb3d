@@ -1,3 +1,36 @@
+class Vector2 {
+    x;
+    y;
+    constructor(x = 0, y = 0) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class Vector3 {
+    x;
+    y;
+    z;
+    constructor(x = 0, y = 0, z = 0) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+}
+
+class Vector4 {
+    elements;
+    constructor(v) {
+        this.elements = new Float32Array(4);
+        if (v) {
+            this.elements[0] = v[0];
+            this.elements[1] = v[1];
+            this.elements[2] = v[2];
+            this.elements[3] = v[3];
+        }
+    }
+}
+
 class Matrix4 {
     elements;
     constructor(m) {
@@ -551,93 +584,6 @@ class Matrix4 {
     }
 }
 
-class Vector4 {
-    elements;
-    constructor(v) {
-        this.elements = new Float32Array(4);
-        if (v) {
-            this.elements[0] = v[0];
-            this.elements[1] = v[1];
-            this.elements[2] = v[2];
-            this.elements[3] = v[3];
-        }
-    }
-}
-
-class EngineObject {
-    static _instanceIdCounter = 0;
-    instanceId = ++EngineObject._instanceIdCounter;
-    _engine;
-    _destroyed = false;
-    get engine() {
-        return this._engine;
-    }
-    get destroyed() {
-        return this._destroyed;
-    }
-    constructor(engine) {
-        this._engine = engine;
-    }
-    destroy() {
-        if (this._destroyed)
-            return;
-        console.log('destroy');
-    }
-}
-
-class Entity extends EngineObject {
-    /** The name of entity. */
-    name;
-    _children = [];
-    _isRoot = false;
-    _isActive = true;
-    _parent = null;
-    /**
-     * Whether to activate locally.
-     */
-    get isActive() {
-        return this._isActive;
-    }
-    /**
-     * The parent entity.
-     */
-    get parent() {
-        return this._parent;
-    }
-    /**
-     * The children entities
-     */
-    get children() {
-        return this._children;
-    }
-    /**
-     * Number of the children entities
-     */
-    get childCount() {
-        return this._children.length;
-    }
-    constructor(engine, name) {
-        super(engine);
-        this.name = name;
-    }
-}
-
-class Engine {
-    _hardwareRenderer;
-    _canvas;
-    get canvas() {
-        return this._canvas;
-    }
-    constructor(canvas, hardwareRenderer) {
-        this._hardwareRenderer = hardwareRenderer;
-        this._hardwareRenderer.init(canvas);
-        this._canvas = canvas;
-    }
-    createEntity(name) {
-        return new Entity(this, name);
-    }
-}
-
 class WebCanvas {
     _webCanvas;
     _width;
@@ -660,13 +606,6 @@ class WebCanvas {
             this._height = value;
         }
     }
-    resizeByClientSize() {
-        const webCanvas = this._webCanvas;
-        if (webCanvas instanceof HTMLCanvasElement) {
-            this.width = webCanvas.clientWidth;
-            this.height = webCanvas.clientHeight;
-        }
-    }
     constructor(webCanvas) {
         const width = webCanvas.width;
         const height = webCanvas.height;
@@ -674,66 +613,121 @@ class WebCanvas {
         this._width = width;
         this._height = height;
     }
+    resizeByClientSize(pixelRatio = window.devicePixelRatio) {
+        const webCanvas = this._webCanvas;
+        if (webCanvas instanceof HTMLCanvasElement) {
+            this.width = webCanvas.clientHeight * pixelRatio;
+            this.height = webCanvas.clientHeight * pixelRatio;
+        }
+    }
 }
 
-/**
- * WebGL mode.
- */
-var WebGLMode;
-(function (WebGLMode) {
-    /** Auto, use WebGL2.0 if support, or will fallback to WebGL1.0. */
-    WebGLMode[WebGLMode["Auto"] = 0] = "Auto";
-    /** WebGL2.0. */
-    WebGLMode[WebGLMode["WebGL2"] = 1] = "WebGL2";
-    /** WebGL1.0, */
-    WebGLMode[WebGLMode["WebGL1"] = 2] = "WebGL1";
-})(WebGLMode || (WebGLMode = {}));
-class WebGLRenderer {
-    _options;
+class WebGLContext {
     _gl;
-    _isWebGL2;
-    _activeTextureID;
-    /**
-     * GL Context
-     * @member {WebGLRenderingContext}
-     */
     get gl() {
         return this._gl;
     }
-    constructor(options = {}) {
-        this._options = options;
-    }
-    init(canvas) {
-        const webCanvas = canvas._webCanvas;
-        const webGLMode = WebGLMode.Auto;
-        let gl;
-        if (webGLMode == WebGLMode.Auto || webGLMode == WebGLMode.WebGL1) {
-            gl = webCanvas.getContext('webgl');
-            this._isWebGL2 = false;
+    constructor(canvas, options = {}) {
+        let { mode } = options;
+        if (!mode) {
+            mode = 'webgl';
         }
+        // 这里有问题，目前只支持webgl的情况，其他mode后续引入
+        const gl = canvas.getContext(mode);
         if (!gl) {
-            throw new Error('Get GL Context FAILED.');
+            throw new Error(`Failed to get the rendering context for ${mode}`);
         }
         this._gl = gl;
-        this._activeTextureID = gl.TEXTURE0;
+    }
+    loadShader(type, source) {
+        const shader = this._gl.createShader(type);
+        if (shader === null) {
+            console.log('unable to create shader');
+            return null;
+        }
+        // Set the shader program
+        this._gl.shaderSource(shader, source);
+        // Compile the shader
+        this._gl.compileShader(shader);
+        // Check the result of compilation
+        const compiled = this._gl.getShaderParameter(shader, this._gl.COMPILE_STATUS);
+        if (!compiled) {
+            const error = this._gl.getShaderInfoLog(shader);
+            console.log('Failed to compile shader: ' + error);
+            this._gl.deleteShader(shader);
+            return null;
+        }
+        return shader;
+    }
+    createProgram(vshader, fshader) {
+        // Create shader object
+        const vertexShader = this.loadShader(this._gl.VERTEX_SHADER, vshader);
+        const fragmentShader = this.loadShader(this._gl.FRAGMENT_SHADER, fshader);
+        if (!vertexShader || !fragmentShader) {
+            return null;
+        }
+        // Create a program object
+        const program = this._gl.createProgram();
+        if (!program) {
+            return null;
+        }
+        // Attach the shader objects
+        this._gl.attachShader(program, vertexShader);
+        this._gl.attachShader(program, fragmentShader);
+        // Link the program object
+        this._gl.linkProgram(program);
+        // Check the result of linking
+        const linked = this._gl.getProgramParameter(program, this._gl.LINK_STATUS);
+        if (!linked) {
+            const error = this._gl.getProgramInfoLog(program);
+            console.log('Failed to link program: ' + error);
+            this._gl.deleteProgram(program);
+            this._gl.deleteShader(fragmentShader);
+            this._gl.deleteShader(vertexShader);
+            return null;
+        }
+        return program;
+    }
+    initShaders(vshader, fshader) {
+        const program = this.createProgram(vshader, fshader);
+        if (!program) {
+            console.log('Failed to create program');
+            return false;
+        }
+        this._gl.useProgram(program);
+        this._gl.program = program;
+        return true;
     }
 }
 
-class WebGLEngine extends Engine {
-    /**
-     * Create an engine suitable for the WebGL platform.
-     * @param canvas - Native web canvas
-     * @param physics - Physics Engine
-     * @param webGLRendererOptions - WebGL renderer options
-     */
-    constructor(canvas) {
-        const webCanvas = new WebCanvas((typeof canvas === 'string' ? document.getElementById(canvas) : canvas));
-        const hardwareRenderer = new WebGLRenderer();
-        super(webCanvas, hardwareRenderer);
+class WebGLEngine {
+    ctx;
+    webCanvas;
+    constructor(canvas, options = {}) {
+        let canvasEl;
+        if (typeof canvas === 'string') {
+            // 如果用户故意不传canvas的id该怎么处理呢？
+            // 暂时未处理
+            canvasEl = document.getElementById(canvas);
+            if (!canvasEl) {
+                throw new Error(`${canvas} not is a HTMLCanvasElement id`);
+            }
+        }
+        else {
+            canvasEl = canvas;
+        }
+        const webCanvas = new WebCanvas(canvasEl);
+        this.webCanvas = webCanvas;
+        const ctx = new WebGLContext(canvasEl, options);
+        this.ctx = ctx;
     }
-    get canvas() {
-        return this._canvas;
+    init(vshader, fshader) {
+        if (!this.ctx.initShaders(vshader, fshader)) {
+            console.log('Failed to intialize shaders.');
+        }
+        this.ctx.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        this.ctx.gl.clear(this.ctx.gl.COLOR_BUFFER_BIT);
     }
 }
 
-export { Matrix4, Vector4, WebGLEngine };
+export { Matrix4, Vector2, Vector3, Vector4, WebCanvas, WebGLContext, WebGLEngine };

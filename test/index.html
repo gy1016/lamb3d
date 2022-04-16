@@ -38,6 +38,7 @@
       console.log(WebGLEngine);
       const engine = new WebGLEngine('gy');
       console.log(engine);
+      engine.init(VSHADER_SOURCE, FSHADER_SOURCE)
       // debugger;
       // const p1 = new Program(engine.webgl, VSHADER_SOURCE, FSHADER_SOURCE);
       // console.log(p1);
