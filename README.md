@@ -11,7 +11,11 @@
 
 # Introduction
 
-A Javascript 3d mini engine for gis.
+A javascript 3d mini engine for gis.
+
+# Architecture
+
+![Engine Architecture](./lamb3d.png)
 
 # Reference
 
