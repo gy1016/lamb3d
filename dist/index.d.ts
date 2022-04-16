@@ -1,3 +1,2 @@
-export { Matrix4 } from './math/Matrix4';
-export { Vector4 } from './math/Vector4';
-export { WebGLEngine } from './webgl/WebGLEngine';
+export { Vector2, Vector3, Vector4, Matrix4 } from './math';
+export { WebCanvas, WebGLContext, WebGLEngine } from './webgl';
