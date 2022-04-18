@@ -1,5 +1,6 @@
 import { Canvas } from './Canvas';
 import { Context } from './Context';
+import { Scene } from '../core/Scene';
 
 export interface IWebGLOptions {
   mode?: 'webgl' | 'webgl2';
@@ -8,6 +9,7 @@ export interface IWebGLOptions {
 export class Viewer {
   public ctx: Context;
   public webCanvas: Canvas;
+  public scenes: Scene[];
 
   constructor(canvas: HTMLCanvasElement | string, options: IWebGLOptions = {}) {
     let canvasEl: HTMLCanvasElement;
