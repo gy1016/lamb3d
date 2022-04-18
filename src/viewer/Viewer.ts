@@ -1,13 +1,13 @@
-import { WebCanvas } from './WebCanvas';
-import { WebGLContext } from './WebGLContext';
+import { Canvas } from './Canvas';
+import { Context } from './Context';
 
 export interface IWebGLOptions {
   mode?: 'webgl' | 'webgl2';
 }
 
-export class WebGLEngine {
-  public ctx: WebGLContext;
-  public webCanvas: WebCanvas;
+export class Viewer {
+  public ctx: Context;
+  public webCanvas: Canvas;
 
   constructor(canvas: HTMLCanvasElement | string, options: IWebGLOptions = {}) {
     let canvasEl: HTMLCanvasElement;
@@ -22,10 +22,12 @@ export class WebGLEngine {
     } else {
       canvasEl = canvas;
     }
-    const webCanvas = new WebCanvas(canvasEl);
+    const webCanvas = new Canvas(canvasEl);
     this.webCanvas = webCanvas;
 
-    const ctx = new WebGLContext(canvasEl, options);
+    this.webCanvas.resizeByClientSize();
+
+    const ctx = new Context(canvasEl, options);
     this.ctx = ctx;
   }
 

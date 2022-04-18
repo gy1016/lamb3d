@@ -1,10 +1,10 @@
-import { IWebGLOptions } from './WebGLEngine';
+import { IWebGLOptions } from './Viewer';
 
 interface IWebGLCtx extends WebGLRenderingContext {
   program?: WebGLProgram;
 }
 
-export class WebGLContext {
+export class Context {
   private _gl: IWebGLCtx;
 
   get gl() {

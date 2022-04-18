@@ -1,4 +1,4 @@
-export class WebCanvas {
+export class Canvas {
   _webCanvas: HTMLCanvasElement;
 
   private _width: number;
