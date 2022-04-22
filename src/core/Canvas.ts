@@ -1,4 +1,4 @@
-export class WebCanvas {
+export class Canvas {
   gl: WebGLRenderingContext;
   _webCanvas: HTMLCanvasElement;
 
