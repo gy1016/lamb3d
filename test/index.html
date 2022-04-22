@@ -15,7 +15,7 @@
   <body>
     <canvas id="gy"> your browser not support canvas </canvas>
     <script type="module">
-      import { Viewer, PrimitiveMesh } from '../dist/index.esm.js';
+      import { Engine } from '../dist/index.esm.js';
       var VSHADER_SOURCE =
         'attribute vec4 a_Position;\n' +
         'void main() {\n' +
@@ -29,11 +29,8 @@
         '  gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n' +
         '}\n';
 
-      const engine = new Viewer('gy');
-      engine.init(VSHADER_SOURCE, FSHADER_SOURCE)
-      console.log(engine.ctx.gl.program )
-
-      PrimitiveMesh.createCuboid(engine)
+      const engine = new Engine('gy');
+      engine.createScene();
     </script>
   </body>
 </html>
