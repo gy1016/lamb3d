@@ -3,11 +3,16 @@ export class Vector3 {
   y: number;
   z: number;
 
+<<<<<<< HEAD
   constructor(x: number, y: number, z: number) {
+=======
+  constructor(x: number = 0, y: number = 0, z: number = 0) {
+>>>>>>> 7c3f1a1f7eb865bd9c2b521842956ff66d39dcec
     this.x = x;
     this.y = y;
     this.z = z;
   }
+<<<<<<< HEAD
 
   // copy a vector3
   copyFrom(vec3: Vector3) {
@@ -52,4 +57,6 @@ export class Vector3 {
     this.y = this.y / len;
     this.z = this.z / len;
   }
+=======
+>>>>>>> 7c3f1a1f7eb865bd9c2b521842956ff66d39dcec
 }

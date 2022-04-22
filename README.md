@@ -20,5 +20,8 @@ A javascript 3d mini engine for gis.
 # Reference
 
 - oasis : https://github.com/oasis-engine/engine
+<<<<<<< HEAD
 
 - cesium: https://github.com/CesiumGS/cesium
+=======
+>>>>>>> 7c3f1a1f7eb865bd9c2b521842956ff66d39dcec
