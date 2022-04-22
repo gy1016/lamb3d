@@ -13,6 +13,7 @@ export class Engine {
 
   createScene() {
     const gl = this.canvas.gl;
-    this.activeScene = new Scene();
+    this.activeScene = new Scene(gl);
+    this.activeScene.draw();
   }
 }
