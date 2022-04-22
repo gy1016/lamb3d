@@ -9,4 +9,6 @@ export class Scene {
     this.entityList = [];
     this.clearColor = [0.3, 0.2, 0.2, 1.0];
   }
+
+  draw() {}
 }
