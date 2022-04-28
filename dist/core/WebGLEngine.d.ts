@@ -1,8 +1,8 @@
 export interface IWebGLCtx extends WebGLRenderingContext {
-    program?: WebGLProgram;
+  program?: WebGLProgram;
 }
 export declare class WebGLEngine {
-    webgl: IWebGLCtx;
-    constructor(canvasId: string);
-    useProgram(program: WebGLProgram): void;
+  webgl: IWebGLCtx;
+  constructor(canvasId: string);
+  useProgram(program: WebGLProgram): void;
 }

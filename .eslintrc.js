@@ -1,8 +1,6 @@
 module.exports = {
   // 规则继承
-  extends: [
-    'plugin:@typescript-eslint/recommended',
-  ],
+  extends: ['plugin:@typescript-eslint/recommended'],
   // 解析器
   parser: '@typescript-eslint/parser',
   // ts插件

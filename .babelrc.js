@@ -1,14 +1,14 @@
 module.exports = {
   presets: [
     [
-      "@babel/env",
+      '@babel/env',
       {
         targets: {
-          browsers: ["ie >= 11"],
+          browsers: ['ie >= 11'],
         },
-        useBuiltIns: "usage",
+        useBuiltIns: 'usage',
         corejs: 3,
-        modules: "auto",
+        modules: 'auto',
         loose: true,
       },
     ],
