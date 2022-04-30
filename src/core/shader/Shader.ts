@@ -11,6 +11,14 @@ export class Shader {
   private _vertexSource: string;
   private _fragmentSource: string;
 
+  get vertexSource() {
+    return this._vertexSource;
+  }
+
+  get fragmentSource() {
+    return this._fragmentSource;
+  }
+
   private constructor(name: string, vertexSource: string, fragmentSource: string) {
     this._shaderId = Shader._shaderCounter++;
     this.name = name;

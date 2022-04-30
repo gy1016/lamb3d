@@ -1,5 +1,6 @@
 import { Canvas } from './Canvas';
 import { Entity } from './Entity';
+import { Render } from './Render';
 
 export class Scene {
   gl: WebGLRenderingContext;
@@ -47,8 +48,16 @@ export class Scene {
     }
   }
 
-  // draw
-  draw() {
-    console.log('draw');
+  run() {
+    const gl = this.gl;
+    const enti = this.entities.pop();
+
+    const n = Render.drawRender(gl, enti);
+
+    gl.clearColor(0, 0, 0, 1);
+    gl.enable(gl.DEPTH_TEST);
+
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
   }
 }

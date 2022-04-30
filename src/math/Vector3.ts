@@ -31,9 +31,9 @@ export class Vector3 {
    * x2  y2  z2
    */
   cross(vec3: Vector3): Vector3 {
-    let x = this.y * vec3.z - this.z * vec3.y;
-    let y = this.z * vec3.x - this.x * vec3.z;
-    let z = this.x * vec3.y - this.y * vec3.x;
+    const x = this.y * vec3.z - this.z * vec3.y;
+    const y = this.z * vec3.x - this.x * vec3.z;
+    const z = this.x * vec3.y - this.y * vec3.x;
 
     return new Vector3(x, y, z);
   }

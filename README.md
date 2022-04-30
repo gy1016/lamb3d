@@ -11,7 +11,7 @@
 
 # Introduction
 
-A javascript 3d mini engine for gis.
+A TypeScript 3d mini engine for gis.
 
 # Architecture
 

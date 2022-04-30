@@ -15,18 +15,18 @@
   <body>
     <canvas id="gy"> your browser not support canvas </canvas>
     <script type="module">
-      import { Engine, PrimitiveMesh, Entity } from '../dist/index.esm.js';
+      import { Scene, PrimitiveMesh, Entity, Material } from '../dist/index.esm.js';
       var VSHADER_SOURCE = 'attribute vec4 a_Position;\n' + 'void main() {\n' + '  gl_Position = a_Position;\n' + '}\n';
 
       // Fragment shader program
       var FSHADER_SOURCE =
         'precision mediump float;\n' + 'void main() {\n' + '  gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n' + '}\n';
 
-      const engine = new Engine('gy');
+      const engine = new Scene('gy');
+      const material = new Material('feng', VSHADER_SOURCE, FSHADER_SOURCE);
       const mesh = PrimitiveMesh.createCuboid(2, 2, 2);
-      const entity = new Entity('cube1', mesh);
-      engine.createScene();
-      engine.activeScene.addEntity(entity);
+      const entity = new Entity('cube1', mesh, material);
+      engine.addEntity(entity);
       engine.run();
     </script>
   </body>
