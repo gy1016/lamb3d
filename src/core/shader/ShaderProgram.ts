@@ -61,6 +61,8 @@ export class ShaderProgram {
 
     this._vertexShader = vertexShader;
     this._fragmentShader = fragmentShader;
+
+    return program;
   }
 
   private _createShader(shaderType: number, shaderSource: string): WebGLShader | null {

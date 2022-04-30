@@ -1,5 +1,5 @@
 import { Mesh } from './mesh/Mesh';
-import { Material } from './material/material';
+import { Material } from './material';
 
 export class Entity {
   static id;
