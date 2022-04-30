@@ -54,6 +54,10 @@ export class Scene {
 
     const n = Render.drawRender(gl, enti);
 
+    // We may have multiple programs, the writing here is not standardized,
+    // and subsequent modifications will be made
+    gl.useProgram(Render.shaderProgram.glProgram);
+
     gl.clearColor(0, 0, 0, 1);
     gl.enable(gl.DEPTH_TEST);
 

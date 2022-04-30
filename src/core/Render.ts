@@ -41,9 +41,12 @@ export class Render {
     if (!Render.initShaderProgram(gl, entity)) {
       console.error('initShaderProgram failed...');
     }
+
     const data = new Float32Array(entity.mesh.getPostions());
     const indices = entity.mesh.getIndices();
+
     if (!Render.initArrayBuffer(gl, 'a_Position', data, 3, gl.FLOAT)) return -1;
+
     const indexBuffer = gl.createBuffer();
     if (!indexBuffer) {
       console.log('Failed to create the buffer object');

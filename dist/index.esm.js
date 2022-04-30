@@ -174,6 +174,7 @@ class ShaderProgram {
         }
         this._vertexShader = vertexShader;
         this._fragmentShader = fragmentShader;
+        this._isValid = true;
         return program;
     }
     _createShader(shaderType, shaderSource) {
