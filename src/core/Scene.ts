@@ -1,8 +1,10 @@
 import { Canvas } from './Canvas';
+import { Entity } from './Entity';
 
 export class Scene {
   gl: WebGLRenderingContext;
   canvas: Canvas;
+  entities: Entity[];
   // params: any;
 
   /**
@@ -20,6 +22,7 @@ export class Scene {
     }
     const gl = canvas.getContext('webgl', {});
     this.gl = gl;
+    this.entities = [];
   }
 
   /**
@@ -33,6 +36,15 @@ export class Scene {
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  }
+
+  addEntity(entity: Entity) {
+    if (entity instanceof Entity) {
+      if (this.entities == null) {
+        this.entities = [];
+      }
+      this.entities.push(entity);
+    }
   }
 
   // draw
