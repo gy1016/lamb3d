@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #gy {
+        height: 50vh;
+        width: 50vw;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="gy"> your browser not support canvas </canvas>
+    <script type="module">
+      import { Scene, PrimitiveMesh, Entity, Material } from '../dist/index.esm.js';
+      var VSHADER_SOURCE = 
+      'attribute vec4 a_Position;\n' + 
+      'void main() {\n' + 
+      '  gl_Position = a_Position;\n' + 
+      '}\n';
+
+      // Fragment shader program
+      var FSHADER_SOURCE =
+        'precision mediump float;\n' + 
+        'void main() {\n' + 
+        '  gl_FragColor = vec4(0.5, 0.0, 0.0, 0.5);\n' + 
+        '}\n';
+      const engine = new Scene('gy');
+      const material = new Material('feng', VSHADER_SOURCE, FSHADER_SOURCE);
+      const mesh = PrimitiveMesh.createCuboid(0.5, 0.5, 0.5);
+      const entity = new Entity('cube1', mesh, material);
+      engine.addEntity(entity);
+      engine.run();
+    </script>
+  </body>
+</html>

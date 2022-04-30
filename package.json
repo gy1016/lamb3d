@@ -1,11 +1,11 @@
 {
   "name": "lamb3d",
-  "version": "1.0.0",
-  "description": "Javascript 3d mini engine.",
+  "version": "0.1.0",
+  "description": "A TypeScript 3d mini engine for gis.",
   "main": "index.js",
   "scripts": {
     "build": "rollup -c",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "prettier --write ."
   },
   "author": "lamb",
   "license": "ISC",
