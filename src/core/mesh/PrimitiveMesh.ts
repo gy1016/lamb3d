@@ -8,7 +8,7 @@ export class PrimitiveMesh {
    * @param thick
    * @returns return a mesh, include position, uv, normals and indicies
    */
-  static createCuboid(width: number = 1, height: number = 1, thick: number = 1) {
+  static createCuboid(width = 1, height = 1, thick = 1) {
     const a = width / 2;
     const b = height / 2;
     const c = thick / 2;

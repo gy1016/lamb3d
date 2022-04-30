@@ -11,7 +11,6 @@ export class Mesh {
   }
 
   setPositions(positions: number[]): void {
-    const count = positions.length;
     this._positions = positions;
   }
 

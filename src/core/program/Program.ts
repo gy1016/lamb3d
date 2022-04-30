@@ -1,16 +1,10 @@
-import { AttributesInfo } from './AttributesInfo';
-import { UniformsInfo } from './UniformsInfo';
-import { ProgramInfo } from './ProgramInfo';
-
 export class Program {
   shaderProgram: WebGLProgram;
   gl: WebGLRenderingContext;
-  programInfo: ProgramInfo;
 
   constructor(gl: WebGLRenderingContext, vshader: string, fshader: string) {
     this.gl = gl;
     this.shaderProgram = Program.initialShaderProgram(gl, vshader, fshader);
-    this.programInfo = Program.createProgramInfo(gl, this.shaderProgram);
   }
 
   static loadShader(gl: WebGLRenderingContext, type: number, source: string): WebGLShader | null {
@@ -66,31 +60,5 @@ export class Program {
       return null;
     }
     return program;
-  }
-
-  /**
-   * get attrubutes and uniform variable location
-   * @param gl
-   * @param shaderProgram
-   * @returns ProgramInfo
-   */
-  static createProgramInfo(gl: WebGLRenderingContext, shaderProgram: WebGLProgram) {
-    const attributes = new AttributesInfo();
-    for (const attr in attributes) {
-      const loc = gl.getAttribLocation(shaderProgram, attr);
-      if (loc !== -1 && loc !== null && loc !== undefined) {
-        attributes[attr] = loc;
-      }
-    }
-
-    const uniforms = new UniformsInfo();
-    for (const uni in uniforms) {
-      const uloc = gl.getUniformLocation(shaderProgram, uni);
-      if (uloc !== -1 && uloc !== null && uloc !== undefined) {
-        uniforms[uni].loc = uloc;
-      }
-    }
-
-    return new ProgramInfo(shaderProgram, attributes, uniforms);
   }
 }
