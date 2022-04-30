@@ -1,9 +1,6 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <!-- <a href="https://github.com/gy1016/lamb3d">
-    <img src="https://s2.ax1x.com/2020/03/10/8iEuqO.png" alt="Logo" width="80" height="80">
-  </a> -->
   <h1 align="center">lamb3d</h1>
 </p>
 
@@ -15,30 +12,37 @@ A TypeScript 3d mini engine for gis.
 
 # Architecture
 
-![Engine Architecture](./lamb3d.png)
+The modules currently included in lamb3d are shown in the following figure:
+
+![Engine Xmind](./images/lamb3d_xmind.png)
+
+The system architecture diagram of lamb3d is as follows:
+
+![Engine Architecture](./images/lamb3d_systemstruct.png)
 
 # Usage
 
 ```js
-import { Engine, PrimitiveMesh, Entity } from 'lamb3d';
+import { Scene, PrimitiveMesh, Entity, Material } from '../dist/index.esm.js';
+var VSHADER_SOURCE = 
+  'attribute vec4 a_Position;\n' + 
+  'void main() {\n' + 
+  '  gl_Position = a_Position;\n' + 
+  '}\n';
 
-// 创建引擎
-const engine = new Engine('gy');
-
-// 创建正方形网格
-const mesh = PrimitiveMesh.createCuboid(2, 2, 2);
-// 根据正方形网格实力化实体（此步实际上是向entity上添加了顶点与片元着色信息）
-const entity = new Entity('cube1', mesh);
-
-// 利用引擎创建场景
-const scene1 = engine.createScene();
-// 将实体添加到场景当中
-scene1.addEntity(entity);
-
-// 运行引擎
-engine.run()
+// Fragment shader program
+var FSHADER_SOURCE =
+  'precision mediump float;\n' + 
+  'void main() {\n' + 
+  '  gl_FragColor = vec4(0.5, 0.0, 0.0, 0.5);\n' + 
+  '}\n';
+const scene = new Scene('gy');
+const material = new Material('feng', VSHADER_SOURCE, FSHADER_SOURCE);
+const mesh = PrimitiveMesh.createCuboid(0.5, 0.5, 0.5);
+const entity = new Entity('cube1', mesh, material);
+scene.addEntity(entity);
+scene.run();
 ```
-
 
 # Reference
 
