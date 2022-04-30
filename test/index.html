@@ -21,12 +21,12 @@
       // Fragment shader program
       var FSHADER_SOURCE =
         'precision mediump float;\n' + 'void main() {\n' + '  gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n' + '}\n';
-      debugger
       const engine = new Scene('gy');
       const material = new Material('feng', VSHADER_SOURCE, FSHADER_SOURCE);
       const mesh = PrimitiveMesh.createCuboid(2, 2, 2);
       const entity = new Entity('cube1', mesh, material);
       engine.addEntity(entity);
+      debugger
       engine.run();
     </script>
   </body>

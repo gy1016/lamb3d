@@ -174,6 +174,7 @@ class ShaderProgram {
         }
         this._vertexShader = vertexShader;
         this._fragmentShader = fragmentShader;
+        return program;
     }
     _createShader(shaderType, shaderSource) {
         const gl = this._gl;
