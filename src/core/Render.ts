@@ -1,5 +1,3 @@
-import { Program } from '../program/Program';
-
 export class Render {
   // It would be better practice to encapsulate this information into a renderInfo
   static initArrayBuffer(
@@ -26,6 +24,4 @@ export class Render {
     gl.bindBuffer(gl.ARRAY_BUFFER, null);
     return true;
   }
-
-  static drawRender() {}
 }
