@@ -9,6 +9,13 @@ export class Vector3 {
     this.z = z;
   }
 
+  add(right: Vector3): Vector3 {
+    this.x += right.x;
+    this.y += right.y;
+    this.z += right.z;
+    return this;
+  }
+
   setValue(x: number, y: number, z: number): Vector3 {
     this.x = x;
     this.y = y;
