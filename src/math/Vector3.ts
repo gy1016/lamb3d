@@ -9,6 +9,13 @@ export class Vector3 {
     this.z = z;
   }
 
+  setValue(x: number, y: number, z: number): Vector3 {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    return this;
+  }
+
   cloneTo(out: Vector3): Vector3 {
     out.x = this.x;
     out.y = this.y;
