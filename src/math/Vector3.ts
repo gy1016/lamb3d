@@ -9,6 +9,13 @@ export class Vector3 {
     this.z = z;
   }
 
+  cloneTo(out: Vector3): Vector3 {
+    out.x = this.x;
+    out.y = this.y;
+    out.z = this.z;
+    return out;
+  }
+
   // copy a vector3
   copyFrom(vec3: Vector3) {
     this.x = vec3.x;
