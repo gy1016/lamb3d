@@ -1,25 +1,21 @@
 import { Mesh } from './mesh/Mesh';
 import { Material } from './material';
+import { Transform } from './Transform';
 
 export class Entity {
-  static id;
+  static _id: number = 1;
 
   id: number;
   name: string;
   mesh: Mesh;
   material: Material;
 
-  static createId() {
-    Entity.id = Entity.id + 1;
-    return Entity.id;
-  }
+  readonly transform: Transform;
 
   constructor(name: string, mesh: Mesh, material: Material) {
     this.name = name;
-    this.id = Entity.createId();
+    this.id = Entity._id++;
     this.mesh = mesh;
     this.material = material;
   }
 }
-
-Entity.id = 0;
