@@ -23,25 +23,32 @@ The system architecture diagram of lamb3d is as follows:
 # Usage
 
 ```js
-import { Scene, PrimitiveMesh, Entity, Material } from '../dist/index.esm.js';
-var VSHADER_SOURCE = 
+import { Scene, PrimitiveMesh, Entity, Material, Shader } from '../dist/index.esm.js';
+
+const engine = new Scene('gy');
+const shader = initShader();
+const material = new Material('feng', shader);
+const mesh = PrimitiveMesh.createCuboid(0.5, 0.5, 0.5);
+const entity = new Entity('cube1', mesh, material);
+engine.addEntity(entity);
+engine.run();
+
+function initShader() {
+  var VSHADER_SOURCE = 
   'attribute vec4 a_Position;\n' + 
   'void main() {\n' + 
   '  gl_Position = a_Position;\n' + 
   '}\n';
 
-// Fragment shader program
-var FSHADER_SOURCE =
+  // Fragment shader program
+  var FSHADER_SOURCE =
   'precision mediump float;\n' + 
   'void main() {\n' + 
   '  gl_FragColor = vec4(0.5, 0.0, 0.0, 0.5);\n' + 
   '}\n';
-const scene = new Scene('gy');
-const material = new Material('feng', VSHADER_SOURCE, FSHADER_SOURCE);
-const mesh = PrimitiveMesh.createCuboid(0.5, 0.5, 0.5);
-const entity = new Entity('cube1', mesh, material);
-scene.addEntity(entity);
-scene.run();
+
+  return Shader.create('cubeShader', VSHADER_SOURCE, FSHADER_SOURCE)
+}
 ```
 
 # Reference

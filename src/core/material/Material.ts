@@ -4,8 +4,8 @@ export class Material {
   name: string;
   shader: Shader;
 
-  constructor(name: string, vertexSource: string, fragmentSource: string) {
+  constructor(name: string, shader: Shader) {
     this.name = name;
-    this.shader = Shader.create(name, vertexSource, fragmentSource);
+    this.shader = shader;
   }
 }
