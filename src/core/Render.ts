@@ -33,7 +33,7 @@ export class Render {
   //
   static initShaderProgram(gl: WebGLRenderingContext, entity: Entity): boolean {
     const { shader } = entity.material;
-    Render.shaderProgram = new ShaderProgram(gl, shader.vertexSource, shader.fragmentSource);
+    Render.shaderProgram = shader.getShaderProgram(gl);
     return Render.shaderProgram.isValid;
   }
 
