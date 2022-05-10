@@ -20,7 +20,7 @@
       const engine = new Scene('gy');
       const shader = initShader();
       const material = new Material('feng', shader);
-      const mesh = PrimitiveMesh.createCuboid(0.5, 0.5, 0.5);
+      const mesh = PrimitiveMesh.createCuboid(1, 1, 1);
       const entity = new Entity('cube1', mesh, material);
       engine.addEntity(entity);
       engine.run();

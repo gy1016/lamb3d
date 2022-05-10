@@ -17,5 +17,6 @@ export class Entity {
     this.id = Entity._id++;
     this.mesh = mesh;
     this.material = material;
+    this.transform = new Transform();
   }
 }

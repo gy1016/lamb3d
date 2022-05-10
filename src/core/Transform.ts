@@ -84,4 +84,6 @@ export class Transform {
     rotate.setValue(x, y, z);
     this._rotation.add(rotate);
   }
+
+  constructor() {}
 }
