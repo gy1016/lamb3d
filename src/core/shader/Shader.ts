@@ -1,4 +1,5 @@
 import { ShaderProperty } from './ShaderProperty';
+import { ShaderProgram } from './ShaderProgram';
 
 export class Shader {
   private static _shaderCounter = 0;
@@ -51,6 +52,11 @@ export class Shader {
     return Shader._shaderMap[name];
   }
 
+  /**
+   * Get shader property by name.
+   * @param name - Name of the shader property
+   * @returns Shader property
+   */
   static getPropertyByName(name: string): ShaderProperty {
     const propertyNameMap = Shader._propertyNameMap;
     if (propertyNameMap[name] !== null) {
@@ -60,5 +66,13 @@ export class Shader {
       propertyNameMap[name] = property;
       return property;
     }
+  }
+
+  getShaderProgram(gl: WebGLRenderingContext): ShaderProgram {
+    // 将来可能在这里拼接glsl
+    const vertexSource = this._vertexSource;
+    const fragmentSource = this._fragmentSource;
+
+    return new ShaderProgram(gl, vertexSource, fragmentSource);
   }
 }
