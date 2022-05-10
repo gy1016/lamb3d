@@ -1,7 +1,34 @@
+import { ShaderUniform } from './ShaderUniform';
+import { ShaderUniformBlock } from './ShaderUniformBlock';
+import { Shader } from './Shader';
+import { ShaderData } from './ShaderData';
+
 export class ShaderProgram {
   private static _counter = 0;
 
+  private static _addLineNum(str: string): string {
+    const lines = str.split('\n');
+    const limitLength = (lines.length + 1).toString().length + 6;
+    let prefix;
+    return lines
+      .map((line, index) => {
+        prefix = `0:${index + 1}`;
+        if (prefix.length >= limitLength) return prefix.substring(0, limitLength) + line;
+        for (let i = 0; i < limitLength - prefix.length; i++) prefix += ' ';
+        return prefix + line;
+      })
+      .join('\n');
+  }
+
   id: number;
+
+  readonly sceneUniformBlock: ShaderUniformBlock = new ShaderUniformBlock();
+  readonly cameraUniformBlock: ShaderUniformBlock = new ShaderUniformBlock();
+  readonly rendererUniformBlock: ShaderUniformBlock = new ShaderUniformBlock();
+  readonly materialUniformBlock: ShaderUniformBlock = new ShaderUniformBlock();
+  readonly otherUniformBlock: ShaderUniformBlock = new ShaderUniformBlock();
+
+  attributeLocation: Record<string, GLint> = Object.create(null);
 
   private _isValid: boolean;
   private _gl: WebGLRenderingContext;
@@ -23,6 +50,31 @@ export class ShaderProgram {
   constructor(gl: WebGLRenderingContext, vertexSource: string, fragmentSource: string) {
     this._gl = gl;
     this._glProgram = this._createProgram(vertexSource, fragmentSource);
+
+    if (this._glProgram) {
+      this._isValid = true;
+      this._recordLocation();
+    } else {
+      this._isValid = false;
+    }
+
+    this.id = ShaderProgram._counter++;
+  }
+
+  /**
+   * Upload constant shader data in shader uniform block.
+   * @param uniformBlock - shader Uniform block
+   * @param shaderData - shader data
+   */
+  uploadUniforms(uniformBlock: ShaderUniformBlock, shaderData: ShaderData): void {
+    const properties = shaderData._properties;
+    const constUniforms = uniformBlock.constUniforms;
+
+    for (let i = 0, n = constUniforms.length; i < n; i++) {
+      const uniform = constUniforms[i];
+      const data = properties[uniform.propertyId];
+      data != null && uniform.applyFunc(uniform, data);
+    }
   }
 
   private _createProgram(vertexSource: string, fragmentSource: string): WebGLProgram | null {
@@ -61,9 +113,6 @@ export class ShaderProgram {
 
     this._vertexShader = vertexShader;
     this._fragmentShader = fragmentShader;
-
-    this._isValid = true;
-
     return program;
   }
 
@@ -93,6 +142,75 @@ export class ShaderProgram {
 
     return shader;
   }
+
+  /**
+   * record the location of uniform/attribute.
+   */
+  private _recordLocation() {
+    const gl = this._gl;
+    const program = this._glProgram;
+    const uniformInfos = this._getUniformInfos();
+    const attributeInfos = this._getAttributeInfos();
+
+    uniformInfos.forEach(({ name, size, type }) => {
+      const shaderUniform = new ShaderUniform(gl);
+      let isArray = false;
+
+      if (name.indexOf('[0]') > 0) {
+        name = name.substr(0, name.length - 3);
+        isArray = true;
+      }
+
+      const location = gl.getUniformLocation(program, name);
+      shaderUniform.name = name;
+      shaderUniform.propertyId = Shader.getPropertyByName(name)._uniqueId;
+      shaderUniform.location = location;
+
+      switch (type) {
+        case gl.FLOAT_MAT4:
+          shaderUniform.applyFunc = isArray ? shaderUniform.uploadMat4v : shaderUniform.uploadMat4;
+          break;
+      }
+    });
+
+    attributeInfos.forEach(({ name }) => {
+      this.attributeLocation[name] = gl.getAttribLocation(program, name);
+    });
+  }
+
+  private _getUniformInfos(): WebGLActiveInfo[] {
+    const gl = this._gl;
+    const program = this._glProgram;
+    const uniformInfos = new Array<WebGLActiveInfo>();
+
+    const uniformCount = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
+    for (let i = 0; i < uniformCount; ++i) {
+      const info = gl.getActiveUniform(program, i);
+      uniformInfos[i] = info;
+    }
+
+    return uniformInfos;
+  }
+
+  private _getAttributeInfos(): WebGLActiveInfo[] {
+    const gl = this._gl;
+    const program = this._glProgram;
+    const attributeInfos = new Array<WebGLActiveInfo>();
+
+    const attributeCount = gl.getProgramParameter(program, gl.ACTIVE_ATTRIBUTES);
+    for (let i = 0; i < attributeCount; ++i) {
+      const info = gl.getActiveAttrib(program, i);
+      attributeInfos[i] = info;
+    }
+
+    return attributeInfos;
+  }
+
+  /**
+   * Bind this shader program.
+   * @returns Whether the shader program is switched.
+   */
+  bind() {}
 
   destroy(): void {
     const gl = this._gl;
