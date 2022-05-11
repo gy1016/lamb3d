@@ -1,7 +1,7 @@
 import { ShaderProgram } from './shader/ShaderProgram';
 import { Entity } from './Entity';
 
-export class Render {
+export class Renderer {
   static shaderProgram: ShaderProgram;
 
   // It would be better practice to encapsulate this information into a renderInfo
@@ -19,7 +19,7 @@ export class Render {
     }
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
     gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
-    const a_attribute = gl.getAttribLocation(Render.shaderProgram.glProgram, attribute);
+    const a_attribute = gl.getAttribLocation(Renderer.shaderProgram.glProgram, attribute);
     if (a_attribute < 0) {
       console.log('Failed to get the storage location of ' + attribute);
       return false;
@@ -33,19 +33,19 @@ export class Render {
   //
   static initShaderProgram(gl: WebGLRenderingContext, entity: Entity): boolean {
     const { shader } = entity.material;
-    Render.shaderProgram = shader.getShaderProgram(gl);
-    return Render.shaderProgram.isValid;
+    Renderer.shaderProgram = shader.getShaderProgram(gl);
+    return Renderer.shaderProgram.isValid;
   }
 
   static drawRender(gl: WebGLRenderingContext, entity: Entity): number {
-    if (!Render.initShaderProgram(gl, entity)) {
+    if (!Renderer.initShaderProgram(gl, entity)) {
       console.error('initShaderProgram failed...');
     }
 
     const data = new Float32Array(entity.mesh.getPostions());
     const indices = entity.mesh.getIndices();
 
-    if (!Render.initArrayBuffer(gl, 'a_Position', data, 3, gl.FLOAT)) return -1;
+    if (!Renderer.initArrayBuffer(gl, 'a_Position', data, 3, gl.FLOAT)) return -1;
 
     const indexBuffer = gl.createBuffer();
     if (!indexBuffer) {

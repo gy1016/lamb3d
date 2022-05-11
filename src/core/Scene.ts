@@ -1,6 +1,6 @@
 import { Canvas } from './Canvas';
 import { Entity } from './Entity';
-import { Render } from './Render';
+import { Renderer } from './Renderer';
 
 export class Scene {
   gl: WebGLRenderingContext;
@@ -52,11 +52,11 @@ export class Scene {
     const gl = this.gl;
     const enti = this.entities.pop();
 
-    const n = Render.drawRender(gl, enti);
+    const n = Renderer.drawRender(gl, enti);
 
     // We may have multiple programs, the writing here is not standardized,
     // and subsequent modifications will be made
-    gl.useProgram(Render.shaderProgram.glProgram);
+    gl.useProgram(Renderer.shaderProgram.glProgram);
 
     gl.clearColor(0, 0, 0, 1);
     gl.enable(gl.DEPTH_TEST);
