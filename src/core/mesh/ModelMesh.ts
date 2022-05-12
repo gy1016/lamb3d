@@ -1,13 +1,14 @@
-export class Mesh {
-  name: string;
+import { Mesh } from '../graphic';
 
+export class ModelMesh extends Mesh {
   private _positions: number[] = [];
   private _normals: number[] = [];
   private _uv: number[] = [];
   private _indices: Uint8Array | Uint16Array;
 
   constructor(name?: string) {
-    this.name = name || '';
+    super();
+    this.name = name;
   }
 
   setPositions(positions: number[]): void {

@@ -1,10 +1,8 @@
-import { ShaderProperty } from './ShaderProperty';
 import { ShaderProgram } from './ShaderProgram';
 
 export class Shader {
   private static _shaderCounter = 0;
   private static _shaderMap: Record<string, Shader> = Object.create(null);
-  private static _propertyNameMap: Record<string, ShaderProperty> = Object.create(null);
 
   /** The name of shader. */
   readonly name: string;
@@ -50,22 +48,6 @@ export class Shader {
    */
   static find(name: string): Shader {
     return Shader._shaderMap[name];
-  }
-
-  /**
-   * Get shader property by name.
-   * @param name - Name of the shader property
-   * @returns Shader property
-   */
-  static getPropertyByName(name: string): ShaderProperty {
-    const propertyNameMap = Shader._propertyNameMap;
-    if (propertyNameMap[name] !== null) {
-      return propertyNameMap[name];
-    } else {
-      const property = new ShaderProperty(name);
-      propertyNameMap[name] = property;
-      return property;
-    }
   }
 
   getShaderProgram(gl: WebGLRenderingContext): ShaderProgram {

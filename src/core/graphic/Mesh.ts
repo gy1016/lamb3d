@@ -36,8 +36,7 @@ export abstract class Mesh {
     this._vertexElements.push(element);
   }
 
-  // _draw(shaderProgram: ShaderProgram): void {
-  // }
+  _draw(shaderProgram: ShaderProgram): void {}
 
   _onDestroy(): void {
     this._vertexBufferBindings = null;

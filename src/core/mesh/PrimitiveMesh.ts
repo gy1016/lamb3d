@@ -1,4 +1,4 @@
-import { Mesh } from './Mesh';
+import { ModelMesh } from './ModelMesh';
 
 export class PrimitiveMesh {
   /**
@@ -141,7 +141,7 @@ export class PrimitiveMesh {
       20, 21, 22, 20, 22, 23,   // left
     ]);
 
-    const mesh = new Mesh('CuboidMesh');
+    const mesh = new ModelMesh('CuboidMesh');
     PrimitiveMesh._initialize(mesh, posArr, vertexNormal, uv, indices);
     return mesh;
   }
@@ -155,7 +155,7 @@ export class PrimitiveMesh {
    * @param indices object's indices array
    */
   private static _initialize(
-    mesh: Mesh,
+    mesh: ModelMesh,
     positions: number[],
     normals: number[],
     uv: number[],
