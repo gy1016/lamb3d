@@ -1,5 +1,5 @@
-import { VertexElementFormat } from "./enums/VertexElementFormat";
-import { ElementInfo, BufferUtil } from "./BufferUtil";
+import { VertexElementFormat } from './enums/VertexElementFormat';
+import { ElementInfo, BufferUtil } from './BufferUtil';
 
 /**
  * Vertex element.
@@ -61,7 +61,7 @@ export class VertexElement {
     offset: number,
     format: VertexElementFormat,
     bindingIndex: number,
-    instanceStepRate: number = 0
+    instanceStepRate: number = 0,
   ) {
     this._semantic = semantic;
     this._offset = offset;
