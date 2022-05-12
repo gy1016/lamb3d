@@ -11,6 +11,7 @@ export class Buffer {
 
   private _type: BufferBindFlag;
   private _byteLength: number;
+  // 个人感觉这个属性可以去掉
   private _bufferUsage: BufferUsage;
 
   /**
@@ -139,6 +140,7 @@ export class Buffer {
     options: SetDataOptions = SetDataOptions.None,
   ): void {
     const gl: WebGLRenderingContext = this._gl;
+    // 是索引还是顶点
     const glBindTarget: number = this._glBindTarget;
     this.bind();
 
