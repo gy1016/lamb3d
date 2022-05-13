@@ -1,7 +1,6 @@
 import { BufferBindFlag } from './enums/BufferBindFlag';
 import { BufferUsage } from './enums/BufferUsage';
 import { BufferUtil } from './BufferUtil';
-import { SetDataOptions } from './enums/SetDataOptions';
 
 export class Buffer {
   _gl: WebGLRenderingContext;
@@ -124,29 +123,20 @@ export class Buffer {
    * @param dataLength - Data length
    * @param options - Update strategy: None/Discard/NoOverwrite
    */
-  setData(
-    data: ArrayBuffer | ArrayBufferView,
-    bufferByteOffset: number,
-    dataOffset: number,
-    dataLength: number,
-    options: SetDataOptions,
-  ): void;
+  setData(data: ArrayBuffer | ArrayBufferView, bufferByteOffset: number, dataOffset: number, dataLength: number): void;
 
   setData(
     data: ArrayBuffer | ArrayBufferView,
     bufferByteOffset: number = 0,
     dataOffset: number = 0,
     dataLength?: number,
-    options: SetDataOptions = SetDataOptions.None,
   ): void {
     const gl: WebGLRenderingContext = this._gl;
     // 是索引还是顶点
     const glBindTarget: number = this._glBindTarget;
     this.bind();
 
-    if (options === SetDataOptions.Discard) {
-      gl.bufferData(glBindTarget, this._byteLength, this._glBufferUsage);
-    }
+    gl.bufferData(glBindTarget, this._byteLength, this._glBufferUsage);
 
     // TypeArray is BYTES_PER_ELEMENT, unTypeArray is 1
     const byteSize = (<Uint8Array>data).BYTES_PER_ELEMENT || 1;
