@@ -136,8 +136,7 @@ export class Buffer {
     const glBindTarget: number = this._glBindTarget;
     this.bind();
 
-    gl.bufferData(glBindTarget, this._byteLength, this._glBufferUsage);
-
+    /* 这一段看不懂！！！！！！！！ */
     // TypeArray is BYTES_PER_ELEMENT, unTypeArray is 1
     const byteSize = (<Uint8Array>data).BYTES_PER_ELEMENT || 1;
     const dataByteLength = dataLength ? byteSize * dataLength : data.byteLength;
