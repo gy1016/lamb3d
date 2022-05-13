@@ -1,7 +1,6 @@
 import { BufferBindFlag } from './enums/BufferBindFlag';
 import { BufferUsage } from './enums/BufferUsage';
 import { BufferUtil } from './BufferUtil';
-import { SetDataOptions } from './enums/SetDataOptions';
 
 export class Buffer {
   _gl: WebGLRenderingContext;
@@ -11,6 +10,7 @@ export class Buffer {
 
   private _type: BufferBindFlag;
   private _byteLength: number;
+  // 个人感觉这个属性可以去掉
   private _bufferUsage: BufferUsage;
 
   /**
@@ -45,7 +45,7 @@ export class Buffer {
 
   /**
    * Create Buffer.
-   * @param engine - Engine
+   * @param gl - WebGLRenderingContext
    * @param type - Buffer binding flag
    * @param data - Byte
    * @param bufferUsage - Buffer usage
@@ -123,29 +123,20 @@ export class Buffer {
    * @param dataLength - Data length
    * @param options - Update strategy: None/Discard/NoOverwrite
    */
-  setData(
-    data: ArrayBuffer | ArrayBufferView,
-    bufferByteOffset: number,
-    dataOffset: number,
-    dataLength: number,
-    options: SetDataOptions,
-  ): void;
+  setData(data: ArrayBuffer | ArrayBufferView, bufferByteOffset: number, dataOffset: number, dataLength: number): void;
 
   setData(
     data: ArrayBuffer | ArrayBufferView,
     bufferByteOffset: number = 0,
     dataOffset: number = 0,
     dataLength?: number,
-    options: SetDataOptions = SetDataOptions.None,
   ): void {
     const gl: WebGLRenderingContext = this._gl;
+    // 是索引还是顶点
     const glBindTarget: number = this._glBindTarget;
     this.bind();
 
-    if (options === SetDataOptions.Discard) {
-      gl.bufferData(glBindTarget, this._byteLength, this._glBufferUsage);
-    }
-
+    /* 这一段看不懂！！！！！！！！ */
     // TypeArray is BYTES_PER_ELEMENT, unTypeArray is 1
     const byteSize = (<Uint8Array>data).BYTES_PER_ELEMENT || 1;
     const dataByteLength = dataLength ? byteSize * dataLength : data.byteLength;

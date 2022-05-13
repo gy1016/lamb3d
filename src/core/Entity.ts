@@ -1,4 +1,4 @@
-import { Mesh } from './mesh/Mesh';
+import { Mesh } from './graphic';
 import { Material } from './material';
 import { Transform } from './Transform';
 
