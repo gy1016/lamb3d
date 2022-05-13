@@ -4,6 +4,7 @@ import { VertexBufferBinding } from '../graphic/VertexBufferBinding';
 import { VertexElement } from '../graphic/VertexElement';
 import { SubMesh } from '../graphic/SubMesh';
 import { ShaderProgram } from '../shader/ShaderProgram';
+import { Renderer } from '../Renderer';
 
 export abstract class Mesh {
   /** Name. */
@@ -39,7 +40,9 @@ export abstract class Mesh {
     this._vertexElements.push(element);
   }
 
-  _draw(shaderProgram: ShaderProgram): void {}
+  _draw(shaderProgram: ShaderProgram, subMesh: SubMesh): void {
+    Renderer.draw(shaderProgram, subMesh);
+  }
 
   _onDestroy(): void {
     this._vertexBufferBindings = null;

@@ -1,5 +1,5 @@
 import { ShaderProgram } from './shader/ShaderProgram';
-import { Mesh } from './graphic';
+import { Mesh, SubMesh } from './graphic';
 
 export class Renderer {
   private gl: WebGLRenderingContext;
@@ -54,7 +54,26 @@ export class Renderer {
   /**
    * Draw the primitive.
    */
-  draw(shaderProgram: any, subMesh: SubMesh): void {}
+  draw(shaderProgram: ShaderProgram, subMesh: SubMesh): void {
+    const gl = this.gl;
+    const primitive = this._primitive;
+
+    this.bindBufferAndAttrib(shaderProgram);
+
+    const { _indexBufferBinding, _instanceCount, _glIndexType, _glIndexByteCount } = primitive;
+    const { topology, start, count } = subMesh;
+
+    if (!_instanceCount) {
+      if (_indexBufferBinding) {
+        const { _nativeBuffer } = _indexBufferBinding.buffer;
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, _nativeBuffer);
+        gl.drawElements(topology, count, _glIndexType, start * _glIndexByteCount);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+      } else {
+        gl.drawArrays(topology, start, count);
+      }
+    }
+  }
 
   // It would be better practice to encapsulate this information into a renderInfo
   // static initArrayBuffer(
