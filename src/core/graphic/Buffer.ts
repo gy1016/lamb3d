@@ -45,7 +45,7 @@ export class Buffer {
 
   /**
    * Create Buffer.
-   * @param engine - Engine
+   * @param gl - WebGLRenderingContext
    * @param type - Buffer binding flag
    * @param data - Byte
    * @param bufferUsage - Buffer usage
