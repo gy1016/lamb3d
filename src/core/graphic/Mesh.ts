@@ -2,6 +2,7 @@ import { BufferUtil } from '../graphic/BufferUtil';
 import { IndexBufferBinding } from '../graphic/IndexBufferBinding';
 import { VertexBufferBinding } from '../graphic/VertexBufferBinding';
 import { VertexElement } from '../graphic/VertexElement';
+import { SubMesh } from '../graphic/SubMesh';
 import { ShaderProgram } from '../shader/ShaderProgram';
 
 export abstract class Mesh {
@@ -16,6 +17,8 @@ export abstract class Mesh {
   _vertexBufferBindings: VertexBufferBinding[] = [];
   _indexBufferBinding: IndexBufferBinding = null;
   _vertexElements: VertexElement[] = [];
+
+  private _subMeshes: SubMesh[] = [];
 
   constructor(name?: string) {
     this.name = name;
