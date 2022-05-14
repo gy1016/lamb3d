@@ -50,18 +50,11 @@ export class Scene {
 
   run() {
     const gl = this.gl;
-    const enti = this.entities.pop();
-
-    const n = Renderer.drawRender(gl, enti);
-
-    // We may have multiple programs, the writing here is not standardized,
-    // and subsequent modifications will be made
-    gl.useProgram(Renderer.shaderProgram.glProgram);
-
-    gl.clearColor(0, 0, 0, 1);
-    gl.enable(gl.DEPTH_TEST);
-
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
+    const entities = this.entities;
+    entities.forEach((entity) => {
+      const { mesh, material } = entity;
+      const program = material.shader._getShaderProgram(gl);
+      mesh._draw(program, mesh.subMesh);
+    });
   }
 }
