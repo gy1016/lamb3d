@@ -3,7 +3,7 @@ import { Material } from './material';
 import { Transform } from './Transform';
 
 export class Entity {
-  static _id: number = 1;
+  static _count: number = 1;
 
   id: number;
   name: string;
@@ -14,7 +14,7 @@ export class Entity {
 
   constructor(name: string, mesh: Mesh, material: Material) {
     this.name = name;
-    this.id = Entity._id++;
+    this.id = Entity._count++;
     this.mesh = mesh;
     this.material = material;
     this.transform = new Transform();
