@@ -1,8 +1,11 @@
+import { ShaderDataGroup } from './enums/ShaderDataGroup';
 import { ShaderProgram } from './ShaderProgram';
+import { ShaderProperty } from './ShaderProperty';
 
 export class Shader {
   private static _shaderCounter = 0;
   private static _shaderMap: Record<string, Shader> = Object.create(null);
+  private static _propertyNameMap: Record<string, ShaderProperty> = Object.create(null);
 
   /** The name of shader. */
   readonly name: string;
@@ -13,12 +16,28 @@ export class Shader {
   private _vertexSource: string;
   private _fragmentSource: string;
 
-  get vertexSource() {
-    return this._vertexSource;
+  /**
+   * @internal
+   */
+  static _getShaderPropertyGroup(propertyName: string): ShaderDataGroup | null {
+    const shaderProperty = Shader._propertyNameMap[propertyName];
+    return shaderProperty?._group;
   }
 
-  get fragmentSource() {
-    return this._fragmentSource;
+  /**
+   * Get shader property by name.
+   * @param name - Name of the shader property
+   * @returns Shader property
+   */
+  static getPropertyByName(name: string): ShaderProperty {
+    const propertyNameMap = Shader._propertyNameMap;
+    if (propertyNameMap[name] != null) {
+      return propertyNameMap[name];
+    } else {
+      const property = new ShaderProperty(name);
+      propertyNameMap[name] = property;
+      return property;
+    }
   }
 
   private constructor(name: string, vertexSource: string, fragmentSource: string) {
@@ -50,7 +69,7 @@ export class Shader {
     return Shader._shaderMap[name];
   }
 
-  getShaderProgram(gl: WebGLRenderingContext): ShaderProgram {
+  _getShaderProgram(gl: WebGLRenderingContext): ShaderProgram {
     // 将来可能在这里拼接glsl
     const vertexSource = this._vertexSource;
     const fragmentSource = this._fragmentSource;
