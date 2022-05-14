@@ -7,16 +7,10 @@ export class PrimitiveMesh {
    * @param width - Cuboid width
    * @param height - Cuboid height
    * @param depth - Cuboid depth
-   * @param noLongerAccessible - No longer access the vertices of the mesh after creation
    * @returns Cuboid model mesh
    */
-  static createCuboid(
-    width: number = 1,
-    height: number = 1,
-    depth: number = 1,
-    noLongerAccessible: boolean = true,
-  ): ModelMesh {
-    const mesh = new ModelMesh('Cuboid');
+  static createCuboid(gl: WebGLRenderingContext, width: number = 1, height: number = 1, depth: number = 1): ModelMesh {
+    const mesh = new ModelMesh(gl, 'Cuboid');
 
     const halfWidth: number = width / 2;
     const halfHeight: number = height / 2;
@@ -144,5 +138,8 @@ export class PrimitiveMesh {
     mesh.setNormals(normals);
     mesh.setUVs(uvs);
     mesh.setIndices(indices);
+
+    mesh.uploadData();
+    mesh.addSubMesh(0, indices.length);
   }
 }
