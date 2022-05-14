@@ -2,6 +2,7 @@ import { Shader } from './Shader';
 import { ShaderUniform } from './ShaderUniform';
 import { ShaderDataGroup } from './enums/ShaderDataGroup';
 import { ShaderUniformBlock } from './ShaderUniformBlock';
+import { ShaderData } from './ShaderData';
 
 export class ShaderProgram {
   private static _counter = 0;
@@ -216,6 +217,31 @@ export class ShaderProgram {
     }
 
     return attributeInfos;
+  }
+
+  /**
+   * Upload all shader data in shader uniform block.
+   * @param uniformBlock - shader Uniform block
+   * @param shaderData - shader data
+   */
+  uploadAll(uniformBlock: ShaderUniformBlock, shaderData: ShaderData): void {
+    this.uploadUniforms(uniformBlock, shaderData);
+  }
+
+  /**
+   * Upload constant shader data in shader uniform block.
+   * @param uniformBlock - shader Uniform block
+   * @param shaderData - shader data
+   */
+  uploadUniforms(uniformBlock: ShaderUniformBlock, shaderData: ShaderData): void {
+    const properties = shaderData._properties;
+    const constUniforms = uniformBlock.constUniforms;
+
+    for (let i = 0, n = constUniforms.length; i < n; i++) {
+      const uniform = constUniforms[i];
+      const data = properties[uniform.propertyId];
+      data != null && uniform.applyFunc(uniform, data);
+    }
   }
 
   /**

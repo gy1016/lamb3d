@@ -16,6 +16,13 @@ export class Shader {
   private _vertexSource: string;
   private _fragmentSource: string;
 
+  private constructor(name: string, vertexSource: string, fragmentSource: string) {
+    this._shaderId = Shader._shaderCounter++;
+    this.name = name;
+    this._vertexSource = vertexSource;
+    this._fragmentSource = fragmentSource;
+  }
+
   /**
    * @internal
    */
@@ -38,13 +45,6 @@ export class Shader {
       propertyNameMap[name] = property;
       return property;
     }
-  }
-
-  private constructor(name: string, vertexSource: string, fragmentSource: string) {
-    this._shaderId = Shader._shaderCounter++;
-    this.name = name;
-    this._vertexSource = vertexSource;
-    this._fragmentSource = fragmentSource;
   }
 
   /**
