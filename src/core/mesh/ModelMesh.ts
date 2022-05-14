@@ -115,7 +115,6 @@ export class ModelMesh extends Mesh {
 
   /**
    * Upload Mesh Data to the graphics API.
-   * @param noLongerAccessible - Whether to access data later. If true, you'll never access data anymore (free memory cache)
    */
   uploadData(): void {
     if (!this._accessible) {
