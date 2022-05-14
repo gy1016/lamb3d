@@ -12,7 +12,6 @@ import {
 } from '../graphic';
 
 export class ModelMesh extends Mesh {
-  private gl: WebGLRenderingContext;
   private _vertexCount: number = 0;
   private _accessible: boolean = true;
   private _verticesFloat32: Float32Array | null = null;
@@ -41,8 +40,7 @@ export class ModelMesh extends Mesh {
   }
 
   constructor(gl: WebGLRenderingContext, name?: string) {
-    super();
-    this.gl = gl;
+    super(gl);
     this.name = name;
   }
 

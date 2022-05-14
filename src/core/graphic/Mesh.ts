@@ -16,12 +16,14 @@ export abstract class Mesh {
   _glIndexType: number;
   // 每个索引占几个字节，8位一个字节
   _glIndexByteCount: number;
+  _platformPrimitive: Renderer;
 
   _instanceCount: number = 0;
   _vertexBufferBindings: VertexBufferBinding[] = [];
   _indexBufferBinding: IndexBufferBinding = null;
   _vertexElements: VertexElement[] = [];
 
+  protected gl: WebGLRenderingContext;
   private _subMeshes: SubMesh[] = [];
 
   /**
@@ -85,8 +87,10 @@ export abstract class Mesh {
     this._subMeshes.length = 0;
   }
 
-  constructor(name?: string) {
+  constructor(gl: WebGLRenderingContext, name?: string) {
+    this.gl = gl;
     this.name = name;
+    this._platformPrimitive = new Renderer(gl, this);
   }
 
   _clearVertexElements(): void {
@@ -105,7 +109,7 @@ export abstract class Mesh {
   }
 
   _draw(shaderProgram: ShaderProgram, subMesh: SubMesh): void {
-    // Renderer.draw(shaderProgram, subMesh);
+    this._platformPrimitive.draw(shaderProgram, subMesh);
   }
 
   _onDestroy(): void {
