@@ -10,6 +10,10 @@
 
 A TypeScript 3d mini engine for gis.
 
+# Document
+
+Here you can see [engine documentation](https://www.yuque.com/shengaoyang-rl1fl/apm3zh), mind maps, system architecture and my brainstorming!
+
 # Architecture
 
 The modules currently included in lamb3d are shown in the following figure:
@@ -25,19 +29,20 @@ The system architecture diagram of lamb3d is as follows:
 ```js
 import { Scene, PrimitiveMesh, Entity, Material, Shader } from '../dist/index.esm.js';
 
-const engine = new Scene('gy');
-const shader = initShader();
+const lamb3d = new Scene('gy');
+const shader = initShader('CustomShader');
 const material = new Material('feng', shader);
-const mesh = PrimitiveMesh.createCuboid(0.5, 0.5, 0.5);
+const mesh = PrimitiveMesh.createCuboid(lamb3d.gl, 1, 1, 1);
 const entity = new Entity('cube1', mesh, material);
-engine.addEntity(entity);
-engine.run();
 
-function initShader() {
+lamb3d.addEntity(entity);
+lamb3d.run();
+
+function initShader(name) {
   var VSHADER_SOURCE = 
-  'attribute vec4 a_Position;\n' + 
+  'attribute vec3 POSITION;\n' + 
   'void main() {\n' + 
-  '  gl_Position = a_Position;\n' + 
+  '  gl_Position = vec4(POSITION, 1.0);\n' + 
   '}\n';
 
   // Fragment shader program
@@ -47,7 +52,7 @@ function initShader() {
   '  gl_FragColor = vec4(0.5, 0.0, 0.0, 0.5);\n' + 
   '}\n';
 
-  return Shader.create('cubeShader', VSHADER_SOURCE, FSHADER_SOURCE)
+  return Shader.create(name, VSHADER_SOURCE, FSHADER_SOURCE)
 }
 ```
 
