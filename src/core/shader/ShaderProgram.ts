@@ -3,6 +3,7 @@ import { ShaderUniform } from './ShaderUniform';
 import { ShaderDataGroup } from './enums/ShaderDataGroup';
 import { ShaderUniformBlock } from './ShaderUniformBlock';
 import { ShaderData } from './ShaderData';
+import { Renderer } from '../Renderer';
 
 export class ShaderProgram {
   private static _counter = 0;
@@ -37,6 +38,7 @@ export class ShaderProgram {
   constructor(gl: WebGLRenderingContext, vertexSource: string, fragmentSource: string) {
     this._gl = gl;
     this._glProgram = this._createProgram(vertexSource, fragmentSource);
+    this.bind();
 
     if (this._glProgram) {
       this._isValid = true;
@@ -248,7 +250,15 @@ export class ShaderProgram {
    * Bind this shader program.
    * @returns Whether the shader program is switched.
    */
-  bind() {}
+  bind(): boolean {
+    if (Renderer.currentBindProgram !== this) {
+      this._gl.useProgram(this._glProgram);
+      Renderer.currentBindProgram = this;
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   destroy(): void {
     const gl = this._gl;

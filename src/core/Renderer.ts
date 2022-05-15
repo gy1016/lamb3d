@@ -2,6 +2,7 @@ import { ShaderProgram } from './shader/ShaderProgram';
 import { Mesh, SubMesh } from './graphic';
 
 export class Renderer {
+  static currentBindProgram: ShaderProgram;
   private gl: WebGLRenderingContext;
 
   protected attribLocArray: number[];
@@ -42,6 +43,7 @@ export class Renderer {
 
         gl.enableVertexAttribArray(loc);
         const { size, type, normalized } = element._glElementInfo;
+        // gl.vertexAttribPointer(loc, size, type, normalized, 0, element.offset);
         gl.vertexAttribPointer(loc, size, type, normalized, stride, element.offset);
         this.attribLocArray.push(loc);
       } else {
