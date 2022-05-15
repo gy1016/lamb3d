@@ -134,7 +134,7 @@ export class ModelMesh extends Mesh {
       this._updateVertices(vertices);
 
       const newVertexBuffer = new Buffer(gl, BufferBindFlag.VertexBuffer, vertices, BufferUsage.Static);
-
+      // 因为是Float32Array，32位，4个字节，故stride为elementCount * 4
       this._setVertexBufferBinding(0, new VertexBufferBinding(newVertexBuffer, elementCount * 4));
       this._lastUploadVertexCount = vertexCount;
     } else {
@@ -161,11 +161,11 @@ export class ModelMesh extends Mesh {
 
     let offset = 12;
     let elementCount = 3;
-    if (this._normals) {
-      this._addVertexElement(new VertexElement('NORMAL', offset, VertexElementFormat.Vector3, 0));
-      offset += 12;
-      elementCount += 3;
-    }
+    // if (this._normals) {
+    //   this._addVertexElement(new VertexElement('NORMAL', offset, VertexElementFormat.Vector3, 0));
+    //   offset += 12;
+    //   elementCount += 3;
+    // }
 
     this._elementCount = elementCount;
   }
