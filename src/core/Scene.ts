@@ -1,3 +1,4 @@
+import { Camera } from './Camera';
 import { Canvas } from './Canvas';
 import { Entity } from './Entity';
 import { Renderer } from './Renderer';
@@ -6,6 +7,7 @@ export class Scene {
   gl: WebGLRenderingContext;
   canvas: Canvas;
   entities: Entity[];
+  camera: Camera;
   // params: any;
 
   /**
@@ -51,6 +53,8 @@ export class Scene {
   run() {
     const gl = this.gl;
     const entities = this.entities;
+    const camera = this.camera;
+    camera && camera.render();
     entities.forEach((entity) => {
       const { mesh, material } = entity;
       const program = material.shader._getShaderProgram(gl);
