@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #gy {
+        height: 50vh;
+        width: 50vw;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="gy"> your browser not support canvas </canvas>
+    <script type="module">
+      import { Scene, PrimitiveMesh, Entity, Material, Shader, Camera, Matrix4 } from '../dist/index.esm.js';
+
+      const lamb3d = new Scene('gy');
+      const camera = new Camera();
+      lamb3d.camera = camera;
+
+      const shader = initShader('CustomShader');
+      const material = new Material('feng', shader);
+
+      const mesh = PrimitiveMesh.createCuboid(lamb3d.gl, 1, 1, 1);
+      const entity = new Entity('cube1', mesh, material);
+
+      lamb3d.addEntity(entity);
+      lamb3d.run();
+
+      function initShader(name) {
+        var VSHADER_SOURCE = 
+        'attribute vec3 POSITION;\n' + 
+        'uniform mat4 u_projMat;\n' +
+        'void main() {\n' + 
+        '  gl_Position = u_projMat * vec4(POSITION, 1.0);\n' + 
+        '}\n';
+
+        // Fragment shader program
+        var FSHADER_SOURCE =
+        'precision mediump float;\n' + 
+        'void main() {\n' + 
+        '  gl_FragColor = vec4(0.5, 0.0, 0.0, 0.5);\n' + 
+        '}\n';
+
+        return Shader.create(name, VSHADER_SOURCE, FSHADER_SOURCE)
+      }
+    </script>
+  </body>
+</html>
