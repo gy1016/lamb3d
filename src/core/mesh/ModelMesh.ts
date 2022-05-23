@@ -121,15 +121,19 @@ export class ModelMesh extends Mesh {
 
     this._updateVertexElements();
     const gl = this.gl;
+    // positions的Vector3的个数
     const { _vertexCount: vertexCount } = this;
     const vertexCountChange = this._lastUploadVertexCount !== vertexCount;
 
     const vertexBuffer = this._vertexBufferBindings[0]?._buffer;
     if (vertexCountChange) {
+      // 一组数据有多少个元素，比如：顶点(3) + 法向量(3) + 纹理(2) = 8
       const elementCount = this._elementCount;
+      // Float32Array数组该给多少空间
       const vertexFloatCount = elementCount * vertexCount;
       const vertices = new Float32Array(vertexFloatCount);
       this._verticesFloat32 = vertices;
+      // 这个东西有什么用实在搞不明白？
       this._verticesUint8 = new Uint8Array(vertices.buffer);
       this._updateVertices(vertices);
 
@@ -157,21 +161,31 @@ export class ModelMesh extends Mesh {
 
   private _updateVertexElements(): void {
     this._clearVertexElements();
+    // 因为顶点元素是必须有的！
     this._addVertexElement(POSITION_VERTEX_ELEMENT);
 
     let offset = 12;
     let elementCount = 3;
-    // if (this._normals) {
-    //   this._addVertexElement(new VertexElement('NORMAL', offset, VertexElementFormat.Vector3, 0));
-    //   offset += 12;
-    //   elementCount += 3;
-    // }
+    if (this._normals) {
+      this._addVertexElement(new VertexElement('NORMAL', offset, VertexElementFormat.Vector3, 0));
+      offset += 12;
+      elementCount += 3;
+    }
+    if (this._uv) {
+      this._addVertexElement(new VertexElement('TEXCOORD_0', offset, VertexElementFormat.Vector2, 0));
+      offset += 8;
+      elementCount += 2;
+    }
 
     this._elementCount = elementCount;
   }
 
+  /**
+   * Fill the void Float32Array with postion, normal and uvs.
+   * @param vertices void Float32Array
+   */
   private _updateVertices(vertices: Float32Array): void {
-    const { _elementCount, _vertexCount, _positions, _normals } = this;
+    const { _elementCount, _vertexCount, _positions, _normals, _uv } = this;
 
     for (let i = 0; i < _vertexCount; i++) {
       const start = _elementCount * i;
@@ -179,6 +193,33 @@ export class ModelMesh extends Mesh {
       vertices[start] = position.x;
       vertices[start + 1] = position.y;
       vertices[start + 2] = position.z;
+    }
+
+    let offset = 3;
+
+    if (_normals) {
+      for (let i = 0; i < _vertexCount; i++) {
+        const start = _elementCount * i + offset;
+        const normal = _normals[i];
+        if (normal) {
+          vertices[start] = normal.x;
+          vertices[start + 1] = normal.y;
+          vertices[start + 2] = normal.z;
+        }
+      }
+      offset += 3;
+    }
+
+    if (_uv) {
+      for (let i = 0; i < _vertexCount; i++) {
+        const start = _elementCount * i + offset;
+        const uv = _uv[i];
+        if (uv) {
+          vertices[start] = uv.x;
+          vertices[start + 1] = uv.y;
+        }
+      }
+      offset += 2;
     }
   }
 }
