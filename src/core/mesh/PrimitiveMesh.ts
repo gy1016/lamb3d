@@ -1,5 +1,6 @@
 import { Vector2, Vector3 } from '../../math';
 import { ModelMesh } from './ModelMesh';
+import { Engine } from '../Engine';
 
 export class PrimitiveMesh {
   /**
@@ -9,7 +10,8 @@ export class PrimitiveMesh {
    * @param depth - Cuboid depth
    * @returns Cuboid model mesh
    */
-  static createCuboid(gl: WebGLRenderingContext, width: number = 1, height: number = 1, depth: number = 1): ModelMesh {
+  static createCuboid(engine: Engine, width: number = 1, height: number = 1, depth: number = 1): ModelMesh {
+    const gl = engine.gl;
     const mesh = new ModelMesh(gl, 'Cuboid');
 
     const halfWidth: number = width / 2;
