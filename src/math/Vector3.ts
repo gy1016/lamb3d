@@ -63,14 +63,67 @@ export class Vector3 {
     return new Vector3(this.x - vec3.x, this.y - vec3.y, this.z - vec3.z);
   }
 
-  get length() {
+  /**
+   * Scale this vector by the given value.
+   * @param s - The amount by which to scale the vector
+   * @returns This vector
+   */
+  scale(s: number): Vector3 {
+    this.x *= s;
+    this.y *= s;
+    this.z *= s;
+    return this;
+  }
+
+  length(): number {
     return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
   }
 
   normalize() {
-    const len = this.length;
+    const len = this.length();
     this.x = this.x / len;
     this.y = this.y / len;
     this.z = this.z / len;
+  }
+
+  /**
+   * Determines the difference between two vectors.
+   * @param left - The first vector to subtract
+   * @param right - The second vector to subtract
+   * @param out - The difference between two vectors
+   */
+  static subtract(left: Vector3, right: Vector3, out: Vector3): void {
+    out.x = left.x - right.x;
+    out.y = left.y - right.y;
+    out.z = left.z - right.z;
+  }
+
+  /**
+   * Scale a vector by the given value.
+   * @param a - The vector to scale
+   * @param s - The amount by which to scale the vector
+   * @param out - The scaled vector
+   */
+  static scale(a: Vector3, s: number, out: Vector3): void {
+    out.x = a.x * s;
+    out.y = a.y * s;
+    out.z = a.z * s;
+  }
+
+  /**
+   * Determines the cross product of two vectors.
+   * @param left - The first vector to cross
+   * @param right - The second vector to cross
+   * @param out - The cross product of two vectors
+   */
+  static cross(left: Vector3, right: Vector3, out: Vector3): void {
+    const ax = left.x;
+    const ay = left.y;
+    const az = left.z;
+    const bx = right.x;
+    const by = right.y;
+    const bz = right.z;
+
+    out.setValue(ay * bz - az * by, az * bx - ax * bz, ax * by - ay * bx);
   }
 }

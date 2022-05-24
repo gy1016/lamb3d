@@ -3,6 +3,8 @@ import { Vector3, Matrix4, Quaternion, MathUtil } from '../math';
 export class Transform {
   private static _tempVec30: Vector3 = new Vector3();
   private static _tempVec31: Vector3 = new Vector3();
+  private static _tempVec32: Vector3 = new Vector3();
+  private static _tempMat41: Matrix4 = new Matrix4();
 
   // 位置矢量
   private _position: Vector3 = new Vector3();
@@ -135,6 +137,45 @@ export class Transform {
     const rotate = Transform._tempVec31;
     rotate.setValue(x, y, z);
     this._rotation.add(rotate);
+  }
+
+  /**
+   * Rotate and ensure that the world front vector points to the target world position.
+   * @param targetPosition - Target world position
+   * @param worldUp - Up direction in world space, default is Vector3(0, 1, 0)
+   */
+  lookAt(targetPosition: Vector3, worldUp?: Vector3): void {
+    const zAxis = Transform._tempVec30;
+    Vector3.subtract(this.worldPosition, targetPosition, zAxis);
+    let axisLen = zAxis.length();
+    if (axisLen <= MathUtil.zeroTolerance) {
+      // The current position and the target position are almost the same.
+      return;
+    }
+    zAxis.scale(1 / axisLen);
+    const xAxis = Transform._tempVec31;
+    if (worldUp) {
+      Vector3.cross(worldUp, zAxis, xAxis);
+    } else {
+      xAxis.setValue(zAxis.z, 0, -zAxis.x);
+    }
+    axisLen = xAxis.length();
+    if (axisLen <= MathUtil.zeroTolerance) {
+      // @todo:
+      // 1.worldup is（0,0,0）
+      // 2.worldUp is parallel to zAxis
+      return;
+    }
+    xAxis.scale(1 / axisLen);
+    const yAxis = Transform._tempVec32;
+    Vector3.cross(zAxis, xAxis, yAxis);
+
+    const rotMat = Transform._tempMat41;
+    const { elements: e } = rotMat;
+    (e[0] = xAxis.x), (e[1] = xAxis.y), (e[2] = xAxis.z);
+    (e[4] = yAxis.x), (e[5] = yAxis.y), (e[6] = yAxis.z);
+    (e[8] = zAxis.x), (e[9] = zAxis.y), (e[10] = zAxis.z);
+    rotMat.getRotation(this._worldRotationQuaternion);
   }
 
   constructor() {}

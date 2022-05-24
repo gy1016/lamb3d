@@ -7,19 +7,19 @@
     <title>Document</title>
     <style>
       #gy {
-        height: 50vh;
-        width: 50vw;
+        height: 500px;
+        width: 500px;
       }
     </style>
   </head>
   <body>
     <canvas id="gy"> your browser not support canvas </canvas>
     <script type="module">
-      import { Engine, Scene, PrimitiveMesh, Entity, Material, Shader, Camera } from '../dist/index.esm.js';
+      import { Engine, Scene, PrimitiveMesh, Entity, Material, Shader, Camera, Vector3 } from '../dist/index.esm.js';
 
       const lamb3d = new Engine('gy');
       const camera = new Camera(lamb3d);
-      camera.transform.setPosition(10, 10, 10);
+      camera.transform.setPosition(0, 0, 7.0);
       lamb3d.activeScene.camera = camera;
 
       const shader = initShader('CustomShader');

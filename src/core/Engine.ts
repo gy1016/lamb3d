@@ -41,7 +41,7 @@ export class Engine {
     entities.forEach((entity) => {
       const { mesh, material } = entity;
       const program = material.shader._getShaderProgram(gl);
-      // program.uploadAll(program.cameraUniformBlock, camera.shaderData);
+      program.uploadAll(program.cameraUniformBlock, camera.shaderData);
       mesh._draw(program, mesh.subMesh);
     });
   }

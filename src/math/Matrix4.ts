@@ -1,5 +1,6 @@
 import { Vector3 } from './Vector3';
 import { Quaternion } from './Quaternion';
+import { MathUtil } from './MathUtil';
 export class Matrix4 {
   /**
    * An array containing the elements of the matrix (column matrix).
@@ -273,5 +274,43 @@ export class Matrix4 {
   invert(): Matrix4 {
     Matrix4.invert(this, this);
     return this;
+  }
+
+  /**
+   * Get rotation from this matrix.
+   * @param out - Rotation quaternion as an output parameter
+   * @returns The out
+   */
+  getRotation(out: Quaternion): Quaternion {
+    const e = this.elements;
+    let trace = e[0] + e[5] + e[10];
+
+    if (trace > MathUtil.zeroTolerance) {
+      let s = Math.sqrt(trace + 1.0) * 2;
+      out._w = 0.25 * s;
+      out._x = (e[6] - e[9]) / s;
+      out._y = (e[8] - e[2]) / s;
+      out._z = (e[1] - e[4]) / s;
+    } else if (e[0] > e[5] && e[0] > e[10]) {
+      let s = Math.sqrt(1.0 + e[0] - e[5] - e[10]) * 2;
+      out._w = (e[6] - e[9]) / s;
+      out._x = 0.25 * s;
+      out._y = (e[1] + e[4]) / s;
+      out._z = (e[8] + e[2]) / s;
+    } else if (e[5] > e[10]) {
+      let s = Math.sqrt(1.0 + e[5] - e[0] - e[10]) * 2;
+      out._w = (e[8] - e[2]) / s;
+      out._x = (e[1] + e[4]) / s;
+      out._y = 0.25 * s;
+      out._z = (e[6] + e[9]) / s;
+    } else {
+      let s = Math.sqrt(1.0 + e[10] - e[0] - e[5]) * 2;
+      out._w = (e[1] - e[4]) / s;
+      out._x = (e[8] + e[2]) / s;
+      out._y = (e[6] + e[9]) / s;
+      out._z = 0.25 * s;
+    }
+
+    return out;
   }
 }
