@@ -65,6 +65,20 @@ export class Quaternion {
   }
 
   /**
+   * Clones this quaternion to the specified quaternion.
+   * @param out - The specified quaternion
+   * @returns The specified quaternion
+   */
+  cloneTo(out: Quaternion): Quaternion {
+    out._x = this._x;
+    out._y = this._y;
+    out._z = this._z;
+    out._w = this._w;
+    out._onValueChanged && out._onValueChanged();
+    return out;
+  }
+
+  /**
    * Calculate a quaternion rotates around x, y, z axis (pitch/yaw/roll).
    * @param x - The radian of rotation around X (pitch)
    * @param y - The radian of rotation around Y (yaw)

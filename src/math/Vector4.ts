@@ -18,4 +18,12 @@ export class Vector4 {
     this.z = vec4.z;
     this.w = vec4.w;
   }
+
+  cloneTo(out: Vector4): Vector4 {
+    out.x = this.x;
+    out.y = this.y;
+    out.z = this.z;
+    out.w = this.w;
+    return out;
+  }
 }

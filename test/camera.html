@@ -15,27 +15,29 @@
   <body>
     <canvas id="gy"> your browser not support canvas </canvas>
     <script type="module">
-      import { Scene, PrimitiveMesh, Entity, Material, Shader, Camera, Matrix4 } from '../dist/index.esm.js';
+      import { Engine, Scene, PrimitiveMesh, Entity, Material, Shader, Camera } from '../dist/index.esm.js';
 
-      const lamb3d = new Scene('gy');
-      const camera = new Camera();
-      lamb3d.camera = camera;
+      const lamb3d = new Engine('gy');
+      const camera = new Camera(lamb3d);
+      camera.transform.setPosition(10, 10, 10);
+      lamb3d.activeScene.camera = camera;
 
       const shader = initShader('CustomShader');
-      const material = new Material('feng', shader);
+      const material = new Material('phong', shader);
 
-      const mesh = PrimitiveMesh.createCuboid(lamb3d.gl, 1, 1, 1);
+      const mesh = PrimitiveMesh.createCuboid(lamb3d, 1, 1, 1);
       const entity = new Entity('cube1', mesh, material);
-
-      lamb3d.addEntity(entity);
+      
+      lamb3d.activeScene.addEntity(entity);
       lamb3d.run();
 
       function initShader(name) {
         var VSHADER_SOURCE = 
         'attribute vec3 POSITION;\n' + 
-        'uniform mat4 u_projMat;\n' +
+        'uniform mat4 u_viewMat;\n' + 
+        'uniform mat4 u_projMat;\n' + 
         'void main() {\n' + 
-        '  gl_Position = u_projMat * vec4(POSITION, 1.0);\n' + 
+        '  gl_Position = u_projMat * u_viewMat * vec4(POSITION, 1.0);\n' + 
         '}\n';
 
         // Fragment shader program
