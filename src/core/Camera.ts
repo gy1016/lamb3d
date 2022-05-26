@@ -8,6 +8,11 @@ export class Camera {
   // 便于设置透视投影矩阵与宽高比
   private _engine: Engine;
 
+  // 主要是为了让OrbitControl获取到canvas
+  get engine() {
+    return this._engine;
+  }
+
   public transform: Transform;
 
   private static _viewMatrixProperty = Shader.getPropertyByName('u_viewMat');

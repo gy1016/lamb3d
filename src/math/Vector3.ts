@@ -59,8 +59,11 @@ export class Vector3 {
     return new Vector3(x, y, z);
   }
 
-  sub(vec3: Vector3): Vector3 {
-    return new Vector3(this.x - vec3.x, this.y - vec3.y, this.z - vec3.z);
+  subtract(right: Vector3): Vector3 {
+    this.x -= right.x;
+    this.y -= right.y;
+    this.z -= right.z;
+    return this;
   }
 
   /**

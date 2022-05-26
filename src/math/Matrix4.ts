@@ -313,4 +313,54 @@ export class Matrix4 {
 
     return out;
   }
+
+  clone(): Matrix4 {
+    const e = this.elements;
+    let ret = new Matrix4(
+      e[0],
+      e[1],
+      e[2],
+      e[3],
+      e[4],
+      e[5],
+      e[6],
+      e[7],
+      e[8],
+      e[9],
+      e[10],
+      e[11],
+      e[12],
+      e[13],
+      e[14],
+      e[15],
+    );
+    return ret;
+  }
+
+  cloneTo(out: Matrix4): Matrix4 {
+    const e = this.elements;
+    const oe = out.elements;
+
+    oe[0] = e[0];
+    oe[1] = e[1];
+    oe[2] = e[2];
+    oe[3] = e[3];
+
+    oe[4] = e[4];
+    oe[5] = e[5];
+    oe[6] = e[6];
+    oe[7] = e[7];
+
+    oe[8] = e[8];
+    oe[9] = e[9];
+    oe[10] = e[10];
+    oe[11] = e[11];
+
+    oe[12] = e[12];
+    oe[13] = e[13];
+    oe[14] = e[14];
+    oe[15] = e[15];
+
+    return out;
+  }
 }

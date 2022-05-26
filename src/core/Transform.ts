@@ -112,6 +112,25 @@ export class Transform {
     return this._localMatrix;
   }
 
+  set localMatrix(value: Matrix4) {
+    if (this._localMatrix !== value) {
+      value.cloneTo(this._localMatrix);
+    }
+  }
+
+  get worldMatrix(): Matrix4 {
+    this.localMatrix.cloneTo(this._worldMatrix);
+    return this._worldMatrix;
+  }
+
+  set worldMatrix(value: Matrix4) {
+    if (this._worldMatrix !== value) {
+      value.cloneTo(this._worldMatrix);
+    }
+    value.cloneTo(this._localMatrix);
+    this.localMatrix = this._localMatrix;
+  }
+
   setPosition(x: number, y: number, z: number): void {
     this._position.setValue(x, y, z);
   }
