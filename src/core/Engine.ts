@@ -5,6 +5,7 @@ export class Engine {
   protected _canvas: Canvas;
   protected _gl: WebGLRenderingContext;
   private activeScene: Scene;
+  private _requestId: number;
 
   get canvas(): Canvas {
     return this._canvas;
@@ -13,6 +14,11 @@ export class Engine {
   get gl(): WebGLRenderingContext {
     return this._gl;
   }
+
+  private _animate = () => {
+    this._requestId = requestAnimationFrame(this._animate);
+    this.update();
+  };
 
   /**
    * constructor
@@ -31,6 +37,10 @@ export class Engine {
     if (!gl) throw `init webgl rendering context failure!`;
     this._gl = gl;
     this.activeScene = new Scene();
+  }
+
+  update() {
+    console.log('update');
   }
 
   run() {
