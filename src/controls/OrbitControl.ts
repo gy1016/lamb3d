@@ -166,6 +166,71 @@ export class OrbitControl {
     });
   }
 
+  onDestory(): void {
+    this.constEvents.forEach((ele) => {
+      if (ele.element) {
+        ele.element.removeEventListener(ele.type, ele.listener, false);
+      } else {
+        this.mainElement.removeEventListener(ele.type, ele.listener, false);
+      }
+    });
+    const element = this.domElement === document ? this.domElement.body : this.domElement;
+    this.mainElement.removeEventListener(this.mouseUpEvents[0].type, this.mouseUpEvents[0].listener, false);
+    element.removeEventListener(this.mouseUpEvents[1].type, this.mouseUpEvents[1].listener, false);
+  }
+
+  onUpdate(dtime) {
+    const position: Vector3 = this.camera.transform.position;
+    position.cloneTo(this._offset);
+    this._offset.subtract(this.target);
+    this._spherical.setFromVec3(this._offset);
+
+    if (this.autoRotate && this._state === this.STATE.NONE) {
+      this.rotateLeft(this.getAutoRotationAngle(dtime));
+    }
+
+    this._spherical.theta += this._sphericalDelta.theta;
+    this._spherical.phi += this._sphericalDelta.phi;
+
+    this._spherical.theta = Math.max(this.minAzimuthAngle, Math.min(this.maxAzimuthAngle, this._spherical.theta));
+    this._spherical.phi = Math.max(this.minPolarAngle, Math.min(this.maxPolarAngle, this._spherical.phi));
+    this._spherical.makeSafe();
+
+    if (this._scale !== 1) {
+      this._zoomFrag = this._spherical.radius * (this._scale - 1);
+    }
+
+    this._spherical.radius += this._zoomFrag;
+    this._spherical.radius = Math.max(this.minDistance, Math.min(this.maxDistance, this._spherical.radius));
+
+    this.target.add(this._panOffset);
+    this._spherical.setToVec3(this._offset);
+    this.target.cloneTo(this._position);
+    this._position.add(this._offset);
+
+    this.camera.transform.position = this._position;
+    this.camera.transform.lookAt(this.target, this.up);
+
+    if (this.enableDamping === true) {
+      this._sphericalDump.theta *= 1 - this.dampingFactor;
+      this._sphericalDump.phi *= 1 - this.dampingFactor;
+      this._zoomFrag *= 1 - this.zoomFactor;
+
+      if (this._isMouseUp) {
+        this._sphericalDelta.theta = this._sphericalDump.theta;
+        this._sphericalDelta.phi = this._sphericalDump.phi;
+      } else {
+        this._sphericalDelta.set(0, 0, 0);
+      }
+    } else {
+      this._sphericalDelta.set(0, 0, 0);
+      this._zoomFrag = 0;
+    }
+
+    this._scale = 1;
+    this._panOffset.setValue(0, 0, 0);
+  }
+
   panLeft(distance: number, worldMatrix: Matrix4) {
     const e = worldMatrix.elements;
     this._vPan.setValue(e[0], e[1], e[2]);
@@ -219,6 +284,10 @@ export class OrbitControl {
     if (this.enableDamping) {
       this._sphericalDump.phi = -radian;
     }
+  }
+
+  getAutoRotationAngle(dtime: number) {
+    return (this.autoRotateSpeed / 1000) * dtime;
   }
 
   handleMouseDownRotate(event: MouseEvent) {
