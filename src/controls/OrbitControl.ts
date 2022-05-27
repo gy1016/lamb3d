@@ -294,11 +294,11 @@ export class OrbitControl {
     this._rotateStart.setValue(event.clientX, event.clientY);
   }
 
-  handleMouseDownZoom(event) {
+  handleMouseDownZoom(event: MouseEvent) {
     this._zoomStart.setValue(event.clientX, event.clientY);
   }
 
-  handleMouseDownPan(event) {
+  handleMouseDownPan(event: MouseEvent) {
     this._panStart.setValue(event.clientX, event.clientY);
   }
 
@@ -306,9 +306,11 @@ export class OrbitControl {
     this._rotateEnd.setValue(event.clientX, event.clientY);
     Vector2.subtract(this._rotateEnd, this._rotateStart, this._rotateDelta);
 
+    // x方向平移的百分比
     this.rotateLeft(2 * Math.PI * (this._rotateDelta.x / this.mainElement.clientWidth) * this.rotateSpeed);
+    // y方向平移的百分比
     this.rotateUp(2 * Math.PI * (this._rotateDelta.y / this.mainElement.clientHeight) * this.rotateSpeed);
-
+    // 将end设置为新的start
     this._rotateEnd.cloneTo(this._rotateStart);
   }
 
@@ -321,7 +323,7 @@ export class OrbitControl {
     } else if (this._zoomDelta.y < 0) {
       this.zoomIn(this.getZoomScale());
     }
-
+    // 将end复制到新的start
     this._zoomEnd.cloneTo(this._zoomStart);
   }
 
