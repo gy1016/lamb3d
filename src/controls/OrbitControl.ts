@@ -15,32 +15,38 @@ export class OrbitControl {
   maxDistance: number;
   minZoom: number;
   maxZoom: number;
+  // 是否开启阻尼，感觉没什么用，可以删掉
   enableDamping: boolean;
+  // 这个是干嘛的？？
   zoomFactor: number;
   enableRotate: boolean;
+  // 键盘平移速度，可以删掉
   keyPanSpeed: number;
+  // ？？
   minPolarAngle: number;
   maxPolarAngle: number;
   minAzimuthAngle: number;
   maxAzimuthAngle: number;
   enableZoom: boolean;
+  // 阻尼因子，也可以删掉
   dampingFactor: number;
   zoomSpeed: number;
   enablePan: boolean;
   autoRotate: boolean;
   autoRotateSpeed: number = Math.PI;
   rotateSpeed: number;
+  // 是否允许键盘操作，可以删掉
   enableKeys: boolean;
+  // 键盘上下左右对应的key代码
   keys: { LEFT: number; RIGHT: number; UP: number; BOTTOM: number };
+  // 鼠标点击对应的key，其实就是左键，滚轮和右键对应的key
   mouseButtons: { ORBIT: number; ZOOM: number; PAN: number };
+  // 当前控制器处于什么状态
   STATE: {
-    TOUCH_ROTATE: number;
     ROTATE: number;
-    TOUCH_PAN: number;
     ZOOM: number;
     NONE: number;
     PAN: number;
-    TOUCH_ZOOM: number;
   };
   mouseUpEvents: { listener: any; type: string }[];
   constEvents: { listener: any; type: string; element?: Window }[];
@@ -137,9 +143,6 @@ export class OrbitControl {
       ROTATE: 0,
       ZOOM: 1,
       PAN: 2,
-      TOUCH_ROTATE: 3,
-      TOUCH_ZOOM: 4,
-      TOUCH_PAN: 5,
     };
     this._state = this.STATE.NONE;
 
@@ -153,6 +156,7 @@ export class OrbitControl {
       { type: 'mouseup', listener: this.onMouseUp.bind(this) },
     ];
 
+    // onMouseDown里面处理了mousemove和mouseup的事件
     this.constEvents.forEach((ele) => {
       if (ele.element) {
         ele.element.addEventListener(ele.type, ele.listener, false);
@@ -291,7 +295,11 @@ export class OrbitControl {
 
     if (this._state !== this.STATE.NONE) {
       const element = this.domElement === document ? this.domElement.body : this.domElement;
+      // canvas元素监听move事件
+      // onMouseMove
       this.mainElement.addEventListener(this.mouseUpEvents[0].type, this.mouseUpEvents[0].listener, false);
+      // 父级元素监听鼠标up事件
+      // onMouseUp
       element.addEventListener(this.mouseUpEvents[1].type, this.mouseUpEvents[1].listener, false);
     }
   }
