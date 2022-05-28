@@ -1,10 +1,13 @@
 import { Canvas } from './Canvas';
 import { Scene } from './Scene';
+import { Time } from './base';
 
 export class Engine {
   protected _canvas: Canvas;
   protected _gl: WebGLRenderingContext;
+
   private activeScene: Scene;
+  private _time: Time = new Time();
   private _requestId: number;
 
   get canvas(): Canvas {
@@ -13,6 +16,10 @@ export class Engine {
 
   get gl(): WebGLRenderingContext {
     return this._gl;
+  }
+
+  get time(): Time {
+    return this._time;
   }
 
   private _animate = () => {
@@ -40,10 +47,17 @@ export class Engine {
   }
 
   update() {
-    console.log('update');
+    const time = this._time;
+    const deltaTime = time.deltaTime;
+    const camera = this.activeScene.camera;
+    camera.orbitControl.onUpdate(deltaTime);
+
+    time.tick();
+
+    this._render();
   }
 
-  run() {
+  _render(): void {
     const gl = this._gl;
     const entities = this.activeScene.entities;
     const camera = this.activeScene.camera;
@@ -54,5 +68,14 @@ export class Engine {
       program.uploadAll(program.cameraUniformBlock, camera.shaderData);
       mesh._draw(program, mesh.subMesh);
     });
+  }
+
+  resume(): void {
+    this.time.reset();
+    this._requestId = requestAnimationFrame(this._animate);
+  }
+
+  run() {
+    this.resume();
   }
 }

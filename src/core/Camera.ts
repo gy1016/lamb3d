@@ -1,3 +1,4 @@
+import { OrbitControl } from '@/controls/OrbitControl';
 import { MathUtil, Matrix4, Quaternion, Vector2, Vector3, Vector4 } from '../math';
 import { Engine } from './Engine';
 import { Shader, ShaderData, ShaderDataGroup } from './shader';
@@ -70,6 +71,7 @@ export class Camera {
 
   /** Rendering priority - A Camera with higher priority will be rendered on top of a camera with lower priority. */
   priority: number = 0;
+  orbitControl: OrbitControl;
 
   private _isOrthographic: boolean = false;
   private _nearClipPlane: number = 0.1;
@@ -201,6 +203,7 @@ export class Camera {
   constructor(engine: Engine) {
     this._engine = engine;
     this.transform = new Transform();
+    this.orbitControl = new OrbitControl(this);
   }
 
   private _updateShaderData(): void {
