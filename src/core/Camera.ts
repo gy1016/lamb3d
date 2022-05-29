@@ -1,4 +1,4 @@
-import { OrbitControl } from '@/controls/OrbitControl';
+import { OrbitControl } from '../controls/OrbitControl';
 import { MathUtil, Matrix4, Quaternion, Vector2, Vector3, Vector4 } from '../math';
 import { Engine } from './Engine';
 import { Shader, ShaderData, ShaderDataGroup } from './shader';
@@ -7,6 +7,7 @@ import { Transform } from './Transform';
 export class Camera {
   // 把引擎也引进来主要是为了获取到canvas的宽高
   // 便于设置透视投影矩阵与宽高比
+  // TODO待重构，抽出一个Component
   private _engine: Engine;
 
   // 主要是为了让OrbitControl获取到canvas
@@ -202,6 +203,7 @@ export class Camera {
   // TODO
   constructor(engine: Engine) {
     this._engine = engine;
+    debugger;
     this.transform = new Transform();
     this.orbitControl = new OrbitControl(this);
   }

@@ -13,13 +13,14 @@
     </style>
   </head>
   <body>
-    <canvas id="gy"> your browser not support canvas </canvas>
+    <canvas id="gy" style="border: 1px solid black;"> your browser not support canvas </canvas>
     <script type="module">
       import { Engine, Scene, PrimitiveMesh, Entity, Material, Shader, Camera, Vector3 } from '../dist/index.esm.js';
 
       const lamb3d = new Engine('gy');
       const camera = new Camera(lamb3d);
-      camera.transform.setPosition(0, 0, 7.0);
+      camera.transform.position = new Vector3(0, 0, 7);
+      camera.transform.lookAt(new Vector3(0, 0, 0));
       lamb3d.activeScene.camera = camera;
 
       const shader = initShader('CustomShader');
@@ -29,7 +30,6 @@
       const entity = new Entity('cube1', mesh, material);
       
       lamb3d.activeScene.addEntity(entity);
-      debugger
       lamb3d.run();
 
       function initShader(name) {

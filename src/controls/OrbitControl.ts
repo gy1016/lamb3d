@@ -253,7 +253,7 @@ export class OrbitControl {
     let targetDistance = this._vPan.length();
 
     targetDistance *= (this.fov / 2) * (Math.PI / 180);
-
+    // 我们在这里只使用clientHeight，这样纵横比不会扭曲速度
     this.panLeft(-2 * deltaX * (targetDistance / this.mainElement.clientHeight), this.camera.transform.worldMatrix);
     this.panUp(2 * deltaY * (targetDistance / this.mainElement.clientHeight), this.camera.transform.worldMatrix);
   }
