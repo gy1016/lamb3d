@@ -268,11 +268,87 @@ export class Matrix4 {
   }
 
   /**
+   * Determines the product of two matrices.
+   * @param left - The first matrix to multiply
+   * @param right - The second matrix to multiply
+   * @param out - The product of the two matrices
+   */
+  static multiply(left: Matrix4, right: Matrix4, out: Matrix4): void {
+    const le = left.elements;
+    const re = right.elements;
+    const oe = out.elements;
+
+    const l11 = le[0],
+      l12 = le[1],
+      l13 = le[2],
+      l14 = le[3];
+    const l21 = le[4],
+      l22 = le[5],
+      l23 = le[6],
+      l24 = le[7];
+    const l31 = le[8],
+      l32 = le[9],
+      l33 = le[10],
+      l34 = le[11];
+    const l41 = le[12],
+      l42 = le[13],
+      l43 = le[14],
+      l44 = le[15];
+
+    const r11 = re[0],
+      r12 = re[1],
+      r13 = re[2],
+      r14 = re[3];
+    const r21 = re[4],
+      r22 = re[5],
+      r23 = re[6],
+      r24 = re[7];
+    const r31 = re[8],
+      r32 = re[9],
+      r33 = re[10],
+      r34 = re[11];
+    const r41 = re[12],
+      r42 = re[13],
+      r43 = re[14],
+      r44 = re[15];
+
+    oe[0] = l11 * r11 + l21 * r12 + l31 * r13 + l41 * r14;
+    oe[1] = l12 * r11 + l22 * r12 + l32 * r13 + l42 * r14;
+    oe[2] = l13 * r11 + l23 * r12 + l33 * r13 + l43 * r14;
+    oe[3] = l14 * r11 + l24 * r12 + l34 * r13 + l44 * r14;
+
+    oe[4] = l11 * r21 + l21 * r22 + l31 * r23 + l41 * r24;
+    oe[5] = l12 * r21 + l22 * r22 + l32 * r23 + l42 * r24;
+    oe[6] = l13 * r21 + l23 * r22 + l33 * r23 + l43 * r24;
+    oe[7] = l14 * r21 + l24 * r22 + l34 * r23 + l44 * r24;
+
+    oe[8] = l11 * r31 + l21 * r32 + l31 * r33 + l41 * r34;
+    oe[9] = l12 * r31 + l22 * r32 + l32 * r33 + l42 * r34;
+    oe[10] = l13 * r31 + l23 * r32 + l33 * r33 + l43 * r34;
+    oe[11] = l14 * r31 + l24 * r32 + l34 * r33 + l44 * r34;
+
+    oe[12] = l11 * r41 + l21 * r42 + l31 * r43 + l41 * r44;
+    oe[13] = l12 * r41 + l22 * r42 + l32 * r43 + l42 * r44;
+    oe[14] = l13 * r41 + l23 * r42 + l33 * r43 + l43 * r44;
+    oe[15] = l14 * r41 + l24 * r42 + l34 * r43 + l44 * r44;
+  }
+
+  /**
    * Invert the matrix.
    * @returns The matrix after invert
    */
   invert(): Matrix4 {
     Matrix4.invert(this, this);
+    return this;
+  }
+
+  /**
+   * Determines the product of this matrix and the specified matrix.
+   * @param right - The specified matrix
+   * @returns This matrix that store the product of the two matrices
+   */
+  multiply(right: Matrix4): Matrix4 {
+    Matrix4.multiply(this, right, this);
     return this;
   }
 

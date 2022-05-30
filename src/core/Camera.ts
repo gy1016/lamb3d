@@ -203,7 +203,6 @@ export class Camera {
   // TODO
   constructor(engine: Engine) {
     this._engine = engine;
-    debugger;
     this.transform = new Transform();
     this.orbitControl = new OrbitControl(this);
   }
