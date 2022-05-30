@@ -9,6 +9,8 @@ export class Entity {
   name: string;
   mesh: Mesh;
   material: Material;
+  parent: Entity;
+  _children: Entity[];
 
   readonly transform: Transform;
 
@@ -17,6 +19,6 @@ export class Entity {
     this.id = Entity._count++;
     this.mesh = mesh;
     this.material = material;
-    this.transform = new Transform();
+    this.transform = new Transform(this);
   }
 }

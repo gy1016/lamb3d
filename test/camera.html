@@ -6,17 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      #gy {
+        width: 100vw;
+        height: 100vh;
+      }
     </style>
   </head>
   <body>
-    <canvas id="gy" width="500" height="500" style="border: 1px solid black;"> your browser not support canvas </canvas>
-    <div id="gui"></div>
+    <canvas id="gy" style="border: 1px solid black;"> your browser not support canvas </canvas>
+    <!-- <div id="gui"></div> -->
     <script type="module">
       import { Engine, Scene, PrimitiveMesh, Entity, Material, Shader, Camera, Vector3 } from '../dist/index.esm.js';
 
       const lamb3d = new Engine('gy');
       const camera = new Camera(lamb3d);
       camera.transform.position = new Vector3(1, 1, 7);
+
       camera.transform.lookAt(new Vector3(0, 0, 0));
       lamb3d.activeScene.camera = camera;
 
@@ -51,10 +61,11 @@
       const gui = document.getElementById('gui');
       gui.innerHTML = `
       <p>camera.position:${camera.transform.position.x},${camera.transform.position.y},${camera.transform.position.z};</p>
+      <p>camera.rotation:${camera.transform.rotation.x},${camera.transform.rotation.y},${camera.transform.rotation.z};</p>
       <p>camera.rotationQuaternion:${camera.transform.rotationQuaternion._x},${camera.transform.rotationQuaternion._y},${camera.transform.rotationQuaternion._z},${camera.transform.rotationQuaternion._w};</p>
+      <p>camera.worldRotationQuaternion:${camera.transform.worldRotationQuaternion.x},${camera.transform.worldRotationQuaternion.y},${camera.transform.worldRotationQuaternion.z},${camera.transform.worldRotationQuaternion.w};</p>
       <p>camera.viewMatrix:${camera.viewMatrix.elements};</p>
       <p>camera.projectionMatrix:${camera.projectionMatrix.elements}</p>
-      <p>camera.vpMatrix:${camera.projectionMatrix.multiply(camera.viewMatrix).elements}</p>
       `
 
       let flag = false;
@@ -73,11 +84,12 @@
         if (flag) {
           gui.innerHTML = `
           <p>camera.position:${camera.transform.position.x},${camera.transform.position.y},${camera.transform.position.z};</p>
+          <p>camera.rotation:${camera.transform.rotation.x},${camera.transform.rotation.y},${camera.transform.rotation.z};</p>
           <p>camera.rotationQuaternion:${camera.transform.rotationQuaternion._x},${camera.transform.rotationQuaternion._y},${camera.transform.rotationQuaternion._z},${camera.transform.rotationQuaternion._w};</p>
+          <p>camera.worldRotationQuaternion:${camera.transform.worldRotationQuaternion.x},${camera.transform.worldRotationQuaternion.y},${camera.transform.worldRotationQuaternion.z},${camera.transform.worldRotationQuaternion.w};</p>
           <p>camera.viewMatrix:${camera.viewMatrix.elements};</p>
           <p>camera.projectionMatrix:${camera.projectionMatrix.elements}</p>
-          <p>camera.vpMatrix:${camera.projectionMatrix.multiply(camera.viewMatrix).elements}</p>
-        `
+          `
         }
       }
 
