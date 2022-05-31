@@ -122,6 +122,67 @@ export class PrimitiveMesh {
   }
 
   /**
+   *
+   * @param engine 引擎实例
+   * @param level 正四面体递归切分等级
+   * @returns 球网格实例
+   */
+  static createSphere(engine: Engine, level = 0): ModelMesh {
+    const gl = engine.gl;
+    const mesh = new ModelMesh(gl, 'Sphere');
+
+    const negativeRootTwoOverThree = -Math.sqrt(2.0) / 3.0;
+    const negativeOneThird = -1.0 / 3.0;
+    const rootSixOverThree = Math.sqrt(6.0) / 3.0;
+
+    const positions: Vector3[] = [];
+    positions.push(new Vector3(0, 0, 1));
+    positions.push(new Vector3(0, (2 * Math.sqrt(2)) / 3, negativeOneThird));
+    positions.push(new Vector3(-rootSixOverThree, negativeRootTwoOverThree, negativeOneThird));
+    positions.push(new Vector3(rootSixOverThree, negativeRootTwoOverThree, negativeOneThird));
+
+    let indices: any = [];
+    PrimitiveMesh.subdivide(positions, indices, [0, 1, 2], level);
+    PrimitiveMesh.subdivide(positions, indices, [0, 2, 3], level);
+    PrimitiveMesh.subdivide(positions, indices, [0, 3, 1], level);
+    PrimitiveMesh.subdivide(positions, indices, [1, 3, 2], level);
+
+    indices = new Uint16Array(indices);
+
+    PrimitiveMesh._initialize(mesh, positions, null, null, indices);
+    return mesh;
+  }
+
+  static subdivide(positions: Vector3[], indices: number[], triangle: [number, number, number], level = 0) {
+    if (level > 0) {
+      let tmp1 = new Vector3();
+      let tmp2 = new Vector3();
+      let tmp3 = new Vector3();
+
+      Vector3.add(positions[triangle[0]], positions[triangle[1]], tmp1);
+      Vector3.scale(tmp1, 0.5, tmp1);
+      Vector3.add(positions[triangle[1]], positions[triangle[2]], tmp2);
+      Vector3.scale(tmp2, 0.5, tmp2);
+      Vector3.add(positions[triangle[2]], positions[triangle[0]], tmp3);
+      Vector3.scale(tmp3, 0.5, tmp3);
+
+      positions.push(tmp1.normalize(), tmp2.normalize(), tmp3.normalize());
+
+      let i01 = positions.length - 3;
+      let i12 = positions.length - 2;
+      let i20 = positions.length - 1;
+
+      const newLevel = level - 1;
+      PrimitiveMesh.subdivide(positions, indices, [triangle[0], i01, i20], newLevel);
+      PrimitiveMesh.subdivide(positions, indices, [i01, triangle[1], i12], newLevel);
+      PrimitiveMesh.subdivide(positions, indices, [i01, i12, i20], newLevel);
+      PrimitiveMesh.subdivide(positions, indices, [i20, i12, triangle[2]], newLevel);
+    } else {
+      indices.push(...triangle);
+    }
+  }
+
+  /**
    * According a series of data ti initialize mesh
    * @param mesh object's mesh
    * @param positions object's position array
@@ -132,14 +193,15 @@ export class PrimitiveMesh {
   private static _initialize(
     mesh: ModelMesh,
     positions: Vector3[],
-    normals: Vector3[],
-    uvs: Vector2[],
+    normals: Vector3[] | null,
+    uvs: Vector2[] | null,
     indices: Uint16Array | Uint32Array,
   ) {
     mesh.setPositions(positions);
-    mesh.setNormals(normals);
-    mesh.setUVs(uvs);
     mesh.setIndices(indices);
+    // 因为不一定要显示指定法向量和纹理坐标
+    if (normals) mesh.setNormals(normals);
+    if (uvs) mesh.setUVs(uvs);
 
     mesh.uploadData();
     mesh.addSubMesh(0, indices.length);
