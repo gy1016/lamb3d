@@ -4,6 +4,7 @@ import { ShaderDataGroup } from './enums/ShaderDataGroup';
 import { ShaderUniformBlock } from './ShaderUniformBlock';
 import { ShaderData } from './ShaderData';
 import { Renderer } from '../Renderer';
+import { Vector3, Vector2 } from '../../math';
 
 export class ShaderProgram {
   private static _counter = 0;
@@ -181,6 +182,47 @@ export class ShaderProgram {
       shaderUniform.location = location;
 
       switch (type) {
+        case gl.FLOAT:
+          if (isArray) {
+            shaderUniform.applyFunc = shaderUniform.upload1fv;
+          } else {
+            shaderUniform.applyFunc = shaderUniform.upload1f;
+            shaderUniform.cacheValue = 0;
+          }
+          break;
+        case gl.FLOAT_VEC2:
+          if (isArray) {
+            shaderUniform.applyFunc = shaderUniform.upload2fv;
+          }
+          break;
+        case gl.FLOAT_VEC3:
+          if (isArray) {
+            shaderUniform.applyFunc = shaderUniform.upload3fv;
+          }
+          break;
+        case gl.FLOAT_VEC4:
+          if (isArray) {
+            shaderUniform.applyFunc = shaderUniform.upload4fv;
+          }
+          break;
+        case gl.INT:
+          if (isArray) {
+            shaderUniform.applyFunc = shaderUniform.upload1iv;
+          } else {
+            shaderUniform.applyFunc = shaderUniform.upload1i;
+            shaderUniform.cacheValue = 0;
+          }
+          break;
+        case gl.INT_VEC2:
+          if (isArray) {
+            shaderUniform.applyFunc = shaderUniform.upload2iv;
+          }
+          break;
+        case gl.INT_VEC4:
+          if (isArray) {
+            shaderUniform.applyFunc = shaderUniform.upload4iv;
+          }
+          break;
         case gl.FLOAT_MAT4:
           shaderUniform.applyFunc = isArray ? shaderUniform.uploadMat4v : shaderUniform.uploadMat4;
           break;

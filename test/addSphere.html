@@ -49,15 +49,26 @@
         'attribute vec3 POSITION;\n' + 
         'uniform mat4 u_viewMat;\n' + 
         'uniform mat4 u_projMat;\n' + 
+        'varying vec3 v_Normal;\n' + 
         'void main() {\n' + 
         '  gl_Position = u_projMat * u_viewMat * vec4(POSITION, 1.0);\n' + 
+        '  v_Normal = normalize(POSITION);\n' + 
         '}\n';
 
         // Fragment shader program
         var FSHADER_SOURCE =
         'precision mediump float;\n' + 
+        '#define oneovertwopi 0.15915494309189535\n' + 
+        '#define oneoverpi 0.3183098861837907\n' + 
+        'varying vec3 v_Normal;\n' + 
+        'uniform sampler2D u_Sampler;\n' + 
+        'vec2 ComputeTextureCoordinates(vec3 normal) {\n' + 
+        '  return vec2(atan(normal.y, normal.x) * oneovertwopi + 0.5, asin(normal.z) * oneoverpi + 0.5);\n' + 
+        '}\n' +
         'void main() {\n' + 
-        '  gl_FragColor = vec4(0.5, 0.0, 0.0, 0.5);\n' + 
+        '  vec3 normal = normalize(v_Normal);\n' + 
+        // '  gl_FragColor = vec4(0.5, 0.0, 0.0, 0.5);\n' + 
+        '  gl_FragColor = texture2D(u_Sampler, ComputeTextureCoordinates(normal));\n' + 
         '}\n';
 
         return Shader.create(name, VSHADER_SOURCE, FSHADER_SOURCE)
