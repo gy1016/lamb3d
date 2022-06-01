@@ -1,15 +1,23 @@
 import { Matrix4, Vector2, Vector3, Vector4 } from '../../math';
+import { Texture } from '../texture';
 import { ShaderDataGroup } from './enums/ShaderDataGroup';
 import { Shader } from './Shader';
 import { ShaderProperty } from './ShaderProperty';
 
-export type ShaderPropertyValueType = number | Vector2 | Vector3 | Vector4 | Matrix4 | Int32Array | Float32Array;
+export type ShaderPropertyValueType =
+  | number
+  | Vector2
+  | Vector3
+  | Vector4
+  | Matrix4
+  | Texture
+  | Texture[]
+  | Int32Array
+  | Float32Array;
 
 export class ShaderData {
   _group: ShaderDataGroup;
   _properties: Record<number, ShaderPropertyValueType> = Object.create(null);
-
-  private _refCount: number = 0;
 
   constructor(group: ShaderDataGroup) {
     this._group = group;
@@ -326,6 +334,43 @@ export class ShaderData {
     return this._properties[property._uniqueId] as T;
   }
 
+  /**
+   * Get texture by shader property name.
+   * @param propertyName - Shader property name
+   * @returns Texture
+   */
+  getTexture(propertyName: string): Texture;
+
+  /**
+   * Get texture by shader property.
+   * @param property - Shader property
+   * @returns Texture
+   */
+  getTexture(property: ShaderProperty): Texture;
+
+  getTexture(property: string | ShaderProperty): Texture {
+    return this._getData(property);
+  }
+
+  /**
+   * Set texture by shader property name.
+   * @param propertyName - Shader property name
+   * @param value - Texture
+   */
+  setTexture(propertyName: string, value: Texture): void;
+
+  /**
+   * Set texture by shader property.
+   * @param property - Shader property
+   * @param value - Texture
+   */
+  setTexture(property: ShaderProperty, value: Texture): void;
+
+  setTexture(property: string | ShaderProperty, value: Texture): void {
+    this._setData(property, value);
+  }
+
+  // 设置数据的时候顺便指定了分组！！！
   _setData<T extends ShaderPropertyValueType>(property: string | ShaderProperty, value: T): void {
     if (typeof property === 'string') {
       property = Shader.getPropertyByName(property);

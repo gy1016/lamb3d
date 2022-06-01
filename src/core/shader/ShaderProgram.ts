@@ -4,7 +4,6 @@ import { ShaderDataGroup } from './enums/ShaderDataGroup';
 import { ShaderUniformBlock } from './ShaderUniformBlock';
 import { ShaderData } from './ShaderData';
 import { Renderer } from '../Renderer';
-import { Vector3, Vector2 } from '../../math';
 
 export class ShaderProgram {
   private static _counter = 0;
@@ -24,6 +23,7 @@ export class ShaderProgram {
   private _vertexShader: WebGLShader;
   private _fragmentShader: WebGLShader;
   private _glProgram: WebGLProgram;
+  // 当前激活的纹理单元
   private _activeTextureUint: number = 0;
 
   get glProgram() {
@@ -118,6 +118,7 @@ export class ShaderProgram {
     return shader;
   }
 
+  // 将纹理数据或者uniform数据推入对应组的block
   private _groupingUniform(uniform: ShaderUniform, group: ShaderDataGroup, isTexture: boolean): void {
     switch (group) {
       case ShaderDataGroup.Scene:
@@ -160,7 +161,6 @@ export class ShaderProgram {
   /**
    * record the location of uniform/attribute.
    */
-  // 再分配地址的同时，通过_groupingUniform将其分组
   private _recordLocation() {
     const gl = this._gl;
     const program = this._glProgram;
@@ -287,12 +287,15 @@ export class ShaderProgram {
    * @param shaderData - shader data
    */
   uploadUniforms(uniformBlock: ShaderUniformBlock, shaderData: ShaderData): void {
+    // shaderData._properties是根据shaderproperty的id的值的哈希表
+    // 因为以数字为键效率更高
     const properties = shaderData._properties;
     const constUniforms = uniformBlock.constUniforms;
 
     for (let i = 0, n = constUniforms.length; i < n; i++) {
       const uniform = constUniforms[i];
       const data = properties[uniform.propertyId];
+      // 这里相当于把CPU中的值分配给GPU
       data != null && uniform.applyFunc(uniform, data);
     }
   }

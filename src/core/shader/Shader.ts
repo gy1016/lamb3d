@@ -41,6 +41,7 @@ export class Shader {
     if (propertyNameMap[name] != null) {
       return propertyNameMap[name];
     } else {
+      // 实例化的时候并不分配分组
       const property = new ShaderProperty(name);
       propertyNameMap[name] = property;
       return property;
