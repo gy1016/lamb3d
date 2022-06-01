@@ -24,6 +24,7 @@ export class ShaderProgram {
   private _vertexShader: WebGLShader;
   private _fragmentShader: WebGLShader;
   private _glProgram: WebGLProgram;
+  private _activeTextureUint: number = 0;
 
   get glProgram() {
     return this._glProgram;
@@ -159,6 +160,7 @@ export class ShaderProgram {
   /**
    * record the location of uniform/attribute.
    */
+  // 再分配地址的同时，通过_groupingUniform将其分组
   private _recordLocation() {
     const gl = this._gl;
     const program = this._glProgram;
@@ -226,6 +228,12 @@ export class ShaderProgram {
         case gl.FLOAT_MAT4:
           shaderUniform.applyFunc = isArray ? shaderUniform.uploadMat4v : shaderUniform.uploadMat4;
           break;
+        case gl.SAMPLER_2D:
+          isTexture = true;
+          const textureIndex = gl.TEXTURE0 + this._activeTextureUint;
+          shaderUniform.textureIndex = textureIndex;
+          shaderUniform.applyFunc = shaderUniform.uploadTexture;
+          gl.uniform1i(location, this._activeTextureUint++);
       }
       this._groupingUniform(shaderUniform, group, isTexture);
     });
@@ -270,6 +278,7 @@ export class ShaderProgram {
    */
   uploadAll(uniformBlock: ShaderUniformBlock, shaderData: ShaderData): void {
     this.uploadUniforms(uniformBlock, shaderData);
+    this.uploadTextures(uniformBlock, shaderData);
   }
 
   /**
@@ -285,6 +294,26 @@ export class ShaderProgram {
       const uniform = constUniforms[i];
       const data = properties[uniform.propertyId];
       data != null && uniform.applyFunc(uniform, data);
+    }
+  }
+
+  /**
+   * Upload texture shader data in shader uniform block.
+   * @param uniformBlock - shader Uniform block
+   * @param shaderData - shader data
+   */
+  uploadTextures(uniformBlock: ShaderUniformBlock, shaderData: ShaderData): void {
+    const properties = shaderData._properties;
+    const textureUniforms = uniformBlock.textureUniforms;
+    // textureUniforms property maybe null if ShaderUniformBlock not contain any texture.
+    if (textureUniforms) {
+      for (let i = 0, n = textureUniforms.length; i < n; i++) {
+        const uniform = textureUniforms[i];
+        const texture = properties[uniform.propertyId];
+        if (texture) {
+          uniform.applyFunc(uniform, texture);
+        }
+      }
     }
   }
 

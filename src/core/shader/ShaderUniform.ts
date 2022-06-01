@@ -1,4 +1,5 @@
 import { Matrix4, Vector2, Vector3, Vector4 } from '../../math';
+import { Texture } from '../texture';
 import { ShaderPropertyValueType } from './ShaderData';
 
 export class ShaderUniform {
@@ -7,6 +8,8 @@ export class ShaderUniform {
   location: WebGLUniformLocation;
   applyFunc: (shaderUniform: ShaderUniform, value: ShaderPropertyValueType) => void;
   cacheValue: number | Vector2 | Vector3 | Vector4;
+  textureIndex: GLenum | GLenum[];
+  textureDefault: Texture | Texture[];
 
   private _gl: WebGLRenderingContext;
 
@@ -67,4 +70,6 @@ export class ShaderUniform {
   uploadMat4v(shaderUniform: ShaderUniform, value: Float32Array): void {
     this._gl.uniformMatrix4fv(shaderUniform.location, false, value);
   }
+
+  uploadTexture(shaderUniform: ShaderUniform, value: Texture): void {}
 }
