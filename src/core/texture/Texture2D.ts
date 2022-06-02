@@ -27,6 +27,7 @@ export class Texture2D extends Texture {
     this._gl = engine.gl;
     this._glTexture = this._gl.createTexture();
     this._glTarget = this._gl.TEXTURE_2D;
+    this._formatDetail = Texture._getFormatDetail(format, this._gl);
   }
 
   setPixelBuffer(
@@ -38,16 +39,34 @@ export class Texture2D extends Texture {
     height?: number,
   ): void {
     const gl = this._gl;
-    const format = this._format;
-
+    const { internalFormat, baseFormat, dataType, isCompressed } = this._formatDetail;
     const mipWidth = Math.max(1, this._width >> mipLevel);
     const mipHeight = Math.max(1, this.height >> mipLevel);
 
     width = width || mipWidth - x;
     height = height || mipHeight - y;
 
+    gl.bindTexture(this._glTarget, this._glTexture);
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 0);
-    // 这里我直接把数据的type写死了，待考虑！！
-    gl.texSubImage2D(this._glTarget, mipLevel, x, y, width, height, format, gl.UNSIGNED_BYTE, colorBuffer);
+    gl.texParameteri(this._glTarget, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    // gl.texSubImage2D(this._glTarget, mipLevel, x, y, width, height, baseFormat, dataType, colorBuffer);
+    gl.texImage2D(this._glTarget, mipLevel, internalFormat, width, height, 0, baseFormat, dataType, colorBuffer);
+  }
+
+  setImageSource(
+    imageSource: TexImageSource,
+    mipLevel: number,
+    flipY: boolean,
+    premultiplyAlpha: boolean,
+    x: number,
+    y: number,
+  ): void {
+    const gl = this._gl;
+    const { baseFormat, dataType } = this._formatDetail;
+
+    gl.bindTexture(this._glTarget, this._glTexture);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, +flipY);
+    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, +premultiplyAlpha);
+    gl.texSubImage2D(this._glTarget, mipLevel, x || 0, y || 0, baseFormat, dataType, imageSource);
   }
 }

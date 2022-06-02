@@ -234,7 +234,6 @@ export class ShaderProgram {
           break;
         case gl.SAMPLER_2D:
         case gl.SAMPLER_CUBE:
-          debugger;
           let defaultTexture: Texture;
           switch (type) {
             case gl.SAMPLER_2D:
