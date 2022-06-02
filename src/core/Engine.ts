@@ -48,7 +48,7 @@ export class Engine {
     this._gl = gl;
     this.activeScene = new Scene();
 
-    const whitePixel = new Uint8Array([255, 255, 255, 255]);
+    const whitePixel = new Uint8Array([0, 0, 0, 255]);
     const whiteTexture2D = new Texture2D(this, 1, 1, TextureFormat.R8G8B8A8, false);
     whiteTexture2D.setPixelBuffer(whitePixel);
 
@@ -76,6 +76,7 @@ export class Engine {
       const program = material.shader._getShaderProgram(this);
       // 上传相机的数据，这里还需要上传其他模块的数据，比如：场景，材质等
       program.uploadAll(program.cameraUniformBlock, camera.shaderData);
+      program.uploadAll(program.materialUniformBlock, material.shaderData);
       mesh._draw(program, mesh.subMesh);
     });
   }
