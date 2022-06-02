@@ -36,6 +36,7 @@ export class Shader {
    * @param name - Name of the shader property
    * @returns Shader property
    */
+  // 不存在就创建一个
   static getPropertyByName(name: string): ShaderProperty {
     const propertyNameMap = Shader._propertyNameMap;
     if (propertyNameMap[name] != null) {
