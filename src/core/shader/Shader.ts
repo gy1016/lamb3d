@@ -1,3 +1,4 @@
+import { Engine } from '../Engine';
 import { ShaderDataGroup } from './enums/ShaderDataGroup';
 import { ShaderProgram } from './ShaderProgram';
 import { ShaderProperty } from './ShaderProperty';
@@ -71,11 +72,11 @@ export class Shader {
     return Shader._shaderMap[name];
   }
 
-  _getShaderProgram(gl: WebGLRenderingContext): ShaderProgram {
+  _getShaderProgram(engine: Engine): ShaderProgram {
     // 将来可能在这里拼接glsl
     const vertexSource = this._vertexSource;
     const fragmentSource = this._fragmentSource;
 
-    return new ShaderProgram(gl, vertexSource, fragmentSource);
+    return new ShaderProgram(engine, vertexSource, fragmentSource);
   }
 }

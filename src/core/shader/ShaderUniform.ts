@@ -71,5 +71,10 @@ export class ShaderUniform {
     this._gl.uniformMatrix4fv(shaderUniform.location, false, value);
   }
 
-  uploadTexture(shaderUniform: ShaderUniform, value: Texture): void {}
+  uploadTexture(shaderUniform: ShaderUniform, value: Texture): void {
+    // 开启第x号纹理单元
+    this._gl.activeTexture(shaderUniform.textureIndex as GLenum);
+    // 向target绑定纹理对象
+    this._gl.bindTexture(value._glTarget, value._glTexture);
+  }
 }

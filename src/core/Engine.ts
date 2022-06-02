@@ -1,6 +1,7 @@
 import { Canvas } from './Canvas';
 import { Scene } from './Scene';
 import { Time } from './base';
+import { Texture2D, TextureFormat } from './texture';
 
 export class Engine {
   protected _canvas: Canvas;
@@ -9,6 +10,8 @@ export class Engine {
   private activeScene: Scene;
   private _time: Time = new Time();
   private _requestId: number;
+
+  _whiteTexture2D: Texture2D;
 
   get canvas(): Canvas {
     return this._canvas;
@@ -44,6 +47,12 @@ export class Engine {
     if (!gl) throw `init webgl rendering context failure!`;
     this._gl = gl;
     this.activeScene = new Scene();
+
+    const whitePixel = new Uint8Array([255, 255, 255, 255]);
+    const whiteTexture2D = new Texture2D(this, 1, 1, TextureFormat.R8G8B8A8, false);
+    whiteTexture2D.setPixelBuffer(whitePixel);
+
+    this._whiteTexture2D = whiteTexture2D;
   }
 
   update() {
@@ -64,7 +73,8 @@ export class Engine {
     camera && camera.render();
     entities.forEach((entity) => {
       const { mesh, material } = entity;
-      const program = material.shader._getShaderProgram(gl);
+      const program = material.shader._getShaderProgram(this);
+      // 上传相机的数据，这里还需要上传其他模块的数据，比如：场景，材质等
       program.uploadAll(program.cameraUniformBlock, camera.shaderData);
       mesh._draw(program, mesh.subMesh);
     });

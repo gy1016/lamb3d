@@ -14,6 +14,6 @@ export class Material {
     this.shader = shader;
     const shaderData = this.shaderData;
 
-    shaderData.setTexture(Material._sampleprop);
+    // shaderData.setTexture(Material._sampleprop);
   }
 }

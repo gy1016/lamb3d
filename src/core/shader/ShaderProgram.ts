@@ -4,6 +4,8 @@ import { ShaderDataGroup } from './enums/ShaderDataGroup';
 import { ShaderUniformBlock } from './ShaderUniformBlock';
 import { ShaderData } from './ShaderData';
 import { Renderer } from '../Renderer';
+import { Engine } from '../Engine';
+import { Texture } from '../texture';
 
 export class ShaderProgram {
   private static _counter = 0;
@@ -19,6 +21,7 @@ export class ShaderProgram {
   attributeLocation: Record<string, GLint> = Object.create(null);
 
   private _isValid: boolean;
+  private _engine: Engine;
   private _gl: WebGLRenderingContext;
   private _vertexShader: WebGLShader;
   private _fragmentShader: WebGLShader;
@@ -37,8 +40,9 @@ export class ShaderProgram {
     return this._isValid;
   }
 
-  constructor(gl: WebGLRenderingContext, vertexSource: string, fragmentSource: string) {
-    this._gl = gl;
+  constructor(engine: Engine, vertexSource: string, fragmentSource: string) {
+    this._engine = engine;
+    this._gl = engine.gl;
     this._glProgram = this._createProgram(vertexSource, fragmentSource);
     this.bind();
 
@@ -229,11 +233,28 @@ export class ShaderProgram {
           shaderUniform.applyFunc = isArray ? shaderUniform.uploadMat4v : shaderUniform.uploadMat4;
           break;
         case gl.SAMPLER_2D:
+        case gl.SAMPLER_CUBE:
+          debugger;
+          let defaultTexture: Texture;
+          switch (type) {
+            case gl.SAMPLER_2D:
+              defaultTexture = this._engine._whiteTexture2D;
+              break;
+            case gl.SAMPLER_CUBE:
+              // 待作，添加一个默认包围盒
+              break;
+            default:
+              throw new Error('Unsupported texture type.');
+          }
+
           isTexture = true;
           const textureIndex = gl.TEXTURE0 + this._activeTextureUint;
+
+          shaderUniform.textureDefault = defaultTexture;
           shaderUniform.textureIndex = textureIndex;
           shaderUniform.applyFunc = shaderUniform.uploadTexture;
           gl.uniform1i(location, this._activeTextureUint++);
+          shaderUniform.uploadTexture(shaderUniform, defaultTexture);
       }
       this._groupingUniform(shaderUniform, group, isTexture);
     });
