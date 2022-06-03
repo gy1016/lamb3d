@@ -48,7 +48,7 @@ export class Engine {
     this._gl = gl;
     this.activeScene = new Scene();
 
-    const whitePixel = new Uint8Array([0, 0, 0, 255]);
+    const whitePixel = new Uint8Array([255, 255, 255, 255]);
     const whiteTexture2D = new Texture2D(this, 1, 1, TextureFormat.R8G8B8A8, false);
     whiteTexture2D.setPixelBuffer(whitePixel);
 

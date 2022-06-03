@@ -58,15 +58,17 @@ export class Texture2D extends Texture {
     mipLevel: number,
     flipY: boolean,
     premultiplyAlpha: boolean,
-    x: number,
-    y: number,
+    x: number = 0,
+    y: number = 0,
   ): void {
     const gl = this._gl;
-    const { baseFormat, dataType } = this._formatDetail;
+    const { baseFormat, dataType, internalFormat } = this._formatDetail;
 
     gl.bindTexture(this._glTarget, this._glTexture);
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, +flipY);
     gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, +premultiplyAlpha);
-    gl.texSubImage2D(this._glTarget, mipLevel, x || 0, y || 0, baseFormat, dataType, imageSource);
+    // gl.texSubImage2D(this._glTarget, mipLevel, x || 0, y || 0, baseFormat, dataType, imageSource);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texImage2D(this._glTarget, mipLevel, internalFormat, baseFormat, dataType, imageSource);
   }
 }

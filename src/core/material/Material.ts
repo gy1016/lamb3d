@@ -18,11 +18,9 @@ export class Material {
     this.shader = shader;
 
     const shaderData = this.shaderData;
-    const url = `https://121.199.160.202/images/earth.jpg`;
+    const url = `http://121.199.160.202/images/earth.jpg`;
     this.loadEarthTexture(url)
       .then((image) => {
-        debugger;
-        console.log(image);
         this._earthTexture2D = new Texture2D(engine, image.width, image.height, TextureFormat.R8G8B8, false);
         this._earthTexture2D.setImageSource(image, 0, true, false, 0, 0);
         shaderData.setTexture(Material._sampleprop, this._earthTexture2D);
@@ -42,6 +40,7 @@ export class Material {
         reject(error);
       };
       image.src = url;
+      image.crossOrigin = 'anonymous';
     });
   }
 }
