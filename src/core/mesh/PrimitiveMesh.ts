@@ -153,6 +153,73 @@ export class PrimitiveMesh {
     return mesh;
   }
 
+  /**
+   * Create a sphere mesh.
+   * @param engine - Engine
+   * @param radius - Sphere radius
+   * @param segments - Number of segments
+   * @returns Sphere model mesh
+   */
+  static createSphere2(engine: Engine, radius: number = 0.5, segments: number = 18): ModelMesh {
+    const mesh = new ModelMesh(engine.gl);
+    segments = Math.max(2, Math.floor(segments));
+
+    const count = segments + 1;
+    const vertexCount = count * count;
+    const rectangleCount = segments * segments;
+    const indices = new Uint16Array(rectangleCount * 6);
+    const thetaRange = Math.PI;
+    const alphaRange = thetaRange * 2;
+    const countReciprocal = 1.0 / count;
+    const segmentsReciprocal = 1.0 / segments;
+
+    const positions: Vector3[] = new Array(vertexCount);
+    const normals: Vector3[] = new Array(vertexCount);
+    const uvs: Vector2[] = new Array(vertexCount);
+
+    for (let i = 0; i < vertexCount; ++i) {
+      const x = i % count;
+      const y = (i * countReciprocal) | 0;
+      const u = x * segmentsReciprocal;
+      const v = y * segmentsReciprocal;
+      const alphaDelta = u * alphaRange;
+      const thetaDelta = v * thetaRange;
+      const sinTheta = Math.sin(thetaDelta);
+
+      let posX = -radius * Math.cos(alphaDelta) * sinTheta;
+      let posY = radius * Math.cos(thetaDelta);
+      let posZ = radius * Math.sin(alphaDelta) * sinTheta;
+
+      // Position
+      positions[i] = new Vector3(posX, posY, posZ);
+      // Normal
+      normals[i] = new Vector3(posX, posY, posZ);
+      // Texcoord
+      uvs[i] = new Vector2(u, v);
+    }
+
+    let offset = 0;
+    for (let i = 0; i < rectangleCount; ++i) {
+      const x = i % segments;
+      const y = (i * segmentsReciprocal) | 0;
+
+      const a = y * count + x;
+      const b = a + 1;
+      const c = a + count;
+      const d = c + 1;
+
+      indices[offset++] = b;
+      indices[offset++] = a;
+      indices[offset++] = d;
+      indices[offset++] = a;
+      indices[offset++] = c;
+      indices[offset++] = d;
+    }
+
+    PrimitiveMesh._initialize(mesh, positions, normals, uvs, indices);
+    return mesh;
+  }
+
   static subdivide(positions: Vector3[], indices: number[], triangle: [number, number, number], level = 0) {
     if (level > 0) {
       let tmp1 = new Vector3();

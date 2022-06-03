@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      #gy {
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="gy"> your browser not support canvas </canvas>
+    <script type="module">
+      import { Engine, Scene, PrimitiveMesh, Entity, Material, Shader, Camera, Vector3 } from '../dist/index.esm.js';
+
+      const lamb3d = new Engine('gy');
+      const camera = new Camera(lamb3d);
+      camera.transform.position = new Vector3(0, 0, 3);
+
+      camera.transform.lookAt(new Vector3(0, 0, 0));
+      lamb3d.activeScene.camera = camera;
+
+      const shader = initShader('CustomShader');
+      const material = new Material(lamb3d, shader);
+
+      const mesh = PrimitiveMesh.createSphere2(lamb3d, 1, 25);
+      const entity = new Entity('Sphere1', mesh, material);
+      
+      lamb3d.activeScene.addEntity(entity);
+      lamb3d.run();
+
+      function initShader(name) {
+        var VSHADER_SOURCE = 
+        'attribute vec3 POSITION;\n' + 
+        'attribute vec3 NORMAL;\n' +
+        'attribute vec2 TEXCOORD_0;\n' +
+        'uniform mat4 u_viewMat;\n' + 
+        'uniform mat4 u_projMat;\n' + 
+        'varying vec3 v_Normal;\n' + 
+        'varying vec2 v_TexCoord;\n' +
+        'void main() {\n' + 
+        '  gl_Position = u_projMat * u_viewMat * vec4(POSITION, 1.0);\n' + 
+        '  v_Normal = normalize(NORMAL);\n' + 
+        '  v_TexCoord = TEXCOORD_0;\n' +
+        '}\n';
+
+        // Fragment shader program
+        var FSHADER_SOURCE =
+        'precision mediump float;\n' + 
+        '#define oneovertwopi 0.15915494309189535\n' + 
+        '#define oneoverpi 0.3183098861837907\n' + 
+        'varying vec3 v_Normal;\n' + 
+        'varying vec2 v_TexCoord;\n' +
+        'uniform sampler2D u_Sampler;\n' + 
+        'vec2 ComputeTextureCoordinates(vec3 normal) {\n' + 
+        '  return vec2(atan(normal.y, normal.x) * oneovertwopi + 0.5, asin(normal.z) * oneoverpi + 0.5);\n' + 
+        '}\n' +
+        'void main() {\n' + 
+        '  vec3 normal = normalize(v_Normal);\n' + 
+        // '  gl_FragColor = vec4(0.5, 0.0, 0.0, 0.5);\n' + 
+        '  gl_FragColor = texture2D(u_Sampler, v_TexCoord);\n' + 
+        '}\n';
+
+        return Shader.create(name, VSHADER_SOURCE, FSHADER_SOURCE)
+      }
+    </script>
+  </body>
+</html>
