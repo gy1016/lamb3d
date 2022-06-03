@@ -127,7 +127,7 @@ export class PrimitiveMesh {
    * @param level 正四面体递归切分等级
    * @returns 球网格实例
    */
-  static createSphere(engine: Engine, level = 0): ModelMesh {
+  static createSphereBySliceTetrahedron(engine: Engine, level = 0): ModelMesh {
     const gl = engine.gl;
     const mesh = new ModelMesh(gl, 'Sphere');
 
@@ -160,7 +160,7 @@ export class PrimitiveMesh {
    * @param segments - Number of segments
    * @returns Sphere model mesh
    */
-  static createSphere2(engine: Engine, radius: number = 0.5, segments: number = 18): ModelMesh {
+  static createSphereByParamEquation(engine: Engine, radius: number = 0.5, segments: number = 18): ModelMesh {
     const mesh = new ModelMesh(engine.gl);
     segments = Math.max(2, Math.floor(segments));
 

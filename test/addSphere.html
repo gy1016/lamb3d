@@ -38,7 +38,7 @@
       const shader = initShader('CustomShader');
       const material = new Material(lamb3d, shader);
 
-      const mesh = PrimitiveMesh.createSphere(lamb3d, 5);
+      const mesh = PrimitiveMesh.createSphereBySliceTetrahedron(lamb3d, 5);
       const entity = new Entity('Sphere1', mesh, material);
       
       lamb3d.activeScene.addEntity(entity);
