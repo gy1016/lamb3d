@@ -7,6 +7,8 @@ export class Light {
   private _viewMat: Matrix4;
   private _inverseViewMat: Matrix4;
 
+  // 这个暂时没什么用
+  // 因为我们的点光源采用的是世界坐标系
   get viewMatrix() {
     if (!this._viewMat) this._viewMat = new Matrix4();
     Matrix4.invert(this.transform.worldMatrix, this._viewMat);

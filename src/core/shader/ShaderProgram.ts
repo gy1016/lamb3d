@@ -203,6 +203,7 @@ export class ShaderProgram {
           }
           break;
         case gl.FLOAT_VEC3:
+          // 这里要考虑数组的情况TODO
           shaderUniform.applyFunc = shaderUniform.upload3fv;
           break;
         case gl.FLOAT_VEC4:

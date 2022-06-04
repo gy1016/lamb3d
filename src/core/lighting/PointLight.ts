@@ -4,6 +4,7 @@ import { Shader, ShaderData, ShaderProperty } from '../shader';
 import { Light } from './Light';
 
 export class PointLight extends Light {
+  // 因为可能有多个点光源
   private static _colorProperty: ShaderProperty = Shader.getPropertyByName('u_pointLightColor');
   private static _positionProperty: ShaderProperty = Shader.getPropertyByName('u_pointLightPosition');
 
