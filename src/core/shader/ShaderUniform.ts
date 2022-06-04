@@ -1,6 +1,7 @@
-import { Matrix4, Vector2, Vector3, Vector4 } from '../../math';
+import { Matrix4, Vector2, Vector3, Vector4, Color } from '../../math';
 import { Texture } from '../texture';
 import { ShaderPropertyValueType } from './ShaderData';
+import { ColorSpace } from '../enums/ColorSpace';
 
 export class ShaderUniform {
   name: string;
@@ -12,6 +13,7 @@ export class ShaderUniform {
   textureDefault: Texture | Texture[];
 
   private _gl: WebGLRenderingContext;
+  private _colorSpace: ColorSpace;
 
   constructor(gl: WebGLRenderingContext) {
     this._gl = gl;
@@ -30,6 +32,38 @@ export class ShaderUniform {
 
   upload2fv(shaderUniform: ShaderUniform, value: Float32Array): void {
     this._gl.uniform2fv(shaderUniform.location, value);
+  }
+
+  upload3f(shaderUniform: ShaderUniform, value: Vector3 | Vector4 | Color): void {
+    const cacheValue = <Vector3>this.cacheValue;
+    if ((<Color>value).r !== undefined) {
+      if (cacheValue.x !== (<Color>value).r || cacheValue.y !== (<Color>value).g || cacheValue.z !== (<Color>value).b) {
+        if (this._colorSpace === ColorSpace.Linear) {
+          this._gl.uniform3f(
+            shaderUniform.location,
+            Color.gammaToLinearSpace((<Color>value).r),
+            Color.gammaToLinearSpace((<Color>value).g),
+            Color.gammaToLinearSpace((<Color>value).b),
+          );
+        } else {
+          this._gl.uniform3f(shaderUniform.location, (<Color>value).r, (<Color>value).g, (<Color>value).b);
+        }
+        cacheValue.x = (<Color>value).r;
+        cacheValue.y = (<Color>value).g;
+        cacheValue.z = (<Color>value).b;
+      }
+    } else {
+      if (
+        cacheValue.x !== (<Vector3>value).x ||
+        cacheValue.y !== (<Vector3>value).y ||
+        cacheValue.z !== (<Vector3>value).z
+      ) {
+        this._gl.uniform3f(shaderUniform.location, (<Vector3>value).x, (<Vector3>value).y, (<Vector3>value).z);
+        cacheValue.x = (<Vector3>value).x;
+        cacheValue.y = (<Vector3>value).y;
+        cacheValue.z = (<Vector3>value).z;
+      }
+    }
   }
 
   upload3fv(shaderUniform: ShaderUniform, value: Float32Array): void {

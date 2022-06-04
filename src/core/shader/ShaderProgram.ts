@@ -6,6 +6,7 @@ import { ShaderData } from './ShaderData';
 import { Renderer } from '../Renderer';
 import { Engine } from '../Engine';
 import { Texture } from '../texture';
+import { Vector3 } from '../../math';
 
 export class ShaderProgram {
   private static _counter = 0;
@@ -202,9 +203,7 @@ export class ShaderProgram {
           }
           break;
         case gl.FLOAT_VEC3:
-          if (isArray) {
-            shaderUniform.applyFunc = shaderUniform.upload3fv;
-          }
+          shaderUniform.applyFunc = shaderUniform.upload3fv;
           break;
         case gl.FLOAT_VEC4:
           if (isArray) {

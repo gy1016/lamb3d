@@ -5,3 +5,4 @@ export { Matrix3 } from './Matrix3';
 export { Matrix4 } from './Matrix4';
 export { Quaternion } from './Quaternion';
 export { MathUtil } from './MathUtil';
+export { Color } from './Color';

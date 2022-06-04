@@ -68,13 +68,15 @@ export class Engine {
 
   _render(): void {
     const gl = this._gl;
-    const entities = this.activeScene.entities;
-    const camera = this.activeScene.camera;
+    const scene = this.activeScene;
+    const entities = scene.entities;
+    const camera = scene.camera;
     camera && camera.render();
     entities.forEach((entity) => {
       const { mesh, material } = entity;
       const program = material.shader._getShaderProgram(this);
       // 上传相机的数据，这里还需要上传其他模块的数据，比如：场景，材质等
+      program.uploadAll(program.sceneUniformBlock, scene.shaderData);
       program.uploadAll(program.cameraUniformBlock, camera.shaderData);
       program.uploadAll(program.materialUniformBlock, material.shaderData);
       mesh._draw(program, mesh.subMesh);

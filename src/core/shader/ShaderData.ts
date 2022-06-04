@@ -1,4 +1,4 @@
-import { Matrix4, Vector2, Vector3, Vector4 } from '../../math';
+import { Color, Matrix4, Vector2, Vector3, Vector4 } from '../../math';
 import { Texture } from '../texture';
 import { ShaderDataGroup } from './enums/ShaderDataGroup';
 import { Shader } from './Shader';
@@ -9,6 +9,7 @@ export type ShaderPropertyValueType =
   | Vector2
   | Vector3
   | Vector4
+  | Color
   | Matrix4
   | Texture
   | Texture[]

@@ -22,7 +22,6 @@
       const material = new Material('feng', shader);
       const mesh = PrimitiveMesh.createCuboid(1, 1, 1);
       const entity = new Entity('cube1', mesh, material);
-      debugger
       entity.transform.translate(1, 1, 1);
       console.log(entity.transform.localMatrix);
       engine.addEntity(entity);
