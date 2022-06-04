@@ -49,12 +49,25 @@
         'attribute vec3 POSITION;\n' + 
         'attribute vec3 NORMAL;\n' +
         'attribute vec2 TEXCOORD_0;\n' +
+
         'uniform mat4 u_viewMat;\n' + 
         'uniform mat4 u_projMat;\n' + 
+        'uniform vec3 u_cameraPos;\n' + 
+        'uniform vec3 u_lightPos;\n' + 
+
         'varying vec3 v_Normal;\n' + 
+        'varying vec3 worldPostion;\n' + 
+        'varying vec3 positionToLight;\n' + 
+        'varying vec3 positionToEye;\n' + 
         'varying vec2 v_TexCoord;\n' +
+
         'void main() {\n' + 
         '  gl_Position = u_projMat * u_viewMat * vec4(POSITION, 1.0);\n' + 
+
+        '  worldPostion = POSITION;\n' + 
+        '  positionToLight = u_lightPos - POSITION;\n' +
+        '  positionToEye = u_cameraPos - POSITION;\n' +
+        
         '  v_Normal = normalize(NORMAL);\n' + 
         '  v_TexCoord = TEXCOORD_0;\n' +
         '}\n';
@@ -62,9 +75,15 @@
         // Fragment shader program
         var FSHADER_SOURCE =
         'precision mediump float;\n' + 
+
         'varying vec3 v_Normal;\n' + 
+        'varying vec3 worldPostion;\n' + 
+        'varying vec3 positionToLight;\n' + 
+        'varying vec3 positionToEye;\n' +
         'varying vec2 v_TexCoord;\n' +
+
         'uniform sampler2D u_Sampler;\n' + 
+
         'void main() {\n' + 
         '  vec3 normal = normalize(v_Normal);\n' + 
         '  gl_FragColor = texture2D(u_Sampler, v_TexCoord);\n' + 

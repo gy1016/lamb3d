@@ -22,7 +22,7 @@ export class Material {
     this.loadEarthTexture(url)
       .then((image) => {
         this._earthTexture2D = new Texture2D(engine, image.width, image.height, TextureFormat.R8G8B8, false);
-        this._earthTexture2D.setImageSource(image, 0, true, false, 0, 0);
+        this._earthTexture2D.setImageSource(image, 0, false, false, 0, 0);
         shaderData.setTexture(Material._sampleprop, this._earthTexture2D);
       })
       .catch((err) => {
