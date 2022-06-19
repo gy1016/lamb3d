@@ -7,40 +7,16 @@ export class Material {
   name: string;
   /** Shader used by the material. */
   shader: Shader;
-  _earthTexture2D: Texture2D;
+  texture2d: Texture2D;
+  engine: Engine;
 
   /** Shader data. */
   readonly shaderData: ShaderData = new ShaderData(ShaderDataGroup.Material);
 
-  private static _sampleprop = Shader.getPropertyByName('u_Sampler');
+  protected static _sampleprop = Shader.getPropertyByName('u_Sampler');
 
   constructor(engine: Engine, shader: Shader) {
     this.shader = shader;
-
-    const shaderData = this.shaderData;
-    const url = `http://121.199.160.202/images/earth.jpg`;
-    this.loadEarthTexture(url)
-      .then((image) => {
-        this._earthTexture2D = new Texture2D(engine, image.width, image.height, TextureFormat.R8G8B8, false);
-        this._earthTexture2D.setImageSource(image, 0, false, false, 0, 0);
-        shaderData.setTexture(Material._sampleprop, this._earthTexture2D);
-      })
-      .catch((err) => {
-        throw err;
-      });
-  }
-
-  private loadEarthTexture(url: string): Promise<HTMLImageElement> {
-    return new Promise((resolve, reject) => {
-      let image: HTMLImageElement = new Image();
-      image.onload = () => {
-        resolve(image);
-      };
-      image.onerror = (error) => {
-        reject(error);
-      };
-      image.src = url;
-      image.crossOrigin = 'anonymous';
-    });
+    this.engine = engine;
   }
 }
