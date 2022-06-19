@@ -3,9 +3,10 @@ import { Shader } from '../shader';
 import { Texture2D, TextureFormat } from '../texture';
 import { Material } from './Material';
 
-// `http://121.199.160.202/images/earth.jpg`
+const defaultUrl = `http://121.199.160.202/images/earth.jpg`;
+
 export class ImageMaterial extends Material {
-  constructor(engine: Engine, shader: Shader, url: string) {
+  constructor(engine: Engine, shader: Shader, url: string = defaultUrl) {
     super(engine, shader);
 
     const shaderData = this.shaderData;

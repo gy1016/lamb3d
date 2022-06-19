@@ -26,7 +26,7 @@
   <body>
     <canvas id="gy"> your browser not support canvas </canvas>
     <script type="module">
-      import { Engine, Scene, PrimitiveMesh, Entity, Material, Shader, Camera, Vector3 } from '../dist/index.esm.js';
+      import { Engine, Scene, PrimitiveMesh, Entity, ImageMaterial, Shader, Camera, Vector3 } from '../dist/index.esm.js';
 
       const lamb3d = new Engine('gy');
       const camera = new Camera(lamb3d);
@@ -36,7 +36,7 @@
       lamb3d.activeScene.camera = camera;
 
       const shader = initShader('CustomShader');
-      const material = new Material(lamb3d, shader);
+      const material = new ImageMaterial(lamb3d, shader);
 
       const mesh = PrimitiveMesh.createSphereByParamEquation(lamb3d, 1, 25);
       const entity = new Entity('Sphere1', mesh, material);
