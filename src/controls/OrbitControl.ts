@@ -179,7 +179,7 @@ export class OrbitControl {
     element.removeEventListener(this.mouseUpEvents[1].type, this.mouseUpEvents[1].listener, false);
   }
 
-  onUpdate(dtime) {
+  onUpdate(dtime: number) {
     const position: Vector3 = this.camera.transform.position;
     position.cloneTo(this._offset);
     this._offset.subtract(this.target);
