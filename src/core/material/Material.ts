@@ -7,7 +7,6 @@ export class Material {
   name: string;
   /** Shader used by the material. */
   shader: Shader;
-  texture2d: Texture2D;
   engine: Engine;
 
   /** Shader data. */

@@ -6,6 +6,8 @@ import { Material } from './Material';
 const defaultUrl = `http://121.199.160.202/images/earth.jpg`;
 
 export class ImageMaterial extends Material {
+  texture2d: Texture2D;
+
   constructor(engine: Engine, shader: Shader, url: string = defaultUrl) {
     super(engine, shader);
 
