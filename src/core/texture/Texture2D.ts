@@ -5,8 +5,6 @@ import { TextureWrapMode } from './enums/TextureWrapMode';
 import { Texture } from './Texture';
 
 export class Texture2D extends Texture {
-  private _gl: WebGLRenderingContext;
-
   constructor(
     engine: Engine,
     width: number,

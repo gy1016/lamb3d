@@ -22,6 +22,7 @@ export abstract class Texture {
   protected _width: number;
   protected _height: number;
   protected _mipmapCount: number;
+  protected _gl: WebGLRenderingContext;
 
   private _wrapModeU: TextureWrapMode;
   private _wrapModeV: TextureWrapMode;
