@@ -114,7 +114,7 @@ export class ModelMesh extends Mesh {
   /**
    * Upload Mesh Data to the graphics API.
    */
-  uploadData(): void {
+  uploadData(noLongerAccessible: boolean = true): void {
     if (!this._accessible) {
       throw 'Not allowed to access data while accessible is false.';
     }
@@ -137,7 +137,12 @@ export class ModelMesh extends Mesh {
       this._verticesUint8 = new Uint8Array(vertices.buffer);
       this._updateVertices(vertices);
 
-      const newVertexBuffer = new Buffer(gl, BufferBindFlag.VertexBuffer, vertices, BufferUsage.Static);
+      const newVertexBuffer = new Buffer(
+        gl,
+        BufferBindFlag.VertexBuffer,
+        vertices,
+        noLongerAccessible ? BufferUsage.Static : BufferUsage.Dynamic,
+      );
       // 因为是Float32Array，32位，4个字节，故stride为elementCount * 4
       this._setVertexBufferBinding(0, new VertexBufferBinding(newVertexBuffer, elementCount * 4));
       this._lastUploadVertexCount = vertexCount;
