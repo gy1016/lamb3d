@@ -54,6 +54,7 @@ export class Renderer {
     gl.bindBuffer(gl.ARRAY_BUFFER, null);
   }
 
+  // TODO: 这个渲染状态是不是应该考虑放到材质里面，并且抽出一个RenderState
   initRenderState() {
     const gl = this.gl;
     gl.clearColor(0, 0, 0, 0);

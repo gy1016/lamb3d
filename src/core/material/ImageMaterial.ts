@@ -8,6 +8,7 @@ const defaultUrl = `http://121.199.160.202/images/earth.jpg`;
 export class ImageMaterial extends Material {
   texture2d: Texture2D;
 
+  // TODO: 应该建立一个shader池，这样就不用再传入shader了
   constructor(engine: Engine, shader: Shader, url: string = defaultUrl) {
     super(engine, shader);
 
