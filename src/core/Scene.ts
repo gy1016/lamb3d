@@ -1,4 +1,5 @@
 import { Color, ShaderData, ShaderDataGroup, Vector3 } from '..';
+import { Background } from './Background';
 import { Camera } from './Camera';
 import { Entity } from './Entity';
 import { AmbientLight, PointLight } from './lighting';
@@ -8,6 +9,7 @@ export class Scene {
 
   entities: Entity[];
   camera: Camera;
+  readonly background: Background = new Background();
   pointLight: PointLight;
   ambientLight: AmbientLight;
 

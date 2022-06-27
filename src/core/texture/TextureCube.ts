@@ -19,11 +19,26 @@ export class TextureCube extends Texture {
 
     this._gl = engine.gl;
     this._glTexture = this._gl.createTexture();
-    this._glTarget = this._gl.TEXTURE_2D;
+    this._glTarget = this._gl.TEXTURE_CUBE_MAP;
     this._formatDetail = Texture._getFormatDetail(format, this._gl);
   }
 
-  setPixelBuffer() {}
+  setImageSource(
+    face: number,
+    imageSource: TexImageSource | null,
+    mipLevel: number,
+    flipY: boolean,
+    premultiplyAlpha: boolean,
+    x: number,
+    y: number,
+  ): void {
+    const gl = this._gl;
+    const { baseFormat, dataType, internalFormat } = this._formatDetail;
 
-  setImageSource() {}
+    gl.bindTexture(this._glTarget, this._glTexture);
+
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, +flipY);
+    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, +premultiplyAlpha);
+    gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_X + face, mipLevel, internalFormat, baseFormat, dataType, imageSource);
+  }
 }

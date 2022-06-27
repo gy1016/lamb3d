@@ -2,6 +2,9 @@ import { Canvas } from './Canvas';
 import { Scene } from './Scene';
 import { Time } from './base';
 import { Texture2D, TextureFormat } from './texture';
+import { ShaderPool } from './shader/ShaderPool';
+
+ShaderPool.init();
 
 export class Engine {
   protected _canvas: Canvas;
@@ -73,6 +76,7 @@ export class Engine {
     const camera = scene.camera;
     camera && camera.render();
     entities.forEach((entity) => {
+      // TODO: 背景的Mesh怎么渲染呢？？？这是一个问题？？
       const { mesh, material } = entity;
       const program = material.shader._getShaderProgram(this);
       // 上传相机的数据，这里还需要上传其他模块的数据，比如：场景，材质等

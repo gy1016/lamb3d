@@ -12,6 +12,7 @@ export class Material {
   /** Shader data. */
   readonly shaderData: ShaderData = new ShaderData(ShaderDataGroup.Material);
 
+  // TODO: 这个应该放到2D纹理里面
   protected static _sampleprop = Shader.getPropertyByName('u_Sampler');
 
   constructor(engine: Engine, shader: Shader) {
