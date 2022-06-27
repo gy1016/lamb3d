@@ -2,7 +2,7 @@
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
-// import glslify from "rollup-plugin-glslify";
+import glslify from 'rollup-plugin-glslify';
 
 export default [
   {
@@ -19,6 +19,13 @@ export default [
         entryFileNames: '[name].esm.js',
       },
     ],
-    plugins: [resolve(), commonjs(), typescript({ sourceMap: true })],
+    plugins: [
+      resolve(),
+      glslify({
+        include: [/\.glsl$/],
+      }),
+      commonjs(),
+      typescript({ sourceMap: true }),
+    ],
   },
 ];
