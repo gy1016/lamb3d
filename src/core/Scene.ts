@@ -1,19 +1,22 @@
-import { Color, ShaderData, ShaderDataGroup, Vector3 } from '..';
+import { Color, Engine, ShaderData, ShaderDataGroup, Vector3 } from '..';
 import { Background } from './Background';
 import { Camera } from './Camera';
 import { Entity } from './Entity';
 import { AmbientLight, PointLight } from './lighting';
 
+// TODO: 抽象出来一个EngineObject!!!!
 export class Scene {
   readonly shaderData: ShaderData = new ShaderData(ShaderDataGroup.Scene);
 
+  engine: Engine;
   entities: Entity[];
   camera: Camera;
   readonly background: Background = new Background();
   pointLight: PointLight;
   ambientLight: AmbientLight;
 
-  constructor() {
+  constructor(engine: Engine) {
+    this.engine = engine;
     this.entities = [];
 
     this.pointLight = new PointLight(new Vector3(0, 0, 10));

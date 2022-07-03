@@ -49,7 +49,7 @@ export class Engine {
     const gl = canvas.getContext('webgl', {});
     if (!gl) throw `init webgl rendering context failure!`;
     this._gl = gl;
-    this.activeScene = new Scene();
+    this.activeScene = new Scene(this);
 
     const whitePixel = new Uint8Array([255, 255, 255, 255]);
     const whiteTexture2D = new Texture2D(this, 1, 1, TextureFormat.R8G8B8A8, false);
