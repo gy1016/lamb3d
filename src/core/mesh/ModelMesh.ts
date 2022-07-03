@@ -22,8 +22,8 @@ export class ModelMesh extends Mesh {
   private _indicesFormat: IndexFormat = null;
   private _indices: Uint8Array | Uint16Array | Uint32Array | null = null;
   private _positions: Vector3[] = [];
-  private _normals: Vector3[] | null = [];
-  private _uv: Vector2[] | null = [];
+  private _normals: Vector3[] | null = null;
+  private _uv: Vector2[] | null = null;
 
   /**
    * Whether to access data of the mesh.
