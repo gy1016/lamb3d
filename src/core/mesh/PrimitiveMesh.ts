@@ -220,6 +220,71 @@ export class PrimitiveMesh {
     return mesh;
   }
 
+  static createPlane(
+    engine: Engine,
+    width: number = 1,
+    height: number = 1,
+    horizontalSegments: number = 1,
+    verticalSegments: number = 1,
+    noLongerAccessible: boolean = true,
+  ) {
+    // TODO: 直接传入引擎，不提去gl了
+    const mesh = new ModelMesh(engine.gl);
+    horizontalSegments = Math.max(1, Math.floor(horizontalSegments));
+    verticalSegments = Math.max(1, Math.floor(verticalSegments));
+
+    const horizontalCount = horizontalSegments + 1;
+    const verticalCount = verticalSegments + 1;
+    const halfWidth = width / 2;
+    const halfHeight = height / 2;
+    const gridWidth = width / horizontalSegments;
+    const gridHeight = height / verticalSegments;
+    const vertexCount = horizontalCount * verticalCount;
+    const rectangleCount = verticalSegments * horizontalSegments;
+    const indices = PrimitiveMesh._generateIndices(engine, vertexCount, rectangleCount * 6);
+    const horizontalCountReciprocal = 1.0 / horizontalCount;
+    const horizontalSegmentsReciprocal = 1.0 / horizontalSegments;
+    const verticalSegmentsReciprocal = 1.0 / verticalSegments;
+
+    const positions: Vector3[] = new Array(vertexCount);
+    const normals: Vector3[] = new Array(vertexCount);
+    const uvs: Vector2[] = new Array(vertexCount);
+
+    for (let i = 0; i < vertexCount; ++i) {
+      const x = i % horizontalCount;
+      const z = (i * horizontalCountReciprocal) | 0;
+
+      // Position
+      positions[i] = new Vector3(x * gridWidth - halfWidth, 0, z * gridHeight - halfHeight);
+      // Normal
+      normals[i] = new Vector3(0, 1, 0);
+      // Texcoord
+      uvs[i] = new Vector2(x * horizontalSegmentsReciprocal, z * verticalSegmentsReciprocal);
+    }
+
+    let offset = 0;
+    for (let i = 0; i < rectangleCount; ++i) {
+      const x = i % horizontalSegments;
+      const y = (i * horizontalSegmentsReciprocal) | 0;
+
+      const a = y * horizontalCount + x;
+      const b = a + 1;
+      const c = a + horizontalCount;
+      const d = c + 1;
+
+      indices[offset++] = a;
+      indices[offset++] = c;
+      indices[offset++] = b;
+      indices[offset++] = c;
+      indices[offset++] = d;
+      indices[offset++] = b;
+    }
+
+    // TODO: 加上是否可获取参数！
+    PrimitiveMesh._initialize(mesh, positions, normals, uvs, indices);
+    return mesh;
+  }
+
   static subdivide(positions: Vector3[], indices: number[], triangle: [number, number, number], level = 0) {
     if (level > 0) {
       let tmp1 = new Vector3();
@@ -272,5 +337,16 @@ export class PrimitiveMesh {
 
     mesh.uploadData();
     mesh.addSubMesh(0, indices.length);
+  }
+
+  // TODO: 对顶点数量有要求，而且还没有兼容WebGL2!
+  private static _generateIndices(engine: Engine, vertexCount: number, indexCount: number): Uint16Array | Uint32Array {
+    let indices: Uint16Array | Uint32Array = null;
+    if (vertexCount > 65535) {
+      throw Error('The vertex count is over limit.');
+    } else {
+      indices = new Uint16Array(indexCount);
+    }
+    return indices;
   }
 }
