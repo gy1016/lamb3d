@@ -38,7 +38,7 @@
       const shader = initShader('CustomShader');
       const material = new ImageMaterial(lamb3d, shader);
 
-      const mesh = PrimitiveMesh.createSphereByParamEquation(lamb3d, 1, 25);
+      const mesh = PrimitiveMesh.createSphereByParamEquation(lamb3d, 1, 40);
       const entity = new Entity('Sphere1', mesh, material);
       
       lamb3d.activeScene.addEntity(entity);

@@ -11,12 +11,15 @@ export class Scene {
   engine: Engine;
   entities: Entity[];
   camera: Camera;
-  readonly background: Background = new Background();
+  // TODO: 要想在这里使用你就的先抽象出来
+  // readonly background: Background = new Background(this.engine);
+  background: Background;
   pointLight: PointLight;
   ambientLight: AmbientLight;
 
   constructor(engine: Engine) {
     this.engine = engine;
+    this.background = new Background(this.engine);
     this.entities = [];
 
     this.pointLight = new PointLight(new Vector3(0, 0, 10));

@@ -8,6 +8,8 @@ export class SkyBoxMaterial extends Material {
 
   constructor(engine: Engine) {
     super(engine, Shader.find('skybox'));
+
+    const shaderData = this.shaderData;
     this.textureCube = new TextureCube(engine, 1024);
 
     const gl = engine.gl;
@@ -41,39 +43,17 @@ export class SkyBoxMaterial extends Material {
     faceInfos.forEach((faceInfo) => {
       const { target, url } = faceInfo;
       const level = 0;
-      const internalFormat = gl.RGBA;
-      const width = 1024;
-      const height = 1024;
-      const format = gl.RGBA;
-      const type = gl.UNSIGNED_BYTE;
-      gl.texImage2D(target, level, internalFormat, width, height, 0, format, type, null);
 
       const image = new Image();
       image.src = url;
+      image.crossOrigin = 'anonymous';
       image.onload = () => {
         this.textureCube.setImageSource(target, image, level, false, false, 0, 0);
+        gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
       };
     });
 
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-  }
-
-  private loadSkyBoxTexture(urls: string[]): any {
-    const imgsArr = urls.map((url) => {
-      return new Promise((resolve, reject) => {
-        let image: HTMLImageElement = new Image();
-        image.onload = () => {
-          resolve(image);
-        };
-        image.onerror = (error) => {
-          reject(error);
-        };
-        image.src = url;
-        image.crossOrigin = 'anonymous';
-      });
-    });
-
-    // TODO: 可能会失败，失败的结果类型我该怎么考虑呢？
-    return Promise.all(imgsArr);
+    // ! 感觉问题在这！！！！！！也不对啊。。毕竟他是引用类型
+    shaderData.setTexture(Material._skyboxprop, this.textureCube);
   }
 }

@@ -6,7 +6,6 @@ import { ShaderData } from './ShaderData';
 import { Renderer } from '../Renderer';
 import { Engine } from '../Engine';
 import { Texture } from '../texture';
-import { Vector3 } from '../../math';
 
 export class ShaderProgram {
   private static _counter = 0;
@@ -45,6 +44,7 @@ export class ShaderProgram {
     this._engine = engine;
     this._gl = engine.gl;
     this._glProgram = this._createProgram(vertexSource, fragmentSource);
+    // ! bind不应该放在constructor里面
     this.bind();
 
     if (this._glProgram) {
@@ -203,7 +203,7 @@ export class ShaderProgram {
           }
           break;
         case gl.FLOAT_VEC3:
-          // 这里要考虑数组的情况TODO
+          // TODO: 这里要考虑数组的情况
           shaderUniform.applyFunc = shaderUniform.upload3fv;
           break;
         case gl.FLOAT_VEC4:
@@ -240,7 +240,7 @@ export class ShaderProgram {
               defaultTexture = this._engine._whiteTexture2D;
               break;
             case gl.SAMPLER_CUBE:
-              // 待作，添加一个默认包围盒
+              defaultTexture = this._engine._whiteTextureCube;
               break;
             default:
               throw new Error('Unsupported texture type.');
@@ -315,7 +315,7 @@ export class ShaderProgram {
     for (let i = 0, n = constUniforms.length; i < n; i++) {
       const uniform = constUniforms[i];
       const data = properties[uniform.propertyId];
-      // 这里相当于把CPU中的值分配给GPU
+      // ! Highlight: 这里相当于把CPU中的值分配给GPU
       data != null && uniform.applyFunc(uniform, data);
     }
   }
@@ -335,6 +335,8 @@ export class ShaderProgram {
         const texture = properties[uniform.propertyId];
         if (texture) {
           uniform.applyFunc(uniform, texture);
+        } else {
+          uniform.applyFunc(uniform, uniform.textureDefault);
         }
       }
     }

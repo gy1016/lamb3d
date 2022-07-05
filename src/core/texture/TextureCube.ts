@@ -23,6 +23,36 @@ export class TextureCube extends Texture {
     this._formatDetail = Texture._getFormatDetail(format, this._gl);
   }
 
+  setPixelBuffer(
+    face: number,
+    colorBuffer: ArrayBufferView,
+    mipLevel: number = 0,
+    x: number = 0,
+    y: number = 0,
+    width?: number,
+    height?: number,
+  ): void {
+    const gl = this._gl;
+    const { internalFormat, baseFormat, dataType } = this._formatDetail;
+
+    gl.bindTexture(this._glTarget, this._glTexture);
+
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 0);
+    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, 0);
+
+    gl.texImage2D(
+      gl.TEXTURE_CUBE_MAP_POSITIVE_X + face,
+      mipLevel,
+      internalFormat,
+      this._width,
+      this._height,
+      0,
+      baseFormat,
+      dataType,
+      colorBuffer,
+    );
+  }
+
   setImageSource(
     face: number,
     imageSource: TexImageSource | null,
@@ -36,9 +66,7 @@ export class TextureCube extends Texture {
     const { baseFormat, dataType, internalFormat } = this._formatDetail;
 
     gl.bindTexture(this._glTarget, this._glTexture);
-
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, +flipY);
-    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, +premultiplyAlpha);
-    gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_X + face, mipLevel, internalFormat, baseFormat, dataType, imageSource);
+    gl.texImage2D(face, mipLevel, internalFormat, baseFormat, dataType, imageSource);
+    gl.generateMipmap(gl.TEXTURE_CUBE_MAP);
   }
 }
