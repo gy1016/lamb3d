@@ -54,7 +54,7 @@ export class Engine {
     // ! 这样实例化场景好吗？？？
     this.activeScene = new Scene(this);
 
-    const whitePixel = new Uint8Array([255, 0, 0, 125]);
+    const whitePixel = new Uint8Array([255, 255, 255, 255]);
     const whiteTexture2D = new Texture2D(this, 1, 1, TextureFormat.R8G8B8A8, false);
     whiteTexture2D.setPixelBuffer(whitePixel);
 
