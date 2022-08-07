@@ -8,7 +8,7 @@
 
 # Introduction
 
-A TypeScript 3d mini engine for gis.
+A 3d gis engine written in TypeScript and WebAssembly.
 
 # Document
 
