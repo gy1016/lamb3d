@@ -18,15 +18,15 @@ Here you can see [engine documentation](https://www.yuque.com/shengaoyang-rl1fl/
 
 The modules currently included in lamb3d are shown in the following figure:
 
-![Engine Xmind](./images/lamb3d_xmind.png)
+![Engine Xmind](http://121.199.160.202/images/project/lamb3d/xmind.png)
 
 The system architecture diagram of lamb3d is as follows:
 
-![Engine Architecture](./images/lamb3d_systemstruct.png)
+![Engine Architecture](http://121.199.160.202/images/project/lamb3d/systemstruct.png)
 
 # Usage
 
-![Engine Architecture](./images/lamb3d_earth.png)
+![Engine Architecture](http://121.199.160.202/images/project/lamb3d/earth.png)
 
 ```js
 import { Engine, Scene, PrimitiveMesh, Entity, ImageMaterial, Shader, Camera, Vector3 } from '../dist/index.esm.js';
