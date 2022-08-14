@@ -7,7 +7,9 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "declarationDir": "types",
-    "emitDeclarationOnly": true,
+    "emitDeclarationOnly": false,
+    // 不加这个插件会报empty chunks
+    // "noEmit": true,
     "sourceMap": true,
     "incremental": false,
     "skipLibCheck": true,

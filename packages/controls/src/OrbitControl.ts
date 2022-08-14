@@ -1,4 +1,4 @@
-import { Camera } from '../Camera';
+import { Camera } from '@lamb3d/core';
 import { Matrix4, Vector2, Vector3 } from '@lamb3d/math';
 import { Spherical } from './Spherical';
 

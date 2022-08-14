@@ -74,7 +74,7 @@ export class Engine {
     const time = this._time;
     const deltaTime = time.deltaTime;
     const camera = this.activeScene.camera;
-    camera.orbitControl.onUpdate(deltaTime);
+    // camera.orbitControl.onUpdate(deltaTime);
 
     time.tick();
 

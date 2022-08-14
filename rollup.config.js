@@ -3,7 +3,7 @@ const path = require('path');
 
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import typescript from '@rollup/plugin-typescript';
+import typescript from 'rollup-plugin-typescript2';
 import glslify from 'rollup-plugin-glslify';
 import serve from 'rollup-plugin-serve';
 import replace from '@rollup/plugin-replace';
@@ -32,7 +32,6 @@ const commonPlugins = [
     include: [/\.glsl$/],
   }),
   commonjs(),
-  typescript({ sourceMap: true }),
   NODE_ENV === 'development'
     ? serve({
         contentBase: 'packages',
@@ -47,6 +46,12 @@ function config({ location, pkgJson }) {
   const external = Object.keys(dependencies);
 
   commonPlugins.push(
+    typescript({
+      // 不查文档谁能找到这个设置，这个插件太铸币了
+      useTsconfigDeclarationDir: true,
+      // /root/projects/fontend/lamb3d/packages/math/tsconfig.json
+      tsconfig: path.resolve(location, 'tsconfig.json'),
+    }),
     replace({
       preventAssignment: true,
       __buildVersion: pkgJson.version,
@@ -84,8 +89,8 @@ function config({ location, pkgJson }) {
           },
           {
             file: path.join(location, pkgJson.main),
-            sourcemap: true,
             format: 'commonjs',
+            sourcemap: true,
           },
         ],
         plugins,

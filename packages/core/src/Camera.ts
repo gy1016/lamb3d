@@ -1,4 +1,5 @@
-import { OrbitControl } from './controls/OrbitControl';
+// TODO: 这个轨道控制不应该这么加，造成了循环依赖
+// import { OrbitControl } from '@lamb3d/controls';
 import { MathUtil, Matrix4, Quaternion, Vector2, Vector3, Vector4 } from '@lamb3d/math';
 import { Engine } from './Engine';
 import { Shader, ShaderData, ShaderDataGroup } from './shader';
@@ -72,7 +73,7 @@ export class Camera {
 
   /** Rendering priority - A Camera with higher priority will be rendered on top of a camera with lower priority. */
   priority: number = 0;
-  orbitControl: OrbitControl;
+  // orbitControl: OrbitControl;
 
   private _isOrthographic: boolean = false;
   private _nearClipPlane: number = 0.1;
@@ -204,7 +205,7 @@ export class Camera {
   constructor(engine: Engine) {
     this._engine = engine;
     this.transform = new Transform();
-    this.orbitControl = new OrbitControl(this);
+    // this.orbitControl = new OrbitControl(this);
   }
 
   private _updateShaderData(): void {
