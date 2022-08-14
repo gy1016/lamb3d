@@ -1,0 +1,32 @@
+name: Docs
+on:
+  push:
+    branches:
+      - master
+jobs:
+  release:
+    name: Docs
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - name: Install
+        run: npm install
+      - name: Docs
+        run: |
+          npm run docs
+          git branch -d gh-pages || true
+          git checkout --orphan gh-pages
+          shopt -s extglob
+          rm -rf !(docs)
+          mv docs/* .
+          rm -rf docs
+          git add .
+          git commit -m "docs: publish lamb3d document"
+          git push -u origin gh-pages -f
