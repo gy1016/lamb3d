@@ -26,7 +26,10 @@ A 3d gis engine written in TypeScript and WebAssembly.
 
 # Document
 
-Here you can see [engine documentation](https://www.yuque.com/shengaoyang-rl1fl/apm3zh), mind maps, system architecture and my brainstorming!
+Here you can see the mind map of the design engine, system architecture and my [brainstorming](https://www.yuque.com/shengaoyang-rl1fl/apm3zh). 
+
+Documentation generated with Typedoc is [here](http://www.sgyat.cn/lamb3d/)!
+
 
 # Architecture
 
