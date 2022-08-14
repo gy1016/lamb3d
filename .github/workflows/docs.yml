@@ -17,18 +17,12 @@ jobs:
         with:
           node-version: 16
       - name: Install
-        run: npm install
-      - name: Docs
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
+          npm install
           npm run docs
-          git branch -d gh-pages || true
-          git checkout --orphan gh-pages
-          shopt -s extglob
-          rm -rf !(docs)
-          mv docs/* .
-          rm -rf docs
-          git add .
-          git commit -m "docs: publish lamb3d document"
-          git push -u origin gh-pages -f
+      - name: Docs
+        uses: JamesIves/github-pages-deploy-action@4.4.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: docs
