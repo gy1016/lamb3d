@@ -19,6 +19,8 @@ jobs:
       - name: Install
         run: npm install
       - name: Docs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           npm run docs
           git branch -d gh-pages || true
