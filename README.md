@@ -1,7 +1,21 @@
 <!-- PROJECT LOGO -->
-<br />
+<div align="center">
+
+# lamb3d
+
+_✨ Author: lamb ✨_
+</div>
+
 <p align="center">
-  <h1 align="center">lamb3d</h1>
+  <a href="https://github.com/gy1016/lamb3d">
+    <img src="https://img.shields.io/badge/Github-lamb3d-brightgreen?logo=github" alt="frontend_repository">
+  </a>
+  <a href="stargazers">
+    <img src="https://img.shields.io/github/stars/gy1016/lamb3d?color=yellow&label=Github%20Stars" alt="star">
+  </a>
+  <a href="release">
+    <img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg" alt="release">
+  </a>
 </p>
 
 <!-- ABOUT THE PROJECT -->
