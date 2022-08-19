@@ -6,12 +6,21 @@ import { Material } from './material';
 import { SkyBoxMaterial } from './material/SkyBoxMaterial';
 import { ModelMesh } from './mesh';
 
+/**
+ * Background of the scene.
+ */
 export class Background {
+  /**
+   * The pattern of the background, which may be a single color, a skybox or a picture texture.
+   */
   mode: BackgroundMode = BackgroundMode.SolidColor;
 
+  /** Grid for background. */
   _mesh: Mesh;
+  /** The material used for the background. */
   _material: Material;
 
+  /** Fixed color before skybox or texture is loaded successfully. */
   solidColor: Color = new Color(0.25, 0.25, 0.25, 1.0);
 
   constructor(private _engine: Engine) {
@@ -19,6 +28,11 @@ export class Background {
     this._material = new SkyBoxMaterial(this._engine);
   }
 
+  /**
+   * Background with flat grid.
+   * @param engine Engine instance.
+   * @returns Mesh
+   */
   private _createPlane(engine: Engine): ModelMesh {
     const mesh = new ModelMesh(engine.gl);
     // const indices = new Uint8Array([0, 3, 1, 1, 3, 2]);
