@@ -7,23 +7,31 @@ import { ShaderProgram } from '../shader/ShaderProgram';
 import { Renderer } from '../Renderer';
 import { MeshTopology } from './enums/MeshTopology';
 
+/**
+ * Grid abstract class.
+ */
 export abstract class Mesh {
   /** Name. */
   name: string;
-
+  /** Vertex entity record table, used for caching. */
   _vertexElementMap: Record<string, VertexElement> = {};
-  // 索引的存储类型，例如：UInt8
+  /** The storage type of the index, for example: UInt8. */
   _glIndexType: number;
-  // 每个索引占几个字节，8位一个字节
+  /** Each index occupies several bytes, 8 bits per byte. */
   _glIndexByteCount: number;
+  /** A platform that provides rendering capabilities. */
   _platformPrimitive: Renderer;
-
+  /** A Mesh may consist of multiple vertex instances. */
   _instanceCount: number = 0;
+  /** The vertex buffer corresponding to the mesh. */
   _vertexBufferBindings: VertexBufferBinding[] = [];
+  /** The index buffer corresponding to the mesh */
   _indexBufferBinding: IndexBufferBinding = null;
+  /** Array of vertex elements. */
   _vertexElements: VertexElement[] = [];
 
   protected gl: WebGLRenderingContext;
+  /** Drawing information for each element. */
   private _subMeshes: SubMesh[] = [];
 
   /**

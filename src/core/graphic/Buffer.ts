@@ -2,7 +2,12 @@ import { BufferBindFlag } from './enums/BufferBindFlag';
 import { BufferUsage } from './enums/BufferUsage';
 import { BufferUtil } from './BufferUtil';
 
+/**
+ * Buffer base class,
+ * which can be an array of vertex buffers or an array of index buffers.
+ */
 export class Buffer {
+  // TODO: 把gl挂载到RefObject
   _gl: WebGLRenderingContext;
   _glBindTarget: number;
   _glBufferUsage: number;
@@ -10,7 +15,6 @@ export class Buffer {
 
   private _type: BufferBindFlag;
   private _byteLength: number;
-  // 个人感觉这个属性可以去掉
   private _bufferUsage: BufferUsage;
 
   /**
@@ -132,12 +136,10 @@ export class Buffer {
     dataLength?: number,
   ): void {
     const gl: WebGLRenderingContext = this._gl;
-    // 是索引还是顶点
     const glBindTarget: number = this._glBindTarget;
     this.bind();
 
-    /* 这一段看不懂！！！！！！！！ */
-    // TypeArray is BYTES_PER_ELEMENT, unTypeArray is 1
+    // 每个元素所占用的字节数
     const byteSize = (<Uint8Array>data).BYTES_PER_ELEMENT || 1;
     const dataByteLength = dataLength ? byteSize * dataLength : data.byteLength;
 

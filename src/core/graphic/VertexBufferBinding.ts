@@ -4,8 +4,9 @@ import { Buffer } from './Buffer';
  * Vertex buffer binding.
  */
 export class VertexBufferBinding {
+  /** Buffer to which vertex elements are bound. */
   _buffer: Buffer;
-  /** @internal */
+  /** Span between each vertex. */
   _stride: number;
 
   /**

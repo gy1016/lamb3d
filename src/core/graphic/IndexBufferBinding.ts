@@ -5,9 +5,9 @@ import { Buffer } from './Buffer';
  * Index buffer binding.
  */
 export class IndexBufferBinding {
-  /** @internal */
+  /** Index buffer bound buffer. */
   _buffer: Buffer;
-  /** @internal */
+  /** Index format. */
   _format: IndexFormat;
 
   /**

@@ -2,7 +2,7 @@ import { VertexElementFormat } from './enums/VertexElementFormat';
 import { ElementInfo, BufferUtil } from './BufferUtil';
 
 /**
- * Vertex element.
+ * Vertex element, a vertex buffer consists of multiple vertex elements.
  */
 export class VertexElement {
   _glElementInfo: ElementInfo;
