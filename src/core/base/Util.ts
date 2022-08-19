@@ -69,6 +69,11 @@ export function removeFromArray(array: any[], item: any): boolean {
   return true;
 }
 
+/**
+ * Get the value of an object or array.
+ * @param obj Object or Array.
+ * @returns Object value array.
+ */
 export function ObjectValues(obj: any) {
   return Object.keys(obj).map((key: any) => obj[key]);
 }

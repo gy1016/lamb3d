@@ -25,6 +25,9 @@ export class Time {
     this._lastTickTime = now;
   }
 
+  /**
+   * Set the current time as the end of rendering marker.
+   */
   reset() {
     this._lastTickTime = this._clock.now();
   }
