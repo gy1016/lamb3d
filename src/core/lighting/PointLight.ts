@@ -3,22 +3,31 @@ import { Color } from '../../math/Color';
 import { Shader, ShaderData, ShaderProperty } from '../shader';
 import { Light } from './Light';
 
+/**
+ * Point light.
+ */
 export class PointLight extends Light {
   // 因为可能有多个点光源
+  /** Get the address of the point light color uniform variable in the shader. */
   private static _colorProperty: ShaderProperty = Shader.getPropertyByName('u_pointLightColor');
+  /** Get the address of the uniform variable of the point light position in the shader. */
   private static _positionProperty: ShaderProperty = Shader.getPropertyByName('u_pointLightPosition');
-
+  /** Blend object of color and position. */
   private static _combinedData = {
     color: new Float32Array(3),
     position: new Float32Array(3),
   };
 
-  // 白光和什么光相乘，都保留颜色
+  // 白光不管和什么光相乘，都保留颜色
+  /** The color of the light, the default is white light. */
   color: Color = new Color(1, 1, 1, 1);
+  /** Intensity of light. */
   intensity: number = 1.0;
 
+  /** Final light color. */
   private _lightColor: Color = new Color(1, 1, 1, 1);
 
+  /** Get the position of a point light. */
   get position(): Vector3 {
     return this.transform.worldPosition;
   }
@@ -39,6 +48,10 @@ export class PointLight extends Light {
     this.transform.worldPosition = position;
   }
 
+  /**
+   * Set variable value in shader.
+   * @param shaderData Shader data.
+   */
   _updateShaderData(shaderData: ShaderData): void {
     this._appendData();
     const data = PointLight._combinedData;
@@ -47,6 +60,9 @@ export class PointLight extends Light {
     shaderData.setFloatArray(PointLight._positionProperty, data.position);
   }
 
+  /**
+   * Populate federated data.
+   */
   _appendData(): void {
     const data = PointLight._combinedData;
     const lightColor = this.lightColor;
