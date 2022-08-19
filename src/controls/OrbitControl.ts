@@ -4,51 +4,70 @@ import { Spherical } from './Spherical';
 
 type MouseWheelEvent = any;
 
+/**
+ * Orbital controls for zooming around a center point.
+ */
 export class OrbitControl {
+  /** Camera instance, the essence of orbit control is to change the camera position. */
   camera: Camera;
+  /** DOM element, mainly used to listen for mouse up events. */
   domElement: HTMLElement | Document;
+  /** Canvas element, mainly used to monitor mouse movement events. */
   mainElement: HTMLCanvasElement;
+  /** Camera frustum angle. */
   fov: number;
+  /** Where the camera is looking. */
   target: Vector3;
+  /** Camera up. */
   up: Vector3;
+  /** The minimum distance from the camera to the object. */
   minDistance: number;
+  /** The maximum distance from the camera to the object. */
   maxDistance: number;
+  /** The smallest zoom scale of the camera. */
   minZoom: number;
+  /** The maximum zoom scale of the camera. */
   maxZoom: number;
-  // 是否开启阻尼，感觉没什么用，可以删掉
-  enableDamping: boolean;
-  // 这个是干嘛的？？
+  /** Scaling factor. */
   zoomFactor: number;
-  enableRotate: boolean;
-  // 键盘平移速度，可以删掉
-  keyPanSpeed: number;
-  // ？？
+  /** Min polar angle. */
   minPolarAngle: number;
+  /** Max polar angle. */
   maxPolarAngle: number;
+  /** Min azimuth angle. */
   minAzimuthAngle: number;
+  /** Max azimuth angle. */
   maxAzimuthAngle: number;
+  /** Whether to enable damping. */
+  enableDamping: boolean;
+  /** Whether to enable rotate. */
+  enableRotate: boolean;
+  /** Whether to enable zoom. */
   enableZoom: boolean;
-  // 阻尼因子，也可以删掉
-  dampingFactor: number;
-  zoomSpeed: number;
+  /** Whether to enable pan. */
   enablePan: boolean;
+  /** Damping factor */
+  dampingFactor: number;
+  /** Zoom speed */
+  zoomSpeed: number;
+  /** Whether to auto rotate. */
   autoRotate: boolean;
+  /** Auto rotate speed. */
   autoRotateSpeed: number = Math.PI;
+  /** Rotate speed. */
   rotateSpeed: number;
-  // 是否允许键盘操作，可以删掉
-  enableKeys: boolean;
-  // 键盘上下左右对应的key代码
-  keys: { LEFT: number; RIGHT: number; UP: number; BOTTOM: number };
-  // 鼠标点击对应的key，其实就是左键，滚轮和右键对应的key
+  /** Clicking the corresponding key with the mouse is actually the key corresponding to the left button, the scroll wheel and the right button. */
   mouseButtons: { ORBIT: number; ZOOM: number; PAN: number };
-  // 当前控制器处于什么状态
+  /** What state is the current controller in. */
   STATE: {
     ROTATE: number;
     ZOOM: number;
     NONE: number;
     PAN: number;
   };
+  /** Contains mousemove and mouseup. */
   mouseUpEvents: { listener: any; type: string }[];
+  /** Contains mousedown and wheel. */
   constEvents: { listener: any; type: string; element?: Window }[];
 
   private _position: Vector3;
@@ -95,15 +114,7 @@ export class OrbitControl {
     this.enableRotate = true;
     this.rotateSpeed = 1.0;
     this.enablePan = true;
-    this.keyPanSpeed = 7.0;
     this.autoRotate = false;
-    this.enableKeys = false;
-    this.keys = {
-      LEFT: 37,
-      UP: 38,
-      RIGHT: 39,
-      BOTTOM: 40,
-    };
     this.mouseButtons = {
       ORBIT: 0,
       ZOOM: 1,
@@ -166,6 +177,9 @@ export class OrbitControl {
     });
   }
 
+  /**
+   * The life cycle of track control destruction, used to remove listener events.
+   */
   onDestory(): void {
     this.constEvents.forEach((ele) => {
       if (ele.element) {
@@ -179,6 +193,10 @@ export class OrbitControl {
     element.removeEventListener(this.mouseUpEvents[1].type, this.mouseUpEvents[1].listener, false);
   }
 
+  /**
+   * The orbit controls the life cycle, updating the view based on the current mouse changes.
+   * @param dtime Used to calculate how many degrees to rotate.
+   */
   onUpdate(dtime: number) {
     const position: Vector3 = this.camera.transform.position;
     position.cloneTo(this._offset);
@@ -231,6 +249,11 @@ export class OrbitControl {
     this._panOffset.setValue(0, 0, 0);
   }
 
+  /**
+   * Handle left and right translation.
+   * @param distance Camera translation distance.
+   * @param worldMatrix Camera's world coordinate matrix.
+   */
   panLeft(distance: number, worldMatrix: Matrix4) {
     const e = worldMatrix.elements;
     this._vPan.setValue(e[0], e[1], e[2]);
@@ -238,6 +261,11 @@ export class OrbitControl {
     this._panOffset.add(this._vPan);
   }
 
+  /**
+   * Handle up and down translation.
+   * @param distance Camera translation distance.
+   * @param worldMatrix Camera's world coordinate matrix.
+   */
   panUp(distance: number, worldMatrix: Matrix4) {
     const e = worldMatrix.elements;
     this._vPan.setValue(e[4], e[5], e[6]);
@@ -245,6 +273,11 @@ export class OrbitControl {
     this._panOffset.add(this._vPan);
   }
 
+  /**
+   * Pan according to panLeft and panUp.
+   * @param deltaX The difference between the mouse and the x-direction of the previous view.
+   * @param deltaY The difference between the mouse and the y-direction of the previous view
+   */
   pan(deltaX: number, deltaY: number) {
     // perspective only
     const position: Vector3 = this.camera.transform.position;
@@ -258,20 +291,36 @@ export class OrbitControl {
     this.panUp(2 * deltaY * (targetDistance / this.mainElement.clientHeight), this.camera.transform.worldMatrix);
   }
 
+  /**
+   * Zoom in view.
+   * @param zoomScale Zoom scale.
+   */
   zoomIn(zoomScale: number): void {
     // perspective only
     this._scale *= zoomScale;
   }
 
+  /**
+   * Zoom out view.
+   * @param zoomScale Zoom scale.
+   */
   zoomOut(zoomScale: number): void {
     // perspective only
     this._scale /= zoomScale;
   }
 
+  /**
+   * Get zoom level.
+   * @returns Zoom scale.
+   */
   getZoomScale() {
     return Math.pow(0.95, this.zoomSpeed);
   }
 
+  /**
+   * Rotate left and right.
+   * @param radian Rotation angle, radian system.
+   */
   rotateLeft(radian: number) {
     this._sphericalDelta.theta -= radian;
     if (this.enableDamping) {
@@ -279,6 +328,10 @@ export class OrbitControl {
     }
   }
 
+  /**
+   * Rotate up and down.
+   * @param radian Rotation angle, radian system.
+   */
   rotateUp(radian: number) {
     this._sphericalDelta.phi -= radian;
     if (this.enableDamping) {
@@ -286,23 +339,44 @@ export class OrbitControl {
     }
   }
 
+  /**
+   * Get auto rotation angle.
+   * @param dtime Rendering the time difference between the current frame and the previous frame.
+   * @returns Auto rotate speed.
+   */
   getAutoRotationAngle(dtime: number) {
     return (this.autoRotateSpeed / 1000) * dtime;
   }
 
+  /**
+   * Set rotate start when state is rotate.
+   * @param event Mouse event.
+   */
   handleMouseDownRotate(event: MouseEvent) {
     this._rotateStart.setValue(event.clientX, event.clientY);
   }
 
+  /**
+   * Set zoom start when state is zoom.
+   * @param event Mouse event.
+   */
   handleMouseDownZoom(event: MouseEvent) {
     this._zoomStart.setValue(event.clientX, event.clientY);
   }
 
+  /**
+   * Set pan start when state is pan.
+   * @param event Mouse event.
+   */
   handleMouseDownPan(event: MouseEvent) {
     this._panStart.setValue(event.clientX, event.clientY);
   }
 
-  handleMouseMoveRotate(event) {
+  /**
+   * Calculate the rotation difference when the mouse is moved.
+   * @param event Mouse event.
+   */
+  handleMouseMoveRotate(event: MouseEvent) {
     this._rotateEnd.setValue(event.clientX, event.clientY);
     Vector2.subtract(this._rotateEnd, this._rotateStart, this._rotateDelta);
 
@@ -314,7 +388,11 @@ export class OrbitControl {
     this._rotateEnd.cloneTo(this._rotateStart);
   }
 
-  handleMouseMoveZoom(event) {
+  /**
+   * Calculate the rotation difference when the mouse is moved.
+   * @param event Mouse event.
+   */
+  handleMouseMoveZoom(event: MouseEvent) {
     this._zoomEnd.setValue(event.clientX, event.clientY);
     Vector2.subtract(this._zoomEnd, this._zoomStart, this._zoomDelta);
 
@@ -327,6 +405,10 @@ export class OrbitControl {
     this._zoomEnd.cloneTo(this._zoomStart);
   }
 
+  /**
+   * Calculate the pan difference when the mouse is moved.
+   * @param event Mouse event.
+   */
   handleMouseMovePan(event: MouseEvent): void {
     this._panEnd.setValue(event.clientX, event.clientY);
     Vector2.subtract(this._panEnd, this._panStart, this._panDelta);
@@ -336,6 +418,10 @@ export class OrbitControl {
     this._panEnd.cloneTo(this._panStart);
   }
 
+  /**
+   * Calculate the wheel difference when the mouse is moved.
+   * @param event Mouse event.
+   */
   handleMouseWheel(event: MouseWheelEvent): void {
     if (event.deltaY < 0) {
       this.zoomIn(this.getZoomScale());
@@ -344,6 +430,12 @@ export class OrbitControl {
     }
   }
 
+  /**
+   * Listen to the mouse click event,
+   * and set the context state to the mouse click type according to the click type,
+   * and then select the corresponding processing method
+   * @param event Mouse event.
+   */
   onMouseDown(event: MouseEvent) {
     event.preventDefault();
 
@@ -375,6 +467,11 @@ export class OrbitControl {
     }
   }
 
+  /**
+   * Monitor mouse movement events,
+   * select the corresponding movement processing method for the current context state.
+   * @param event Mouse event.
+   */
   onMouseMove(event: MouseEvent) {
     event.preventDefault();
 
@@ -393,6 +490,10 @@ export class OrbitControl {
     }
   }
 
+  /**
+   * Listen for the mouse up event,
+   * remove the corresponding listener event and set the context state to none.
+   */
   onMouseUp() {
     this._isMouseUp = true;
 
@@ -405,6 +506,12 @@ export class OrbitControl {
     this._state = this.STATE.NONE;
   }
 
+  /**
+   * Listen to the mouse wheel event,
+   * prevent the default behavior,
+   * and scale according to the current event event information.
+   * @param event Mouse wheel event.
+   */
   onMouseWheel(event: MouseWheelEvent) {
     event.preventDefault();
     event.stopPropagation();
