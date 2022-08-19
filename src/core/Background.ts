@@ -5,6 +5,7 @@ import { Mesh } from './graphic';
 import { Material } from './material';
 import { SkyBoxMaterial } from './material/SkyBoxMaterial';
 import { ModelMesh } from './mesh';
+import { skyStarConfig } from '../config';
 
 /**
  * Background of the scene.
@@ -25,7 +26,7 @@ export class Background {
 
   constructor(private _engine: Engine) {
     this._mesh = this._createPlane(this._engine);
-    this._material = new SkyBoxMaterial(this._engine);
+    this._material = new SkyBoxMaterial(this._engine, skyStarConfig);
   }
 
   /**

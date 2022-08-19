@@ -32,12 +32,12 @@ export class Shader {
     return shaderProperty?._group;
   }
 
+  // 不存在就创建一个
   /**
    * Get shader property by name.
    * @param name - Name of the shader property
    * @returns Shader property
    */
-  // 不存在就创建一个
   static getPropertyByName(name: string): ShaderProperty {
     const propertyNameMap = Shader._propertyNameMap;
     if (propertyNameMap[name] != null) {

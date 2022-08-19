@@ -3,44 +3,32 @@ import { Material } from '../material';
 import { Shader } from '../shader';
 import { TextureCube } from '../texture/TextureCube';
 
-export class SkyBoxMaterial extends Material {
-  textureCube: TextureCube;
+type IFaceInfo = {
+  target: number;
+  url: string;
+};
 
-  constructor(engine: Engine) {
+/**
+ * A skybox material built with a cube texture, used to display the starry sky, etc.
+ */
+export class SkyBoxMaterial extends Material {
+  /** Cube texture. */
+  textureCube: TextureCube;
+  /** Six sided information array. */
+  faceInfoArr: IFaceInfo[];
+  /** Get the sampler for the cube texture in the shader. */
+  static _skyboxprop = Shader.getPropertyByName('u_Skybox');
+
+  // TODO: 抽RefObject
+  constructor(engine: Engine, faceInfoArr: IFaceInfo[]) {
     super(engine, Shader.find('skybox'));
 
     const shaderData = this.shaderData;
     this.textureCube = new TextureCube(engine, 1024);
-
+    this.faceInfoArr = faceInfoArr;
     const gl = engine.gl;
-    const faceInfos = [
-      {
-        target: gl.TEXTURE_CUBE_MAP_POSITIVE_X,
-        url: 'http://121.199.160.202/images/skybox/tycho2t3_80_mx.jpg',
-      },
-      {
-        target: gl.TEXTURE_CUBE_MAP_NEGATIVE_X,
-        url: 'http://121.199.160.202/images/skybox/tycho2t3_80_px.jpg',
-      },
-      {
-        target: gl.TEXTURE_CUBE_MAP_POSITIVE_Y,
-        url: 'http://121.199.160.202/images/skybox/tycho2t3_80_py.jpg',
-      },
-      {
-        target: gl.TEXTURE_CUBE_MAP_NEGATIVE_Y,
-        url: 'http://121.199.160.202/images/skybox/tycho2t3_80_my.jpg',
-      },
-      {
-        target: gl.TEXTURE_CUBE_MAP_POSITIVE_Z,
-        url: 'http://121.199.160.202/images/skybox/tycho2t3_80_mz.jpg',
-      },
-      {
-        target: gl.TEXTURE_CUBE_MAP_NEGATIVE_Z,
-        url: 'http://121.199.160.202/images/skybox/tycho2t3_80_pz.jpg',
-      },
-    ];
 
-    faceInfos.forEach((faceInfo) => {
+    this.faceInfoArr.forEach((faceInfo) => {
       const { target, url } = faceInfo;
       const level = 0;
 
@@ -53,7 +41,6 @@ export class SkyBoxMaterial extends Material {
       };
     });
 
-    // ! 感觉问题在这！！！！！！也不对啊。。毕竟他是引用类型
-    shaderData.setTexture(Material._skyboxprop, this.textureCube);
+    shaderData.setTexture(SkyBoxMaterial._skyboxprop, this.textureCube);
   }
 }
