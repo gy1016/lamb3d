@@ -1,13 +1,24 @@
 import { ShaderProgram } from './shader/ShaderProgram';
 import { Mesh, SubMesh } from './graphic';
 
+/**
+ * Renderer, each Mesh will have a renderer instance.
+ */
 export class Renderer {
-  static currentBindProgram: ShaderProgram;
+  /** Current bind program. */
+  static glProgram: ShaderProgram;
+  // TODO: 要接入webgl2, 应该抽出一个类型
   private gl: WebGLRenderingContext;
-
+  /** Array of addresses of attribute variables in shader programs. */
   protected attribLocArray: number[];
+  /** Mesh to be rendered. */
   protected readonly _primitive: Mesh;
 
+  /**
+   * Render based on rendering context and grid.
+   * @param gl WebGL rendering context.
+   * @param primitive Mesh to be rendered.
+   */
   constructor(gl: WebGLRenderingContext, primitive: Mesh) {
     this._primitive = primitive;
     this.gl = gl;
@@ -55,6 +66,9 @@ export class Renderer {
   }
 
   // TODO: 这个渲染状态是不是应该考虑放到材质里面，并且抽出一个RenderState
+  /**
+   * Clear depth, color buffer, etc.
+   */
   initRenderState() {
     const gl = this.gl;
     gl.clearColor(0, 0, 0, 0);

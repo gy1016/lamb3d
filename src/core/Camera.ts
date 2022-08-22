@@ -4,6 +4,9 @@ import { Engine } from './Engine';
 import { Shader, ShaderData, ShaderDataGroup } from './shader';
 import { Transform } from './Transform';
 
+/**
+ * Camera.
+ */
 export class Camera {
   // 把引擎也引进来主要是为了获取到canvas的宽高
   // 便于设置透视投影矩阵与宽高比
@@ -158,7 +161,7 @@ export class Camera {
   // 获取宽高比
   get aspectRatio(): number {
     const canvas = this._engine.canvas;
-    // 这里为什么还考虑了视口
+    // TODO: 考虑视口
     return this._customAspectRatio ?? (canvas.width * this._viewport.z) / (canvas.height * this._viewport.w);
   }
 
@@ -199,14 +202,16 @@ export class Camera {
     this._orthographicSize = value;
   }
 
-  // 其实Entity和Camera应该再抽象上一层Component
-  // TODO
+  // TODO： 其实Entity和Camera应该再抽象上一层Component
   constructor(engine: Engine) {
     this._engine = engine;
     this.transform = new Transform();
     this.orbitControl = new OrbitControl(this);
   }
 
+  /**
+   * Upload camera-related shader data.
+   */
   private _updateShaderData(): void {
     const shaderData = this.shaderData;
     const invVPMat = new Matrix4();
@@ -218,6 +223,9 @@ export class Camera {
     shaderData.setMatrix(Camera._inverseVPMatrixProperty, invVPMat);
   }
 
+  /**
+   * The upload method is triggered by render.
+   */
   render(): void {
     this._updateShaderData();
   }

@@ -10,4 +10,5 @@ export enum ShaderDataGroup {
   Renderer,
   /** material group. */
   Material,
+  // TODO: Geographic
 }

@@ -7,9 +7,13 @@ import { Renderer } from '../Renderer';
 import { Engine } from '../Engine';
 import { Texture } from '../texture';
 
+/**
+ * Shader program, corresponding to the GPU shader program.
+ */
 export class ShaderProgram {
+  /** Shader program counter. */
   private static _counter = 0;
-
+  /** Shader program id. */
   id: number;
 
   readonly sceneUniformBlock: ShaderUniformBlock = new ShaderUniformBlock();
@@ -18,6 +22,7 @@ export class ShaderProgram {
   readonly materialUniformBlock: ShaderUniformBlock = new ShaderUniformBlock();
   readonly otherUniformBlock: ShaderUniformBlock = new ShaderUniformBlock();
 
+  /** Attribute variable location in webgl. */
   attributeLocation: Record<string, GLint> = Object.create(null);
 
   private _isValid: boolean;
@@ -27,8 +32,10 @@ export class ShaderProgram {
   private _fragmentShader: WebGLShader;
   private _glProgram: WebGLProgram;
   // 当前激活的纹理单元
+  /** Currently active texture unit. */
   private _activeTextureUint: number = 0;
 
+  /** WebGL program. */
   get glProgram() {
     return this._glProgram;
   }
@@ -57,6 +64,12 @@ export class ShaderProgram {
     this.id = ShaderProgram._counter++;
   }
 
+  /**
+   * Create a webgl program instance.
+   * @param vertexSource Vertex source code.
+   * @param fragmentSource Fragment source code.
+   * @returns WebGL program.
+   */
   private _createProgram(vertexSource: string, fragmentSource: string): WebGLProgram | null {
     const gl = this._gl;
 
@@ -96,6 +109,12 @@ export class ShaderProgram {
     return program;
   }
 
+  /**
+   * Create and compile shader.
+   * @param shaderType Fragment shader code or vertex shader code.
+   * @param shaderSource Fragment shader source code or vertex shader source code.
+   * @returns WebGLShader | null
+   */
   private _createShader(shaderType: number, shaderSource: string): WebGLShader | null {
     const gl = this._gl;
     const shader = gl.createShader(shaderType);
@@ -124,6 +143,12 @@ export class ShaderProgram {
   }
 
   // 将纹理数据或者uniform数据推入对应组的block
+  /**
+   * Push texture data or uniform data into the block of the corresponding group.
+   * @param uniform Shader uniform.
+   * @param group Shader data group: Scene, Camera, Renderer and Material.
+   * @param isTexture Is it a texture or a uniform variable.
+   */
   private _groupingUniform(uniform: ShaderUniform, group: ShaderDataGroup, isTexture: boolean): void {
     switch (group) {
       case ShaderDataGroup.Scene:
@@ -164,7 +189,7 @@ export class ShaderProgram {
   }
 
   /**
-   * record the location of uniform/attribute.
+   * Record the location of uniform/attribute.
    */
   private _recordLocation() {
     const gl = this._gl;
@@ -263,6 +288,10 @@ export class ShaderProgram {
     });
   }
 
+  /**
+   * Get the address of the active uniform variable in the current webgl program.
+   * @returns Array of uniform variable addresses.
+   */
   private _getUniformInfos(): WebGLActiveInfo[] {
     const gl = this._gl;
     const program = this._glProgram;
@@ -277,6 +306,10 @@ export class ShaderProgram {
     return uniformInfos;
   }
 
+  /**
+   * Get the address of the active attribute variable in the current webgl program.
+   * @returns Array of attribute variable addresses.
+   */
   private _getAttributeInfos(): WebGLActiveInfo[] {
     const gl = this._gl;
     const program = this._glProgram;
@@ -347,9 +380,9 @@ export class ShaderProgram {
    * @returns Whether the shader program is switched.
    */
   bind(): boolean {
-    if (Renderer.currentBindProgram !== this) {
+    if (Renderer.glProgram !== this) {
       this._gl.useProgram(this._glProgram);
-      Renderer.currentBindProgram = this;
+      Renderer.glProgram = this;
       return true;
     } else {
       return false;

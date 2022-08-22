@@ -5,6 +5,7 @@ import { Texture2D, TextureCubeFace, TextureFormat } from './texture';
 import { ShaderPool } from './shader/ShaderPool';
 import { TextureCube } from './texture/TextureCube';
 
+// 引入引擎的时候就将ShaderPool进行初始化
 ShaderPool.init();
 
 export class Engine {

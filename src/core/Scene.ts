@@ -12,7 +12,6 @@ export class Scene {
   entities: Entity[];
   camera: Camera;
   // TODO: 要想在这里使用你就的先抽象出来
-  // readonly background: Background = new Background(this.engine);
   background: Background;
   pointLight: PointLight;
   ambientLight: AmbientLight;

@@ -11,18 +11,30 @@ import {
   IndexBufferBinding,
 } from '../graphic';
 
+/**
+ * Create a model from an array of information such as vertices, indices, normal vectors, etc.
+ */
 export class ModelMesh extends Mesh {
+  /** The number of vertices in the model. */
   private _vertexCount: number = 0;
+  /** Availability of the model. */
   private _accessible: boolean = true;
+
   private _verticesFloat32: Float32Array | null = null;
   private _verticesUint8: Uint8Array | null = null;
-  // 就是一个顶点几个元素，xyz就是3个
+
+  /** A vertex has several elements, xyz is 3. */
   private _elementCount: number = 0;
   private _lastUploadVertexCount: number = -1;
+  /** Index format. */
   private _indicesFormat: IndexFormat = null;
+  /** Index type array. */
   private _indices: Uint8Array | Uint16Array | Uint32Array | null = null;
+  /** Array of vertex positions. */
   private _positions: Vector3[] = [];
+  /** Array of normal vectors. */
   private _normals: Vector3[] | null = null;
+  /** Array of texture coordinates */
   private _uv: Vector2[] | null = null;
 
   /**
@@ -39,11 +51,16 @@ export class ModelMesh extends Mesh {
     return this._vertexCount;
   }
 
+  // TODO: 这个也应该抽到RefObject.
   constructor(gl: WebGLRenderingContext, name?: string) {
     super(gl);
     this.name = name;
   }
 
+  /**
+   * Set the vertex position information of the model.
+   * @param positions Array of model vertex coordinates.
+   */
   setPositions(positions: Vector3[]): void {
     if (!this._accessible) {
       throw 'Not allowed to access data while accessible is false.';
@@ -52,10 +69,18 @@ export class ModelMesh extends Mesh {
     this._vertexCount = positions.length;
   }
 
+  /**
+   * Get the vertex position information of the model.
+   * @returns Array of model vertex coordinates.
+   */
   getPostions(): Vector3[] {
     return this._positions;
   }
 
+  /**
+   * Set model normal vector.
+   * @param normals Array of normal vectors.
+   */
   setNormals(normals: Vector3[]): void {
     if (!this._accessible) {
       throw 'Not allowed to access data while accessible is false.';
@@ -68,14 +93,26 @@ export class ModelMesh extends Mesh {
     this._normals = normals;
   }
 
+  /**
+   * Get model normal vector.
+   * @returns Array of normal vectors.
+   */
   getNormals(): Vector3[] {
     return this._normals;
   }
 
+  /**
+   * Set texture coordinates.
+   * @param uv Texture coordinates.
+   */
   setUVs(uv: Vector2[]): void {
     this._uv = uv;
   }
 
+  /**
+   * Get texture coordinates.
+   * @returns Texture coordinates.
+   */
   getUVs(): Vector2[] {
     return this._uv;
   }
@@ -164,11 +201,14 @@ export class ModelMesh extends Mesh {
     }
   }
 
+  /**
+   * Vertex elements are composed of vertex coordinates, texture coordinates, normal vectors and other information.
+   */
   private _updateVertexElements(): void {
     this._clearVertexElements();
     // 因为顶点元素是必须有的！
     this._addVertexElement(POSITION_VERTEX_ELEMENT);
-
+    // 3 * 4 = 12
     let offset = 12;
     let elementCount = 3;
     if (this._normals) {
@@ -181,6 +221,7 @@ export class ModelMesh extends Mesh {
       offset += 8;
       elementCount += 2;
     }
+    // ! 索引信息没处理
 
     this._elementCount = elementCount;
   }

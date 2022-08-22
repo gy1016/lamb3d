@@ -3,9 +3,15 @@ import { ShaderDataGroup } from './enums/ShaderDataGroup';
 import { ShaderProgram } from './ShaderProgram';
 import { ShaderProperty } from './ShaderProperty';
 
+/**
+ * Shader containing vertex and fragment source.
+ */
 export class Shader {
+  /** Shader counter. */
   private static _shaderCounter = 0;
+  /** Shader map. */
   private static _shaderMap: Record<string, Shader> = Object.create(null);
+  /** Shader counter. */
   private static _propertyNameMap: Record<string, ShaderProperty> = Object.create(null);
 
   /** The name of shader. */
@@ -14,7 +20,9 @@ export class Shader {
   /** @internal */
   _shaderId = 0;
 
+  /** Vertex shader source. */
   private _vertexSource: string;
+  /** Fragment shader source. */
   private _fragmentSource: string;
 
   private constructor(name: string, vertexSource: string, fragmentSource: string) {
@@ -43,7 +51,7 @@ export class Shader {
     if (propertyNameMap[name] != null) {
       return propertyNameMap[name];
     } else {
-      // 实例化的时候并不分配分组
+      // 实例化的时候并不分配分组，即此时property还没有group属性
       const property = new ShaderProperty(name);
       propertyNameMap[name] = property;
       return property;
@@ -52,9 +60,9 @@ export class Shader {
 
   /**
    * Create a shader.
-   * @param name - Name of the shader
-   * @param vertexSource - Vertex source code
-   * @param fragmentSource - Fragment source code
+   * @param name - Name of the shader.
+   * @param vertexSource - Vertex source code.
+   * @param fragmentSource - Fragment source code.
    */
   static create(name: string, vertexSource: string, fragmentSource: string): Shader {
     const shaderMap = Shader._shaderMap;
@@ -72,6 +80,11 @@ export class Shader {
     return Shader._shaderMap[name];
   }
 
+  /**
+   * Create program based on shader.
+   * @param engine
+   * @returns Shader program.
+   */
   _getShaderProgram(engine: Engine): ShaderProgram {
     // 将来可能在这里拼接glsl
     const vertexSource = this._vertexSource;

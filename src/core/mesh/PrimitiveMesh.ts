@@ -2,6 +2,9 @@ import { Vector2, Vector3 } from '../../math';
 import { ModelMesh } from './ModelMesh';
 import { Engine } from '../Engine';
 
+/**
+ * Create a Mesh of Simple Geometry.
+ */
 export class PrimitiveMesh {
   /**
    * Create a cuboid mesh.
@@ -220,6 +223,16 @@ export class PrimitiveMesh {
     return mesh;
   }
 
+  /**
+   *
+   * @param engine - Engine
+   * @param width - Plane width
+   * @param height - Plane height
+   * @param horizontalSegments - Plane horizontal segments
+   * @param verticalSegments - Plane vertical segments
+   * @param noLongerAccessible - Accessible
+   * @returns Plane mesh
+   */
   static createPlane(
     engine: Engine,
     width: number = 1,

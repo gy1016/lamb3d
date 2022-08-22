@@ -3,6 +3,9 @@ import { Texture } from '../texture';
 import { ShaderPropertyValueType } from './ShaderData';
 import { ColorSpace } from '../enums/ColorSpace';
 
+/**
+ * The encapsulation of each uniform variable, including its cache value, data upload method, and data storage address.
+ */
 export class ShaderUniform {
   name: string;
   propertyId: number;
