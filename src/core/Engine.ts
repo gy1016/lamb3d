@@ -104,6 +104,7 @@ export class Engine {
    */
   _render(): void {
     const gl = this._gl;
+    // 这个放这没问题，不然背景画不出来
     gl.depthFunc(gl.LESS);
     // TODO: 这些状态不应该每次都进行获取
     const scene = this.activeScene;
@@ -113,9 +114,12 @@ export class Engine {
     // TODO: 这里要改成递归场景树渲染
     entities.forEach((entity) => {
       const { mesh, material } = entity;
+      // ! 这里每次都要去编译shader代码！！！
+      // TODO: ShaderProgramPool
       const program = material.shader._getShaderProgram(this);
       // 上传相机的数据，这里还需要上传其他模块的数据，比如：场景，材质等
       // 场景的shaderData主要是光线
+      // ! 这里每个实体都要
       program.uploadAll(program.sceneUniformBlock, scene.shaderData);
       program.uploadAll(program.cameraUniformBlock, camera.shaderData);
       program.uploadAll(program.materialUniformBlock, material.shaderData);
