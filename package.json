@@ -1,6 +1,6 @@
 {
   "name": "lamb3d",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A TypeScript 3d mini engine for gis.",
   "main": "index.js",
   "scripts": {

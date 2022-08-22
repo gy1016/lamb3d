@@ -1,3 +1,11 @@
+# [1.1.0](https://github.com/gy1016/lamb3d/compare/v1.0.0...v1.1.0) (2022-08-22)
+
+
+### Features
+
+* add config floder ([a9cc5ca](https://github.com/gy1016/lamb3d/commit/a9cc5cae7343a7acf11b494a500d108f53611a27))
+* add shader program pool ([63ebbbd](https://github.com/gy1016/lamb3d/commit/63ebbbd573f13a7a547a17cea1e7a31ff9144662))
+
 # 1.0.0 (2022-08-14)
 
 
