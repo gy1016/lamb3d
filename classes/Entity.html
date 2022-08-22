@@ -13,12 +13,15 @@
 <li><a href="../modules.html">lamb3d</a></li>
 <li><a href="Entity.html">Entity</a></li></ul>
 <h1>Class Entity</h1></div>
+<section class="tsd-panel tsd-comment">
+<div class="tsd-comment tsd-typography"><p>Entity classes in the scene.</p>
+</div></section>
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
 <li><span class="target">Entity</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/e847c3e/src/core/Entity.ts#L5">core/Entity.ts:5</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/1d743e4/src/core/Entity.ts#L8">core/Entity.ts:8</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -38,6 +41,10 @@
 <a href="Entity.html#parent" class="tsd-index-link tsd-kind-property tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>parent</span></a>
 <a href="Entity.html#transform" class="tsd-index-link tsd-kind-property tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>transform</span></a>
 <a href="Entity.html#_count" class="tsd-index-link tsd-kind-property tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>_count</span></a>
+</div></section>
+<section class="tsd-index-section">
+<h3 class="tsd-index-heading">Methods</h3>
+<div class="tsd-index-list"><a href="Entity.html#addEntity" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF4DB8" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-2048-path"></rect><path d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z" fill="var(--color-text)" id="icon-2048-text"></path></svg><span>add<wbr/>Entity</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Constructors</h2>
@@ -46,60 +53,95 @@
 <ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="constructor.new_Entity">new <wbr/>Entity<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, mesh<span class="tsd-signature-symbol">: </span><a href="Mesh.html" class="tsd-signature-type" data-tsd-kind="Class">Mesh</a>, material<span class="tsd-signature-symbol">: </span><a href="Material.html" class="tsd-signature-type" data-tsd-kind="Class">Material</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Entity.html" class="tsd-signature-type" data-tsd-kind="Class">Entity</a><a href="#constructor.new_Entity" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>An entity consists of meshes and materials.</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>name: <span class="tsd-signature-type">string</span></h5></li>
+<h5>name: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>Entity name.</p>
+</div></li>
 <li>
-<h5>mesh: <a href="Mesh.html" class="tsd-signature-type" data-tsd-kind="Class">Mesh</a></h5></li>
+<h5>mesh: <a href="Mesh.html" class="tsd-signature-type" data-tsd-kind="Class">Mesh</a></h5>
+<div class="tsd-comment tsd-typography"><p>Entity mesh.</p>
+</div></li>
 <li>
-<h5>material: <a href="Material.html" class="tsd-signature-type" data-tsd-kind="Class">Material</a></h5></li></ul></div>
+<h5>material: <a href="Material.html" class="tsd-signature-type" data-tsd-kind="Class">Material</a></h5>
+<div class="tsd-comment tsd-typography"><p>Entity material.</p>
+</div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="Entity.html" class="tsd-signature-type" data-tsd-kind="Class">Entity</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/e847c3e/src/core/Entity.ts#L17">core/Entity.ts:17</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/1d743e4/src/core/Entity.ts#L28">core/Entity.ts:28</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="_children" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>_children</span><a href="#_children" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">_children<span class="tsd-signature-symbol">:</span> <a href="Entity.html" class="tsd-signature-type" data-tsd-kind="Class">Entity</a><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
+<div class="tsd-signature">_children<span class="tsd-signature-symbol">:</span> <a href="Entity.html" class="tsd-signature-type" data-tsd-kind="Class">Entity</a><span class="tsd-signature-symbol">[]</span></div>
+<div class="tsd-comment tsd-typography"><p>Entity childrens.</p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/e847c3e/src/core/Entity.ts#L13">core/Entity.ts:13</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/1d743e4/src/core/Entity.ts#L18">core/Entity.ts:18</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="id" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>id</span><a href="#id" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
+<div class="tsd-signature">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+<div class="tsd-comment tsd-typography"><p>Entity count.</p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/e847c3e/src/core/Entity.ts#L8">core/Entity.ts:8</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/1d743e4/src/core/Entity.ts#L12">core/Entity.ts:12</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="material" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>material</span><a href="#material" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">material<span class="tsd-signature-symbol">:</span> <a href="Material.html" class="tsd-signature-type" data-tsd-kind="Class">Material</a></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/e847c3e/src/core/Entity.ts#L11">core/Entity.ts:11</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/1d743e4/src/core/Entity.ts#L15">core/Entity.ts:15</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="mesh" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>mesh</span><a href="#mesh" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">mesh<span class="tsd-signature-symbol">:</span> <a href="Mesh.html" class="tsd-signature-type" data-tsd-kind="Class">Mesh</a></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/e847c3e/src/core/Entity.ts#L10">core/Entity.ts:10</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/1d743e4/src/core/Entity.ts#L14">core/Entity.ts:14</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="name" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>name</span><a href="#name" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/e847c3e/src/core/Entity.ts#L9">core/Entity.ts:9</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/1d743e4/src/core/Entity.ts#L13">core/Entity.ts:13</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="parent" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>parent</span><a href="#parent" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">parent<span class="tsd-signature-symbol">:</span> <a href="Entity.html" class="tsd-signature-type" data-tsd-kind="Class">Entity</a></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/e847c3e/src/core/Entity.ts#L12">core/Entity.ts:12</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/1d743e4/src/core/Entity.ts#L16">core/Entity.ts:16</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="transform" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>transform</span><a href="#transform" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">transform<span class="tsd-signature-symbol">:</span> <a href="Transform.html" class="tsd-signature-type" data-tsd-kind="Class">Transform</a></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/e847c3e/src/core/Entity.ts#L15">core/Entity.ts:15</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/1d743e4/src/core/Entity.ts#L20">core/Entity.ts:20</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="_count" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>_count</span><a href="#_count" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">_count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></div><aside class="tsd-sources">
+<div class="tsd-signature">_count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></div>
+<div class="tsd-comment tsd-typography"><p>Entity count.</p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/e847c3e/src/core/Entity.ts#L6">core/Entity.ts:6</a></li></ul></aside></section></section></div>
+<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/1d743e4/src/core/Entity.ts#L10">core/Entity.ts:10</a></li></ul></aside></section></section>
+<section class="tsd-panel-group tsd-member-group">
+<h2>Methods</h2>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="addEntity" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>add<wbr/>Entity</span><a href="#addEntity" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="addEntity.addEntity-1">add<wbr/>Entity<span class="tsd-signature-symbol">(</span>entity<span class="tsd-signature-symbol">: </span><a href="Entity.html" class="tsd-signature-type" data-tsd-kind="Class">Entity</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#addEntity.addEntity-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Add child entities.</p>
+
+<h3>Returns</h3><p>The number of child entities.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>entity: <a href="Entity.html" class="tsd-signature-type" data-tsd-kind="Class">Entity</a></h5>
+<div class="tsd-comment tsd-typography"><p>Child entities to be loaded.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/1d743e4/src/core/Entity.ts#L41">core/Entity.ts:41</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -133,7 +175,8 @@
 <li class="tsd-kind-property tsd-parent-kind-class"><a href="Entity.html#name" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>name</a></li>
 <li class="tsd-kind-property tsd-parent-kind-class"><a href="Entity.html#parent" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>parent</a></li>
 <li class="tsd-kind-property tsd-parent-kind-class"><a href="Entity.html#transform" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>transform</a></li>
-<li class="tsd-kind-property tsd-parent-kind-class"><a href="Entity.html#_count" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>_count</a></li></ul></li></ul></nav></div></div>
+<li class="tsd-kind-property tsd-parent-kind-class"><a href="Entity.html#_count" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>_count</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="Entity.html#addEntity" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>add<wbr/>Entity</a></li></ul></li></ul></nav></div></div>
 <div class="container tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
 <div class="overlay"></div><script src="../assets/main.js"></script></body></html>

@@ -13,12 +13,15 @@
 <li><a href="../modules.html">lamb3d</a></li>
 <li><a href="BufferUtil.html">BufferUtil</a></li></ul>
 <h1>Class BufferUtil</h1></div>
+<section class="tsd-panel tsd-comment">
+<div class="tsd-comment tsd-typography"><p>Utility functions for processing Buffers.</p>
+</div></section>
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
 <li><span class="target">BufferUtil</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/e847c3e/src/core/graphic/BufferUtil.ts#L12">core/graphic/BufferUtil.ts:12</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/1d743e4/src/core/graphic/BufferUtil.ts#L21">core/graphic/BufferUtil.ts:21</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -49,7 +52,9 @@
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>_get<wbr/>Element<wbr/>Info</span><a href="#_getElementInfo" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="_getElementInfo._getElementInfo-1">_get<wbr/>Element<wbr/>Info<span class="tsd-signature-symbol">(</span>format<span class="tsd-signature-symbol">: </span><a href="../enums/VertexElementFormat.html" class="tsd-signature-type" data-tsd-kind="Enumeration">VertexElementFormat</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ElementInfo</span><a href="#_getElementInfo._getElementInfo-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
-<li class="tsd-description"><code class="tsd-tag ts-flagInternal">Internal</code> 
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Returns vertex information based on the element&#39;s vertex format.</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
@@ -57,48 +62,68 @@
 <h5>format: <a href="../enums/VertexElementFormat.html" class="tsd-signature-type" data-tsd-kind="Enumeration">VertexElementFormat</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ElementInfo</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/e847c3e/src/core/graphic/BufferUtil.ts#L52">core/graphic/BufferUtil.ts:52</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/1d743e4/src/core/graphic/BufferUtil.ts#L74">core/graphic/BufferUtil.ts:74</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="_getGLBufferUsage" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>_getGLBuffer<wbr/>Usage</span><a href="#_getGLBufferUsage" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="_getGLBufferUsage._getGLBufferUsage-1">_getGLBuffer<wbr/>Usage<span class="tsd-signature-symbol">(</span>gl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">WebGLRenderingContext</span>, bufferUsage<span class="tsd-signature-symbol">: </span><a href="../enums/BufferUsage.html" class="tsd-signature-type" data-tsd-kind="Enumeration">BufferUsage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#_getGLBufferUsage._getGLBufferUsage-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
-<li class="tsd-description"><code class="tsd-tag ts-flagInternal">Internal</code> 
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Obtain the usage of Buffer according to the incoming enumeration.</p>
+
+<h3>Returns</h3><p>The number code used by the internal buffer of gl.</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>gl: <span class="tsd-signature-type">WebGLRenderingContext</span></h5></li>
+<h5>gl: <span class="tsd-signature-type">WebGLRenderingContext</span></h5>
+<div class="tsd-comment tsd-typography"><p>WebGL rendering context.</p>
+</div></li>
 <li>
-<h5>bufferUsage: <a href="../enums/BufferUsage.html" class="tsd-signature-type" data-tsd-kind="Enumeration">BufferUsage</a></h5></li></ul></div>
+<h5>bufferUsage: <a href="../enums/BufferUsage.html" class="tsd-signature-type" data-tsd-kind="Enumeration">BufferUsage</a></h5>
+<div class="tsd-comment tsd-typography"><p>Buffer usage.</p>
+</div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/e847c3e/src/core/graphic/BufferUtil.ts#L16">core/graphic/BufferUtil.ts:16</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/1d743e4/src/core/graphic/BufferUtil.ts#L28">core/graphic/BufferUtil.ts:28</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="_getGLIndexByteCount" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>_getGLIndex<wbr/>Byte<wbr/>Count</span><a href="#_getGLIndexByteCount" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="_getGLIndexByteCount._getGLIndexByteCount-1">_getGLIndex<wbr/>Byte<wbr/>Count<span class="tsd-signature-symbol">(</span>indexFormat<span class="tsd-signature-symbol">: </span><a href="../enums/IndexFormat.html" class="tsd-signature-type" data-tsd-kind="Enumeration">IndexFormat</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../enums/DataType.html" class="tsd-signature-type" data-tsd-kind="Enumeration">DataType</a><a href="#_getGLIndexByteCount._getGLIndexByteCount-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Get gl index byte count.</p>
+
+<h3>Returns</h3><p>Index byte count.</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>indexFormat: <a href="../enums/IndexFormat.html" class="tsd-signature-type" data-tsd-kind="Enumeration">IndexFormat</a></h5></li></ul></div>
+<h5>indexFormat: <a href="../enums/IndexFormat.html" class="tsd-signature-type" data-tsd-kind="Enumeration">IndexFormat</a></h5>
+<div class="tsd-comment tsd-typography"><p>Index type enumeration.</p>
+</div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../enums/DataType.html" class="tsd-signature-type" data-tsd-kind="Enumeration">DataType</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/e847c3e/src/core/graphic/BufferUtil.ts#L38">core/graphic/BufferUtil.ts:38</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/1d743e4/src/core/graphic/BufferUtil.ts#L60">core/graphic/BufferUtil.ts:60</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="_getGLIndexType" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>_getGLIndex<wbr/>Type</span><a href="#_getGLIndexType" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="_getGLIndexType._getGLIndexType-1">_getGLIndex<wbr/>Type<span class="tsd-signature-symbol">(</span>indexFormat<span class="tsd-signature-symbol">: </span><a href="../enums/IndexFormat.html" class="tsd-signature-type" data-tsd-kind="Enumeration">IndexFormat</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../enums/DataType.html" class="tsd-signature-type" data-tsd-kind="Enumeration">DataType</a><a href="#_getGLIndexType._getGLIndexType-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Get index type code.</p>
+
+<h3>Returns</h3><p>The number code used by the internal type of gl.</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>indexFormat: <a href="../enums/IndexFormat.html" class="tsd-signature-type" data-tsd-kind="Enumeration">IndexFormat</a></h5></li></ul></div>
+<h5>indexFormat: <a href="../enums/IndexFormat.html" class="tsd-signature-type" data-tsd-kind="Enumeration">IndexFormat</a></h5>
+<div class="tsd-comment tsd-typography"><p>Index type enumeration.</p>
+</div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../enums/DataType.html" class="tsd-signature-type" data-tsd-kind="Enumeration">DataType</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/e847c3e/src/core/graphic/BufferUtil.ts#L27">core/graphic/BufferUtil.ts:27</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/gy1016/lamb3d/blob/1d743e4/src/core/graphic/BufferUtil.ts#L44">core/graphic/BufferUtil.ts:44</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
