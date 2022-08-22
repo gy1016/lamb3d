@@ -39,19 +39,19 @@
       } from './index.esm.js';
 
       const lamb3d = new Engine('gy');
-      const camera = new Camera(lamb3d);
-      camera.transform.position = new Vector3(0, 0, 3);
+      // const camera = new Camera(lamb3d);
+      // camera.transform.position = new Vector3(0, 0, 3);
 
-      camera.transform.lookAt(new Vector3(0, 0, 0));
-      lamb3d.activeScene.camera = camera;
+      // camera.transform.lookAt(new Vector3(0, 0, 0));
+      // lamb3d.activeScene.camera = camera;
 
-      const shader = initShader('CustomShader');
-      const material = new ImageMaterial(lamb3d, shader, earthUrl);
+      // const shader = initShader('CustomShader');
+      // const material = new ImageMaterial(lamb3d, shader, earthUrl);
 
-      const mesh = PrimitiveMesh.createSphereByParamEquation(lamb3d, 1, 40);
-      const entity = new Entity('Sphere1', mesh, material);
+      // const mesh = PrimitiveMesh.createSphereByParamEquation(lamb3d, 1, 40);
+      // const entity = new Entity('Sphere1', mesh, material);
 
-      lamb3d.activeScene.addEntity(entity);
+      // lamb3d.activeScene.addEntity(entity);
       lamb3d.run();
 
       function initShader(name) {

@@ -8,15 +8,26 @@ import { TextureCube } from './texture/TextureCube';
 // 引入引擎的时候就将ShaderPool进行初始化
 ShaderPool.init();
 
+/**
+ * The engine is the big steward of all content.
+ */
 export class Engine {
+  /** The canvas corresponding to the engine. */
   protected _canvas: Canvas;
+  // TODO: 考虑接入WebGL2.
+  /** WebGL rendering context. */
   protected _gl: WebGLRenderingContext;
 
+  /** Current active scene. */
   private activeScene: Scene;
+  /** Used to calculate the interval between each frame rendering. */
   private _time: Time = new Time();
+  /** Easy to destroy RAF. */
   private _requestId: number;
 
+  /** Rendered 2D texture when the image has not been loaded yet. */
   _whiteTexture2D: Texture2D;
+  /** Rendered cube texture when the image has not been loaded yet. */
   _whiteTextureCube: TextureCube;
 
   get canvas(): Canvas {
@@ -31,15 +42,17 @@ export class Engine {
     return this._time;
   }
 
+  /**
+   * Animation rendering.
+   */
   private _animate = () => {
     this._requestId = requestAnimationFrame(this._animate);
     this.update();
   };
 
   /**
-   * constructor
-   * @param canvasId : getElementById
-   * @param params : engine params
+   * Engine instance.
+   * @param canvasId HTML canvas id.
    */
   constructor(canvasId: string) {
     const canvas = document.getElementById(canvasId);
@@ -71,10 +84,14 @@ export class Engine {
     this._whiteTextureCube = whiteTextureCube;
   }
 
+  /**
+   * Update all data.
+   */
   update() {
     const time = this._time;
     const deltaTime = time.deltaTime;
     const camera = this.activeScene.camera;
+    // 更新相机位置信息
     camera.orbitControl.onUpdate(deltaTime);
 
     time.tick();
@@ -82,15 +99,19 @@ export class Engine {
     this._render();
   }
 
+  /**
+   * Render based on updated data.
+   */
   _render(): void {
     const gl = this._gl;
     gl.depthFunc(gl.LESS);
+    // TODO: 这些状态不应该每次都进行获取
     const scene = this.activeScene;
     const entities = scene.entities;
     const camera = scene.camera;
     camera && camera.render();
+    // TODO: 这里要改成递归场景树渲染
     entities.forEach((entity) => {
-      // TODO: 背景的Mesh怎么渲染呢？？？这是一个问题？？
       const { mesh, material } = entity;
       const program = material.shader._getShaderProgram(this);
       // 上传相机的数据，这里还需要上传其他模块的数据，比如：场景，材质等
@@ -110,11 +131,17 @@ export class Engine {
     _mesh._draw(skyProgram, _mesh.subMesh);
   }
 
+  /**
+   * Timing and rendering.
+   */
   resume(): void {
     this.time.reset();
     this._requestId = requestAnimationFrame(this._animate);
   }
 
+  /**
+   * Engine run.
+   */
   run() {
     this.resume();
   }

@@ -32,4 +32,19 @@ export class Entity {
     this.material = material;
     this.transform = new Transform(this);
   }
+
+  /**
+   * Add child entities.
+   * @param entity Child entities to be loaded.
+   * @returns The number of child entities.
+   */
+  addEntity(entity: Entity): number {
+    if (entity instanceof Entity) {
+      if (this._children == null) {
+        this._children = [];
+      }
+      this._children.push(entity);
+    }
+    return this._children.length;
+  }
 }
