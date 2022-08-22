@@ -20,7 +20,7 @@ export class ImageMaterial extends Material {
     this.loadTexture(url)
       .then((image) => {
         this.texture2d = new Texture2D(engine, image.width, image.height, TextureFormat.R8G8B8, false);
-        this.texture2d.setImageSource(image, 0, false, false, 0, 0);
+        this.texture2d.setImageSource(image, 0, false);
         shaderData.setTexture(ImageMaterial._sampleprop, this.texture2d);
       })
       .catch((error) => {

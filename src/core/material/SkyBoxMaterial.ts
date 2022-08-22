@@ -36,7 +36,7 @@ export class SkyBoxMaterial extends Material {
       image.src = url;
       image.crossOrigin = 'anonymous';
       image.onload = () => {
-        this.textureCube.setImageSource(target, image, level, false, false, 0, 0);
+        this.textureCube.setImageSource(target, image, level);
         gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
       };
     });

@@ -4,7 +4,17 @@ import { TextureFormat } from './enums/TextureFormat';
 import { TextureWrapMode } from './enums/TextureWrapMode';
 import { Texture } from './Texture';
 
+/**
+ * Cube texture.
+ */
 export class TextureCube extends Texture {
+  /**
+   * Create TextureCube.
+   * @param engine Define the engine to use to render this texture.
+   * @param size Texture size. texture width must be equal to height in cube texture.
+   * @param format Texture format,default TextureFormat.R8G8B8A8.
+   * @param mipmap Whether to use multi-level texture.
+   */
   constructor(engine: Engine, size: number, format: TextureFormat = TextureFormat.R8G8B8A8, mipmap: boolean = true) {
     super();
 
@@ -23,14 +33,20 @@ export class TextureCube extends Texture {
     this._formatDetail = Texture._getFormatDetail(format, this._gl);
   }
 
+  /**
+   * Set texture based on pixel buffer.
+   * @param face Which side of the cube.
+   * @param colorBuffer Color buffer.
+   * @param mipLevel Mip level.
+   */
   setPixelBuffer(
     face: number,
     colorBuffer: ArrayBufferView,
     mipLevel: number = 0,
-    x: number = 0,
-    y: number = 0,
-    width?: number,
-    height?: number,
+    // x: number = 0,
+    // y: number = 0,
+    // width?: number,
+    // height?: number,
   ): void {
     const gl = this._gl;
     const { internalFormat, baseFormat, dataType } = this._formatDetail;
@@ -53,14 +69,20 @@ export class TextureCube extends Texture {
     );
   }
 
+  /**
+   * Set the texture according to the picture.
+   * @param face Which side of the cube.
+   * @param imageSource Image source.
+   * @param mipLevel Mip level.
+   */
   setImageSource(
     face: number,
     imageSource: TexImageSource | null,
     mipLevel: number,
-    flipY: boolean,
-    premultiplyAlpha: boolean,
-    x: number,
-    y: number,
+    // flipY: boolean,
+    // premultiplyAlpha: boolean,
+    // x: number,
+    // y: number,
   ): void {
     const gl = this._gl;
     const { baseFormat, dataType, internalFormat } = this._formatDetail;
