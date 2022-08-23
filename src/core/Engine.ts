@@ -104,6 +104,7 @@ export class Engine {
    */
   _render(): void {
     const gl = this._gl;
+    gl.viewport(0, 0, this.canvas.width, this.canvas.height);
     // 这个放这没问题，不然背景画不出来
     gl.depthFunc(gl.LESS);
     // TODO: 这些状态不应该每次都进行获取

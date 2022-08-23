@@ -54,5 +54,9 @@ export class Canvas {
     this._canvas = canvas;
     this._width = width;
     this._height = height;
+    // TODO: 做的不好，应该想个优雅的方法
+    window.addEventListener('resize', () => {
+      this.resizeByClientSize();
+    });
   }
 }
