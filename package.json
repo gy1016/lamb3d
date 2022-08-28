@@ -1,16 +1,31 @@
 {
   "name": "lamb3d",
   "version": "1.1.0",
-  "description": "A TypeScript 3d mini engine for gis.",
-  "main": "index.js",
+  "description": "A 3d gis engine written in TypeScript and WebAssembly.",
+  "author": "lamb",
+  "license": "MIT",
+  "keywords": [
+    "gis",
+    "webgl",
+    "wasm"
+  ],
+  "homepage": "https://github.com/gy1016/lamb3d",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gy1016/lamb3d"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "dev": "cross-env NODE_ENV=development rollup -cw -m inline",
     "build": "rm -rf dist && rollup -c",
     "lint": "prettier --write .",
     "docs": "typedoc"
   },
-  "author": "lamb",
-  "license": "ISC",
   "devDependencies": {
     "@commitlint/cli": "^16.2.3",
     "@commitlint/config-conventional": "^16.2.1",
@@ -18,6 +33,7 @@
     "@rollup/plugin-node-resolve": "^13.1.3",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
+    "@semantic-release/npm": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
     "cross-env": "^7.0.3",
