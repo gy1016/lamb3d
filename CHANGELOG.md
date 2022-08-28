@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/gy1016/lamb3d/compare/v1.1.0...v1.1.1) (2022-08-28)
+
+
+### Bug Fixes
+
+* window resize entity deformation ([17ada22](https://github.com/gy1016/lamb3d/commit/17ada22f9ea8ac82258f5652a534b53ffabe933a))
+
 # [1.1.0](https://github.com/gy1016/lamb3d/compare/v1.0.0...v1.1.0) (2022-08-22)
 
 
