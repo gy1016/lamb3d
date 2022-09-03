@@ -32,6 +32,12 @@ export class PointLight extends Light {
     return this.transform.worldPosition;
   }
 
+  set position(value: Vector3) {
+    if (this.position !== value) {
+      value.cloneTo(this.transform.worldPosition);
+    }
+  }
+
   /**
    * Get the final light color.
    */

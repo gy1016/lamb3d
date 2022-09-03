@@ -111,7 +111,10 @@ export class Engine {
     const scene = this.activeScene;
     const entities = scene.entities;
     const camera = scene.camera;
+    const pointLight = scene.pointLight;
     camera && camera.render();
+    pointLight.position = camera.transform.position;
+    pointLight._updateShaderData(scene.shaderData);
     // TODO: 这里要改成递归场景树渲染
     entities.forEach((entity) => {
       const { mesh, material } = entity;
