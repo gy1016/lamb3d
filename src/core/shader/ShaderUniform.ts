@@ -73,6 +73,59 @@ export class ShaderUniform {
     this._gl.uniform3fv(shaderUniform.location, value);
   }
 
+  upload4f(shaderUniform: ShaderUniform, value: Vector4 | Color): void {
+    const cacheValue = <Vector4>this.cacheValue;
+    if ((<Color>value).r !== undefined) {
+      if (
+        cacheValue.x !== (<Color>value).r ||
+        cacheValue.y !== (<Color>value).g ||
+        cacheValue.z !== (<Color>value).b ||
+        cacheValue.w !== (<Color>value).a
+      ) {
+        if (this._colorSpace === ColorSpace.Linear) {
+          this._gl.uniform4f(
+            shaderUniform.location,
+            Color.gammaToLinearSpace((<Color>value).r),
+            Color.gammaToLinearSpace((<Color>value).g),
+            Color.gammaToLinearSpace((<Color>value).b),
+            (<Color>value).a,
+          );
+        } else {
+          this._gl.uniform4f(
+            shaderUniform.location,
+            (<Color>value).r,
+            (<Color>value).g,
+            (<Color>value).b,
+            (<Color>value).a,
+          );
+        }
+        cacheValue.x = (<Color>value).r;
+        cacheValue.y = (<Color>value).g;
+        cacheValue.z = (<Color>value).b;
+        cacheValue.w = (<Color>value).a;
+      }
+    } else {
+      if (
+        cacheValue.x !== (<Vector4>value).x ||
+        cacheValue.y !== (<Vector4>value).y ||
+        cacheValue.z !== (<Vector4>value).z ||
+        cacheValue.w !== (<Vector4>value).w
+      ) {
+        this._gl.uniform4f(
+          shaderUniform.location,
+          (<Vector4>value).x,
+          (<Vector4>value).y,
+          (<Vector4>value).z,
+          (<Vector4>value).w,
+        );
+        cacheValue.x = (<Vector4>value).x;
+        cacheValue.y = (<Vector4>value).y;
+        cacheValue.z = (<Vector4>value).z;
+        cacheValue.w = (<Vector4>value).w;
+      }
+    }
+  }
+
   upload4fv(shaderUniform: ShaderUniform, value: Float32Array): void {
     this._gl.uniform4fv(shaderUniform.location, value);
   }

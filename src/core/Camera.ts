@@ -23,6 +23,9 @@ export class Camera {
   private static _viewMatrixProperty = Shader.getPropertyByName('u_viewMat');
   private static _projectionMatrixProperty = Shader.getPropertyByName('u_projMat');
   private static _inverseVPMatrixProperty = Shader.getPropertyByName('u_invVPMat');
+  private static _vpMatrixProperty = Shader.getPropertyByName('u_vpMat');
+  private static _cameraPositionProperty = Shader.getPropertyByName('u_cameraPos');
+  private static _cameraPosSquaredProperty = Shader.getPropertyByName('u_cameraPosSquared');
 
   /**
    * Compute the inverse of the rotation translation matrix.
@@ -214,13 +217,25 @@ export class Camera {
    */
   private _updateShaderData(): void {
     const shaderData = this.shaderData;
-    const invVPMat = new Matrix4();
-    Matrix4.multiply(this.viewMatrix, this.projectionMatrix, invVPMat);
-    invVPMat.invert();
+
+    const vpMat = new Matrix4();
+    // 需要把逆矩阵单独搞一个变量，因为是引用类型，赋值并没有开辟新对象
+    const invVpMat = new Matrix4();
+    const cameraPos = this.transform.worldPosition;
+    const cameraPosSquared = new Vector3();
+
+    // 注意顺序：perspect * view * model
+    Matrix4.multiply(this.projectionMatrix, this.viewMatrix, vpMat);
+    Matrix4.invert(vpMat, invVpMat);
+    Vector3.multiply(cameraPos, cameraPos, cameraPosSquared);
+
     // TODO: 应该把VP矩阵都成好再传给gl，封装common shader的时候再做
     shaderData.setMatrix(Camera._viewMatrixProperty, this.viewMatrix);
     shaderData.setMatrix(Camera._projectionMatrixProperty, this.projectionMatrix);
-    shaderData.setMatrix(Camera._inverseVPMatrixProperty, invVPMat);
+    shaderData.setMatrix(Camera._vpMatrixProperty, vpMat);
+    shaderData.setMatrix(Camera._inverseVPMatrixProperty, invVpMat);
+    shaderData.setVector3(Camera._cameraPositionProperty, cameraPos);
+    shaderData.setVector3(Camera._cameraPosSquaredProperty, cameraPosSquared);
   }
 
   /**

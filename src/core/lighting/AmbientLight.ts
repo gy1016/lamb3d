@@ -7,7 +7,7 @@ import { Color } from '../../math';
  */
 export class AmbientLight {
   /** Get the address of the point ambient color uniform variable in the shader. */
-  private static _colorProperty: ShaderProperty = Shader.getPropertyByName('u_ambientightColor');
+  private static _colorProperty: ShaderProperty = Shader.getPropertyByName('u_diffuseSpecularAmbientShininess');
   /** The color of the light. */
   color: Color;
 
@@ -21,7 +21,7 @@ export class AmbientLight {
    */
   _updateShaderData(shaderData: ShaderData): void {
     const color = this.color;
-    const ambientColor = new Float32Array([color.r, color.g, color.b]);
+    const ambientColor = new Float32Array([color.r, color.g, color.b, color.a]);
     shaderData.setFloatArray(AmbientLight._colorProperty, ambientColor);
   }
 }

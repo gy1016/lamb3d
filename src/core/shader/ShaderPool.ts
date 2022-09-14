@@ -1,5 +1,7 @@
 import skyboxFs from '../shaderlib/extra/skybox.fs.glsl';
 import skyboxVs from '../shaderlib/extra/skybox.vs.glsl';
+import rayCastedGlobeFs from '../shaderlib/extra/rayCastedGlobe.fs.glsl';
+import rayCastedGlobeVs from '../shaderlib/extra/rayCastedGlobe.vs.glsl';
 import commonFs from '../shaderlib/common.fs.glsl';
 import commonVs from '../shaderlib/common.vs.glsl';
 import { Shader } from './Shader';
@@ -14,5 +16,6 @@ export class ShaderPool {
   static init(): void {
     Shader.create('skybox', skyboxVs, skyboxFs);
     Shader.create('common', commonVs, commonFs);
+    Shader.create('rayCastedGlobe', rayCastedGlobeVs, rayCastedGlobeFs);
   }
 }

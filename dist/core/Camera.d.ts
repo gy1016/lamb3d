@@ -13,6 +13,9 @@ export declare class Camera {
     private static _viewMatrixProperty;
     private static _projectionMatrixProperty;
     private static _inverseVPMatrixProperty;
+    private static _vpMatrixProperty;
+    private static _cameraPositionProperty;
+    private static _cameraPosSquaredProperty;
     /**
      * Compute the inverse of the rotation translation matrix.
      * @param rotation - The rotation used to calculate matrix

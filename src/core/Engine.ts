@@ -109,31 +109,41 @@ export class Engine {
     gl.depthFunc(gl.LESS);
     // TODO: 这些状态不应该每次都进行获取
     const scene = this.activeScene;
-    const entities = scene.entities;
+    const globe = scene.globe;
     const camera = scene.camera;
     camera && camera.render();
+
+    // 首先渲染地球
+    const { mesh, material } = globe;
+    const globeProgram = material.shader._getShaderProgram(this);
+    globeProgram.uploadAll(globeProgram.sceneUniformBlock, scene.shaderData);
+    globeProgram.uploadAll(globeProgram.cameraUniformBlock, camera.shaderData);
+    globeProgram.uploadAll(globeProgram.materialUniformBlock, material.shaderData);
+    mesh._draw(globeProgram, mesh.subMesh);
+
     // TODO: 这里要改成递归场景树渲染
-    entities.forEach((entity) => {
-      const { mesh, material } = entity;
-      // ! 这里每次都要去编译shader代码！！！
-      // TODO: ShaderProgramPool
-      const program = material.shader._getShaderProgram(this);
-      // 上传相机的数据，这里还需要上传其他模块的数据，比如：场景，材质等
-      // 场景的shaderData主要是光线
-      // ! 这里每个实体都要
-      program.uploadAll(program.sceneUniformBlock, scene.shaderData);
-      program.uploadAll(program.cameraUniformBlock, camera.shaderData);
-      program.uploadAll(program.materialUniformBlock, material.shaderData);
-      mesh._draw(program, mesh.subMesh);
-    });
+    // entities.forEach((entity) => {
+    //   const { mesh, material } = entity;
+    //   // ! 这里每次都要去编译shader代码！！！
+    //   // TODO: ShaderProgramPool
+    //   const program = material.shader._getShaderProgram(this);
+    //   // 上传相机的数据，这里还需要上传其他模块的数据，比如：场景，材质等
+    //   // 场景的shaderData主要是光线
+    //   // ! 这里每个实体都要
+    //   program.uploadAll(program.sceneUniformBlock, scene.shaderData);
+    //   program.uploadAll(program.cameraUniformBlock, camera.shaderData);
+    //   program.uploadAll(program.materialUniformBlock, material.shaderData);
+    //   mesh._draw(program, mesh.subMesh);
+    // });
+
     // 最后渲染背景
-    gl.depthFunc(gl.LEQUAL);
-    const { _mesh, _material } = scene.background;
-    // ! 每次渲染都去实例化不可以！而且bind不应该放在构造函数，否则无法切换program
-    const skyProgram = _material.shader._getShaderProgram(this);
-    skyProgram.uploadAll(skyProgram.cameraUniformBlock, camera.shaderData);
-    skyProgram.uploadAll(skyProgram.materialUniformBlock, _material.shaderData);
-    _mesh._draw(skyProgram, _mesh.subMesh);
+    // gl.depthFunc(gl.LEQUAL);
+    // const { _mesh, _material } = scene.background;
+    // // ! 每次渲染都去实例化不可以！而且bind不应该放在构造函数，否则无法切换program
+    // const skyProgram = _material.shader._getShaderProgram(this);
+    // skyProgram.uploadAll(skyProgram.cameraUniformBlock, camera.shaderData);
+    // skyProgram.uploadAll(skyProgram.materialUniformBlock, _material.shaderData);
+    // _mesh._draw(skyProgram, _mesh.subMesh);
   }
 
   /**

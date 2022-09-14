@@ -6,6 +6,7 @@ import { ShaderData } from './ShaderData';
 import { Renderer } from '../Renderer';
 import { Engine } from '../Engine';
 import { Texture } from '../texture';
+import { Vector3, Vector4 } from '../../math';
 
 /**
  * Shader program, corresponding to the GPU shader program.
@@ -228,12 +229,19 @@ export class ShaderProgram {
           }
           break;
         case gl.FLOAT_VEC3:
-          // TODO: 这里要考虑数组的情况
-          shaderUniform.applyFunc = shaderUniform.upload3fv;
+          if (isArray) {
+            shaderUniform.applyFunc = shaderUniform.upload3fv;
+          } else {
+            shaderUniform.applyFunc = shaderUniform.upload3f;
+            shaderUniform.cacheValue = new Vector3(0, 0, 0);
+          }
           break;
         case gl.FLOAT_VEC4:
           if (isArray) {
             shaderUniform.applyFunc = shaderUniform.upload4fv;
+          } else {
+            shaderUniform.applyFunc = shaderUniform.upload4f;
+            shaderUniform.cacheValue = new Vector4(0, 0, 0, 0);
           }
           break;
         case gl.INT:
@@ -302,7 +310,7 @@ export class ShaderProgram {
       const info = gl.getActiveUniform(program, i);
       uniformInfos[i] = info;
     }
-
+    console.log(uniformInfos);
     return uniformInfos;
   }
 
@@ -349,7 +357,11 @@ export class ShaderProgram {
       const uniform = constUniforms[i];
       const data = properties[uniform.propertyId];
       // ! Highlight: 这里相当于把CPU中的值分配给GPU
-      data != null && uniform.applyFunc(uniform, data);
+      try {
+        data != null && uniform.applyFunc(uniform, data);
+      } catch (err) {
+        console.log(err, uniform, data);
+      }
     }
   }
 

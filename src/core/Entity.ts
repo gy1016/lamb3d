@@ -10,13 +10,18 @@ export class Entity {
   static _count: number = 1;
   /** Entity count. */
   id: number;
+  /** Entity name. */
   name: string;
+  /** Entity mesh. */
   mesh: Mesh;
+  /** Entity material. */
   material: Material;
+  /** Parent entity id. */
   parent: Entity;
   /** Entity childrens. */
   _children: Entity[];
 
+  /** Entity ransform. */
   readonly transform: Transform;
 
   /**

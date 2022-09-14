@@ -10,7 +10,7 @@ export class ImageMaterial extends Material {
   /** The texture used by the image material. */
   texture2d: Texture2D;
   /** The address of the texture sampler in the shader. */
-  static _sampleprop = Shader.getPropertyByName('u_Sampler');
+  static _sampleprop = Shader.getPropertyByName('u_sampler');
 
   // TODO: 应该建立一个shader池，这样就不用再传入shader了
   constructor(engine: Engine, shader: Shader, url: string) {

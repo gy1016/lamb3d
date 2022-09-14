@@ -86,7 +86,7 @@ export class Shader {
    * @returns Shader program.
    */
   _getShaderProgram(engine: Engine): ShaderProgram {
-    // 将来可能在这里拼接glsl
+    // TODO: 将常量shader拼接到这里
     const vertexSource = this._vertexSource;
     const fragmentSource = this._fragmentSource;
 

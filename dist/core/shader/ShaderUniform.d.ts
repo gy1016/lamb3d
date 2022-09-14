@@ -20,6 +20,7 @@ export declare class ShaderUniform {
     upload2fv(shaderUniform: ShaderUniform, value: Float32Array): void;
     upload3f(shaderUniform: ShaderUniform, value: Vector3 | Vector4 | Color): void;
     upload3fv(shaderUniform: ShaderUniform, value: Float32Array): void;
+    upload4f(shaderUniform: ShaderUniform, value: Vector4 | Color): void;
     upload4fv(shaderUniform: ShaderUniform, value: Float32Array): void;
     upload1i(shaderUniform: ShaderUniform, value: number): void;
     upload1iv(shaderUniform: ShaderUniform, value: Int32Array): void;
