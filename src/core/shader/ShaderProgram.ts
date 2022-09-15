@@ -310,7 +310,6 @@ export class ShaderProgram {
       const info = gl.getActiveUniform(program, i);
       uniformInfos[i] = info;
     }
-    console.log(uniformInfos);
     return uniformInfos;
   }
 

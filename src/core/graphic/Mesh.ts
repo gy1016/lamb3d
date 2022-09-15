@@ -117,7 +117,8 @@ export abstract class Mesh {
   }
 
   _draw(shaderProgram: ShaderProgram, subMesh: SubMesh): void {
-    this._platformPrimitive.draw(shaderProgram, subMesh);
+    // this._platformPrimitive.draw(shaderProgram, subMesh);
+    this._platformPrimitive.testDraw(shaderProgram);
   }
 
   _onDestroy(): void {

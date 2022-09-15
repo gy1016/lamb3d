@@ -29,4 +29,5 @@ export declare class Renderer {
      * Draw the primitive.
      */
     draw(shaderProgram: ShaderProgram, subMesh: SubMesh): void;
+    testDraw(shaderProgram: ShaderProgram): void;
 }

@@ -136,7 +136,7 @@ export class Engine {
     //   mesh._draw(program, mesh.subMesh);
     // });
 
-    // 最后渲染背景
+    // 最后渲染背景;
     // gl.depthFunc(gl.LEQUAL);
     // const { _mesh, _material } = scene.background;
     // // ! 每次渲染都去实例化不可以！而且bind不应该放在构造函数，否则无法切换program

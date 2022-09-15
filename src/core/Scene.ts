@@ -37,11 +37,13 @@ export class Scene {
 
     // 初始化场景相机
     this.camera = new Camera(engine);
-    this.camera.transform.position = new Vector3(0, 0, 3);
+    this.camera.transform.position = new Vector3(10, 10, 10);
     this.camera.transform.lookAt(new Vector3(0, 0, 0));
 
     // 初始化场景地球
     this._globe = new RayCastedGlobe(engine);
+    this.globe.uploadShaderData(this.shaderData);
+
     // 初始化背景，即天空盒
     this.background = new Background(this.engine);
 

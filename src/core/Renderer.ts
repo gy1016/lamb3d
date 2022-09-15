@@ -99,4 +99,98 @@ export class Renderer {
       }
     }
   }
+
+  testDraw(shaderProgram: ShaderProgram) {
+    const gl = this.gl;
+    const position = new Float32Array([
+      1.0,
+      1.0,
+      1.0,
+      -1.0,
+      1.0,
+      1.0,
+      -1.0,
+      -1.0,
+      1.0,
+      1.0,
+      -1.0,
+      1.0, //front面 v0-4
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      -1.0,
+      1.0,
+      1.0,
+      -1.0,
+      -1.0,
+      1.0,
+      1.0,
+      -1.0, //right v0345
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      -1.0,
+      -1.0,
+      1.0,
+      -1.0,
+      -1.0,
+      1.0,
+      1.0, //up v0561
+      -1.0,
+      1.0,
+      1.0,
+      -1.0,
+      -1.0,
+      1.0,
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0,
+      1.0,
+      -1.0, //left
+      -1.0,
+      -1.0,
+      1.0,
+      1.0,
+      -1.0,
+      1.0,
+      1.0,
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0, //down
+      1.0,
+      -1.0,
+      -1.0,
+      1.0,
+      1.0,
+      -1.0,
+      -1.0,
+      1.0,
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0, //back
+    ]);
+    var buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, position, gl.STATIC_DRAW);
+    var loc = gl.getAttribLocation(shaderProgram.glProgram, 'POSITION');
+    gl.vertexAttribPointer(loc, 3, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(loc);
+    const indice = new Uint8Array([
+      0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7, 8, 9, 10, 8, 10, 11, 12, 13, 14, 12, 14, 15, 16, 17, 18, 16, 18, 19, 20, 21,
+      22, 20, 22, 23,
+    ]);
+    var buf = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indice, gl.STATIC_DRAW);
+    gl.enable(gl.DEPTH_TEST);
+    gl.clearColor(1.0, 1.0, 1.0, 1.0);
+    gl.drawElements(gl.TRIANGLES, indice.length, gl.UNSIGNED_BYTE, 0);
+  }
 }

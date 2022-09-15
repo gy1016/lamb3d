@@ -15,12 +15,11 @@ export class ImageMaterial extends Material {
   // TODO: 应该建立一个shader池，这样就不用再传入shader了
   constructor(engine: Engine, shader: Shader, url: string) {
     super(engine, shader);
-
     const shaderData = this.shaderData;
     this.loadTexture(url)
       .then((image) => {
         this.texture2d = new Texture2D(engine, image.width, image.height, TextureFormat.R8G8B8, false);
-        this.texture2d.setImageSource(image, 0, false);
+        this.texture2d.setImageSource(image, 0, true);
         shaderData.setTexture(ImageMaterial._sampleprop, this.texture2d);
       })
       .catch((error) => {

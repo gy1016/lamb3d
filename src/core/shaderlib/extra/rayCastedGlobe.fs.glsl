@@ -8,8 +8,9 @@ uniform vec3 u_cameraPos;
 uniform vec3 u_cameraPosSquared;
 uniform vec3 u_globeOneOverRadiiSquared;
 uniform vec3 u_pointLightPosition;
-uniform sampler2D u_sampler;
 uniform vec4 u_diffuseSpecularAmbientShininess;
+uniform sampler2D u_sampler;
+
 
 struct Intersection
 {
