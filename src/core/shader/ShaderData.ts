@@ -371,6 +371,44 @@ export class ShaderData {
     this._setData(property, value);
   }
 
+  /**
+   * Get color by shader property name.
+   * @param propertyName - Shader property name
+   * @returns Color
+   */
+  getColor(propertyName: string): Color;
+
+  /**
+   * Get color by shader property.
+   * @param property - Shader property
+   * @returns Color
+   */
+  getColor(property: ShaderProperty): Color;
+
+  getColor(property: string | ShaderProperty): Color {
+    return this._getData(property);
+  }
+
+  /**
+   * Set color by shader property name.
+   * @remarks Correspondence includes vec4 shader property type.
+   * @param propertyName - Shader property name
+   * @param value - Color
+   */
+  setColor(propertyName: string, value: Color): void;
+
+  /**
+   * Set color by shader property.
+   * @remarks Correspondence includes vec4 shader property type.
+   * @param property - Shader property
+   * @param value - Color
+   */
+  setColor(property: ShaderProperty, value: Color): void;
+
+  setColor(property: string | ShaderProperty, value: Color): void {
+    this._setData(property, value);
+  }
+
   // 设置数据的时候顺便指定了分组！！！
   _setData<T extends ShaderPropertyValueType>(property: string | ShaderProperty, value: T): void {
     if (typeof property === 'string') {

@@ -63,7 +63,7 @@ float LightIntensity(vec3 normal, vec3 toLight, vec3 toEye, vec4 diffuseSpecular
 
 vec2 ComputeTextureCoordinates(vec3 normal)
 {
-    return vec2(atan(normal.y, normal.x) * oneOverTwoPi + 0.5, asin(normal.z) * oneOverPi + 0.5);
+    return vec2(atan(normal.x, normal.z) * oneOverTwoPi + 0.5, asin(normal.y) * oneOverPi + 0.5);
 }
 
 void main()
@@ -76,8 +76,9 @@ void main()
         vec3 position = u_cameraPos + (i.NearTime * rayDirection);
         vec3 normal = GeodeticSurfaceNormal(position, u_globeOneOverRadiiSquared);
 
-        vec3 toLight = normalize(u_pointLightPosition - position);
+        vec3 toLight = normalize(u_cameraPos - position);
         vec3 toEye = normalize(u_cameraPos - position);
+
         float intensity = LightIntensity(normal, toLight, toEye, u_diffuseSpecularAmbientShininess);
 
         gl_FragColor = vec4(intensity * texture2D(u_sampler, ComputeTextureCoordinates(normal)).rgb, 1.0);

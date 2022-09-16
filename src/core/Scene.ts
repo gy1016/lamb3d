@@ -48,11 +48,11 @@ export class Scene {
     this.background = new Background(this.engine);
 
     // 初始化场景点光源
-    this.pointLight = new PointLight(new Vector3(0, 0, 10));
+    this.pointLight = new PointLight(new Vector3(10, 10, 10));
     this.pointLight._updateShaderData(this.shaderData);
 
     // 初始化场景环境光
-    this.ambientLight = new AmbientLight(new Color(0.2, 0.2, 0.2, 1));
+    this.ambientLight = new AmbientLight(new Color(0.3, 0.3, 0.3, 1));
     this.ambientLight._updateShaderData(this.shaderData);
   }
 

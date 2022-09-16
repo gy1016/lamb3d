@@ -21,7 +21,6 @@ export class AmbientLight {
    */
   _updateShaderData(shaderData: ShaderData): void {
     const color = this.color;
-    const ambientColor = new Float32Array([color.r, color.g, color.b, color.a]);
-    shaderData.setFloatArray(AmbientLight._colorProperty, ambientColor);
+    shaderData.setColor(AmbientLight._colorProperty, color);
   }
 }

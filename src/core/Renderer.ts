@@ -73,6 +73,7 @@ export class Renderer {
     const gl = this.gl;
     gl.clearColor(0, 0, 0, 0);
     gl.enable(gl.DEPTH_TEST);
+    gl.cullFace(gl.FRONT);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   }
 
