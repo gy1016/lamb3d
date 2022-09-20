@@ -1,3 +1,4 @@
+// TODO: 不该在这里引入OrbitControl造成了循环依赖，应当剔除
 import { OrbitControl } from '../controls/OrbitControl';
 import { MathUtil, Matrix4, Quaternion, Vector2, Vector3, Vector4 } from '../math';
 import { Engine } from './Engine';
@@ -8,6 +9,8 @@ import { Transform } from './Transform';
  * Camera.
  */
 export class Camera {
+  private static _tempViewMatrix: Matrix4 = new Matrix4();
+
   // 把引擎也引进来主要是为了获取到canvas的宽高
   // 便于设置透视投影矩阵与宽高比
   // TODO待重构，抽出一个Component
@@ -22,9 +25,11 @@ export class Camera {
 
   private static _viewMatrixProperty = Shader.getPropertyByName('u_viewMat');
   private static _projectionMatrixProperty = Shader.getPropertyByName('u_projMat');
+  // 我这个逆矩阵是忽略了平移参数的，只考虑方向
   private static _inverseVPMatrixProperty = Shader.getPropertyByName('u_invVPMat');
   private static _vpMatrixProperty = Shader.getPropertyByName('u_vpMat');
   private static _cameraPositionProperty = Shader.getPropertyByName('u_cameraPos');
+  // 用于光线追踪求解射线与椭球的一元二次方程
   private static _cameraPosSquaredProperty = Shader.getPropertyByName('u_cameraPosSquared');
 
   /**
@@ -218,7 +223,14 @@ export class Camera {
   private _updateShaderData(): void {
     const shaderData = this.shaderData;
 
+    // TODO: 这个弄个临时变量好了，每次都新建；
     const vpMat = new Matrix4();
+    // 这个时候vpMat仅仅是个单位阵，并不是视图矩阵
+    this.viewMatrix.cloneTo(Camera._tempViewMatrix);
+    // 天空盒我们仅仅关注方向，而不关注距离
+    Camera._tempViewMatrix.elements[12] = 0;
+    Camera._tempViewMatrix.elements[13] = 0;
+    Camera._tempViewMatrix.elements[14] = 0;
     // 需要把逆矩阵单独搞一个变量，因为是引用类型，赋值并没有开辟新对象
     const invVpMat = new Matrix4();
     const cameraPos = this.transform.worldPosition;
@@ -226,7 +238,8 @@ export class Camera {
 
     // 注意顺序：perspect * view * model
     Matrix4.multiply(this.projectionMatrix, this.viewMatrix, vpMat);
-    Matrix4.invert(vpMat, invVpMat);
+    Matrix4.multiply(this.projectionMatrix, Camera._tempViewMatrix, Camera._tempViewMatrix);
+    Matrix4.invert(Camera._tempViewMatrix, invVpMat);
     Vector3.multiply(cameraPos, cameraPos, cameraPosSquared);
 
     // TODO: 应该把VP矩阵都成好再传给gl，封装common shader的时候再做

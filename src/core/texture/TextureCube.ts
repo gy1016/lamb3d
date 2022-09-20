@@ -86,7 +86,6 @@ export class TextureCube extends Texture {
   ): void {
     const gl = this._gl;
     const { baseFormat, dataType, internalFormat } = this._formatDetail;
-
     gl.bindTexture(this._glTarget, this._glTexture);
     gl.texImage2D(face, mipLevel, internalFormat, baseFormat, dataType, imageSource);
     gl.generateMipmap(gl.TEXTURE_CUBE_MAP);
