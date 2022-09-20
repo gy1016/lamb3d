@@ -1,3 +1,19 @@
+# [1.2.0](https://github.com/gy1016/lamb3d/compare/v1.1.1...v1.2.0) (2022-09-20)
+
+
+### Bug Fixes
+
+* ray intersection with cube ([ea2344c](https://github.com/gy1016/lamb3d/commit/ea2344cac998da421c7f1a45a915e0e8bbc718e6))
+* remove translate component in invVpMatrix ([0d0ba4a](https://github.com/gy1016/lamb3d/commit/0d0ba4a4a00d7442028171a1a75307ab5304d717))
+* shader data set color ([416a58a](https://github.com/gy1016/lamb3d/commit/416a58afc5fafafadc45cab90f80f8881511d5f7))
+
+
+### Features
+
+* add ellipsoid module ([b15e5f2](https://github.com/gy1016/lamb3d/commit/b15e5f2f0e405e6290497c1c34eda7641b0cb93d))
+* add ray casted globe ([8b96d24](https://github.com/gy1016/lamb3d/commit/8b96d2491d93ab3632d40337f57ded867aa17882))
+* jest unit test ([8a001bf](https://github.com/gy1016/lamb3d/commit/8a001bf1735908bfa0d04e86cefc9eec2b561465))
+
 ## [1.1.1](https://github.com/gy1016/lamb3d/compare/v1.1.0...v1.1.1) (2022-08-28)
 
 
