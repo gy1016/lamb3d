@@ -533,6 +533,19 @@ export class Vector3 {
   }
 
   /**
+   * Copy from vector3 like object.
+   * @param source - Vector3 like object.
+   * @returns This vector
+   */
+  copyFrom(source: Vector3): Vector3 {
+    this._x = source.x;
+    this._y = source.y;
+    this._z = source.z;
+    this._onValueChanged && this._onValueChanged();
+    return this;
+  }
+
+  /**
    * This vector performs a normal transformation using the given 4x4 matrix.
    * @remarks
    * A normal transform performs the transformation with the assumption that the w component

@@ -9,20 +9,16 @@ export class BoundingRect<T extends Vector2 | Geodetic2> {
 
   /**
    * Constructor of BoundingBox.
-   * @param min - The minimum point of the rect
-   * @param max - The maximum point of the rect
+   * @param min - The minimum point of the rect.
+   * @param max - The maximum point of the rect.
    */
   constructor(min: T = null, max: T = null) {
     if (!min || !max) {
       throw new Error('Bounding Rect not empty');
     }
 
-    if (min instanceof Vector2 && max instanceof Vector2) {
-      (this.min as Vector2).copyFrom(min);
-      (this.max as Vector2).copyFrom(max);
-    } else if (min instanceof Geodetic2 && max instanceof Geodetic2) {
-      (this.min as Geodetic2).copyFrom(min);
-      (this.max as Geodetic2).copyFrom(max);
-    }
+    // TODO: 携程anyscript了！后续看看怎么改。
+    this.min = min.clone() as any;
+    this.max = max.clone() as any;
   }
 }

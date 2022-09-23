@@ -369,4 +369,16 @@ export class Vector2 {
     out._onValueChanged && out._onValueChanged();
     return out;
   }
+
+  /**
+   * Copy from vector2 like object.
+   * @param source - Vector2 like object
+   * @returns This vector
+   */
+  copyFrom(source: Vector2): Vector2 {
+    this._x = source.x;
+    this._y = source.y;
+    this._onValueChanged && this._onValueChanged();
+    return this;
+  }
 }
