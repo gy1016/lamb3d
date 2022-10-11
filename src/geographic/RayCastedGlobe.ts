@@ -42,7 +42,7 @@ export class RayCastedGlobe {
    * @param engine Engine instance.
    */
   constructor(engine: Engine) {
-    this._mesh = PrimitiveMesh.createCuboid(engine, 2, 2, 2);
+    this._mesh = PrimitiveMesh.createCuboid(engine, 2 * 6378138, 2 * 6378137, 2 * 6356752.314245);
     this._material = new ImageMaterial(engine, this.shader, earthUrl);
   }
 

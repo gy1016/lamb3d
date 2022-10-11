@@ -1,5 +1,5 @@
-import { Geodetic2 } from '@/math/Geodetic2';
-import { MathUtil } from '@/math/MathUtil';
+import { Geodetic2 } from '../math/Geodetic2';
+import { MathUtil } from '../math/MathUtil';
 
 export class TileInfo {
   private minLongitude: number;
@@ -47,7 +47,5 @@ export class TileInfo {
     this.minMercatorY = minMercator.y;
     this.maxMercatorX = maxMercator.x;
     this.maxMercatorY = maxMercator.y;
-
-    console.log(this);
   }
 }
